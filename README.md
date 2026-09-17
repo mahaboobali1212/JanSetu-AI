@@ -1,7 +1,7 @@
 ﻿# JanSetu AI (जनसेतु / జనసేతు / ஜனசேது / ജനസേതു)
 
 <p align="center">
-  <img src="public/assets/government_emblem.png" alt="National Emblem" width="70" />
+  <img src="public/assets/government_emblem.png" alt="National Emblem of India" width="80" />
   <br />
   <strong>National Civic Access Flight Deck & Pre-Flight Audit System for Indian Central & State Scholarships</strong>
   <br />
@@ -21,7 +21,7 @@
 
 ## 🏛️ System Architecture
 
-![JanSetu AI Architecture](public/assets/architecture_diagram.svg)
+![JanSetu AI System Architecture](public/assets/architecture_diagram.svg)
 
 ---
 
@@ -33,9 +33,9 @@
 5. [Anti-Extortion Rate Cards & Offline USSD Dialpad](#-anti-extortion-rate-cards--offline-ussd-dialpad)
 6. [Supported Central & State Schemes](#-supported-central--state-schemes)
 7. [Installation & Running Guide](#-installation--running-guide)
-8. [Project Structure](#-project-structure)
+8. [Comprehensive Project Structure](#-comprehensive-project-structure)
 9. [Privacy & Security Guarantee](#-privacy--security-guarantee)
-10. [Authors & Attribution](#-authors--attribution)
+10. [Legal Disclaimer & Citations](#-legal-disclaimer--citations)
 
 ---
 
@@ -164,7 +164,7 @@ The application will launch on http://localhost:3000/ (or http://localhost:5173/
 ### Production Build & Verification
 
 `ash
-# Type check and build bundle
+# Type check and build production bundle
 npm run build
 
 # Preview production build locally
@@ -173,57 +173,75 @@ npm run preview
 
 ---
 
-## 📂 Project Structure
+## 📂 Comprehensive Project Structure
 
 `
 JanSetu-AI/
 ├── public/
-│   ├── assets/
-│   │   ├── government_emblem.png        # Official Emblem Asset
-│   │   ├── architecture_diagram.svg     # Complete Architecture Diagram
-│   │   └── scholarship_hero.png         # Editorial Visual Header
+│   └── assets/
+│       ├── architecture_diagram.svg       # Full System Architecture Flowchart
+│       ├── government_emblem.png          # Lion Capital of Ashoka (Govt of India Emblem)
+│       └── scholarship_hero.png           # Hero Banner Asset
+│
 ├── src/
-│   ├── components/
-│   │   ├── Header.tsx                   # Luxury Gold Seal Header & Language Switcher
-│   │   └── Footer.tsx                   # Official Portal Footer & Helpline Links
-│   ├── data/
-│   │   ├── antiExtortion.ts             # Statutory vs Illicit Rate Cards & Helplines
-│   │   ├── certificates.ts              # 10 Statutory Certificates Registry
-│   │   ├── courses.ts                   # Complete Course & Degree Catalog
-│   │   ├── districts.ts                 # 28 States & UTs District Registry
-│   │   ├── personas.ts                  # 4 Test Citizen Profiles
-│   │   ├── schemesCentral.ts            # Central Govt Schemes (NSP, AICTE, DST)
-│   │   ├── schemesStates.ts             # State Schemes (TN, TS, AP, KL, KA, MH, UP)
-│   │   └── translations.ts              # Multi-Language Strings (EN, HI, TE, TA, ML)
-│   ├── engine/
-│   │   ├── actionPlanPdfGenerator.ts    # Action Plan PDF Generator
-│   │   ├── calendarGenerator.ts         # .ics Calendar Reminder Generator
-│   │   ├── clericalAudit.ts             # Clerical Initial & Name Matcher
-│   │   ├── eligibilityEngine.ts         # Deterministic Policy Evaluator
-│   │   ├── mandateGenerator.ts          # RBI Annexure-I Bank Mandate Generator
-│   │   └── speechAssistant.ts           # Multilingual Web Speech API Assistant
-│   ├── pages/
-│   │   ├── LoginPage.tsx                # Step 1: Profile & Demographic Setup
-│   │   ├── InventoryPage.tsx            # Step 2: Certificate Inventory Audit
-│   │   ├── DashboardPage.tsx            # Step 3: Calculated Schemes Dashboard
-│   │   ├── CertificateRoadmapPage.tsx   # Step 4: Resolution Roadmap
-│   │   ├── SchemeCockpitPage.tsx        # Step 5: Action Cockpit & 6-Stage Tracker
-│   │   ├── PreFlightAuditPage.tsx       # Step 6: Pre-Flight Clerical & Bank PDF
-│   │   └── AntiExtortionPage.tsx        # Step 7: Anti-Extortion & USSD Dialpad
-│   ├── types/
-│   │   ├── certificate.ts
-│   │   ├── language.ts
-│   │   ├── profile.ts
-│   │   └── scheme.ts
-│   ├── App.tsx                          # App State Manager & Route Orchestrator
-│   ├── index.css                        # Luxury Editorial Styling & Fonts
-│   └── main.tsx
-├── index.html                           # Typography Imports (Cinzel, Garamond, Outfit)
-├── package.json
-├── tailwind.config.js                   # Editorial Palette & Gold Borders
-├── tsconfig.json
-└── vite.config.ts
+│   ├── components/                        # Shared UI Components & Layout
+│   │   ├── Header.tsx                     # Top Bar: Gold Seal, Language Switcher, Title
+│   │   └── Footer.tsx                     # Footer: Helpline Numbers, Disclaimer, Links
+│   │
+│   ├── data/                              # Static Master Registries & Gazette Datasets
+│   │   ├── antiExtortion.ts               # Statutory vs Cyber Cafe Rate Cards & Helplines
+│   │   ├── certificates.ts                # 10 Statutory Certificates (REV-101..104, SLAs, Fees)
+│   │   ├── courses.ts                     # Dynamic Education Level & Course/Degree Catalog
+│   │   ├── districts.ts                   # 28 States & UTs Authentic District Registry
+│   │   ├── personas.ts                    # 4 Instant Demo Profiles (Priya, Ravi, Arjun, Pooja)
+│   │   ├── schemesCentral.ts              # Central Schemes (NSP PM-USP, AICTE, DST, MoSJE)
+│   │   ├── schemesStates.ts               # State Schemes (TN, TS, AP, KL, KA, MH, UP)
+│   │   └── translations.ts                # 5 Languages UI Strings (EN, HI, TE, TA, ML)
+│   │
+│   ├── engine/                            # Core Algorithmic & Generation Engines
+│   │   ├── actionPlanPdfGenerator.ts      # Printable Action Plan PDF Builder (jsPDF)
+│   │   ├── calendarGenerator.ts           # iCalendar (.ics) Deadline Reminder Exporter
+│   │   ├── clericalAudit.ts               # Indian Initial Expander & Fuzzy Name Matcher
+│   │   ├── eligibilityEngine.ts           # Deterministic Policy Evaluator (Zero-Hallucination)
+│   │   ├── mandateGenerator.ts            # RBI Annexure-I Bank Mandate PDF Generator
+│   │   └── speechAssistant.ts             # Web Speech API Regional Audio Assistant (🔊)
+│   │
+│   ├── pages/                             # 7 Dedicated Application Stages (Single-Page Views)
+│   │   ├── LoginPage.tsx                  # Stage 1: Citizen Profile & Demographics Setup
+│   │   ├── InventoryPage.tsx              # Stage 2: Certificate Inventory Audit & Readiness Gauge
+│   │   ├── DashboardPage.tsx              # Stage 3: Calculated Schemes & Entitlement Dashboard
+│   │   ├── CertificateRoadmapPage.tsx     # Stage 4: Missing Certificate Resolution Roadmap
+│   │   ├── SchemeCockpitPage.tsx          # Stage 5: Scheme Action Cockpit & 6-Stage Gov Tracker
+│   │   ├── PreFlightAuditPage.tsx         # Stage 6: Pre-Flight Clerical Matcher & PDF Mandate
+│   │   └── AntiExtortionPage.tsx          # Stage 7: Anti-Extortion Hub & *99*99# USSD Dialpad
+│   │
+│   ├── types/                             # TypeScript Strict Schemas & Type Contracts
+│   │   ├── certificate.ts                 # Certificate Keys, Metadata, and Inventory Schemas
+│   │   ├── language.ts                    # Supported Indic Language Keys & Display Labels
+│   │   ├── profile.ts                     # Citizen Profile, Schooling, and Caste Enums
+│   │   └── scheme.ts                      # Scheme Criteria, Gazette Clauses, and Workflow Types
+│   │
+│   ├── App.tsx                            # Root Component: State Store & Page Router
+│   ├── index.css                          # Luxury Editorial CSS, Indian Color System & Fonts
+│   └── main.tsx                           # Application Bootstrap Entrypoint
+│
+├── index.html                             # Web Shell with Google Webfonts (Cinzel, Garamond)
+├── package.json                           # NPM Dependencies, Scripts, and Metadata
+├── postcss.config.js                      # PostCSS Processor Configuration
+├── tailwind.config.js                     # Custom Color Tokens (Ivory, Tiranga, Imperial Gold)
+├── tsconfig.json                          # TypeScript Compiler Rules & Target Settings
+└── vite.config.ts                         # Vite Development & Production Bundler Settings
 `
+
+### Module Breakdown Summary
+
+| Directory / Layer | Description & Key Responsibilities |
+| :--- | :--- |
+| **src/engine/** | The core computation layer. Contains the zero-hallucination policy evaluation logic, clerical string audit algorithms, speech synthesis, and vector PDF document generators. |
+| **src/data/** | Ground-truth datasets containing official gazette rules, statutory fee schedules, regional language translations, course catalogs, and all-India district lists. |
+| **src/pages/** | 7 discrete, dedicated user interface stages that guide the citizen sequentially from profile setup to final scheme application. |
+| **src/types/** | Strict TypeScript interfaces ensuring type safety and schema validation across all engines, datasets, and UI components. |
+| **public/assets/** | High-resolution static media assets including the National Emblem and the visual system architecture diagram. |
 
 ---
 
