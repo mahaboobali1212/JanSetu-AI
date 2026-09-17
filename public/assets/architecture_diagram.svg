@@ -1,0 +1,145 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" width="100%" height="100%" style="background:#FAF7F2; font-family:'Segoe UI', sans-serif;">
+  <defs>
+    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B1B4F"/>
+      <stop offset="100%" stop-color="#1A2F6B"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D97706"/>
+      <stop offset="100%" stop-color="#B45309"/>
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Header Section -->
+  <rect x="40" y="30" width="1120" height="90" rx="16" fill="url(#primaryGrad)" filter="url(#shadow)"/>
+  <circle cx="90" cy="75" r="28" fill="#FFFFFF" fill-opacity="0.1"/>
+  <text x="90" y="83" font-size="24" text-anchor="middle" fill="#FDE68A">🏛️</text>
+  <text x="135" y="68" font-size="24" font-weight="bold" fill="#FFFFFF" letter-spacing="1">JANSETU AI (जनसेतु / జనసేతు / ஜனசேது)</text>
+  <text x="135" y="92" font-size="13" fill="#D8B4FE" letter-spacing="0.5">National Civic Access Flight Deck &amp; Deterministic Pre-Flight Audit System</text>
+  <rect x="1000" y="55" width="130" height="36" rx="18" fill="#F59E0B" filter="url(#shadow)"/>
+  <text x="1065" y="78" font-size="12" font-weight="bold" text-anchor="middle" fill="#FFFFFF">GOVT OF INDIA</text>
+
+  <!-- Flow Steps: 7 Dedicated Pages -->
+  <!-- Step 1: Input & Auth -->
+  <g transform="translate(40, 150)" filter="url(#shadow)">
+    <rect width="210" height="230" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect width="210" height="42" rx="14" fill="#0B1B4F"/>
+    <text x="105" y="27" font-size="13" font-weight="bold" text-anchor="middle" fill="#FFFFFF">1. CITIZEN IDENTITY</text>
+    <text x="15" y="70" font-size="11" font-weight="bold" fill="#0B1B4F">• State &amp; District Cascade</text>
+    <text x="15" y="92" font-size="11" fill="#475569">• Masked Aadhaar (Last 4)</text>
+    <text x="15" y="114" font-size="11" fill="#475569">• Category &amp; Income Ceiling</text>
+    <text x="15" y="136" font-size="11" fill="#475569">• Degree / Course Catalog</text>
+    <text x="15" y="158" font-size="11" fill="#475569">• Govt School (6-12th) &amp; FG</text>
+    <rect x="15" y="180" width="180" height="32" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+    <text x="105" y="201" font-size="11" font-weight="bold" text-anchor="middle" fill="#0B1B4F">Route: /login</text>
+  </g>
+
+  <!-- Step 2: Inventory Audit -->
+  <g transform="translate(270, 150)" filter="url(#shadow)">
+    <rect width="200" height="230" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect width="200" height="42" rx="14" fill="#0B1B4F"/>
+    <text x="100" y="27" font-size="13" font-weight="bold" text-anchor="middle" fill="#FFFFFF">2. CERTIFICATE INVENTORY</text>
+    <text x="15" y="70" font-size="11" font-weight="bold" fill="#0B1B4F">• 10 Statutory Certificates</text>
+    <text x="15" y="92" font-size="11" fill="#475569">• Have (✅) vs Missing (❌)</text>
+    <text x="15" y="114" font-size="11" fill="#475569">• Live Readiness Gauge (%)</text>
+    <text x="15" y="136" font-size="11" fill="#475569">• Revenue (REV-101..104)</text>
+    <text x="15" y="158" font-size="11" fill="#475569">• NPCI Aadhaar DBT Bank</text>
+    <rect x="15" y="180" width="170" height="32" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+    <text x="100" y="201" font-size="11" font-weight="bold" text-anchor="middle" fill="#0B1B4F">Route: /inventory</text>
+  </g>
+
+  <!-- Step 3: Calculation & Dashboard -->
+  <g transform="translate(490, 150)" filter="url(#shadow)">
+    <rect width="220" height="230" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect width="220" height="42" rx="14" fill="#0B1B4F"/>
+    <text x="110" y="27" font-size="13" font-weight="bold" text-anchor="middle" fill="#FFFFFF">3. SCHEMES DASHBOARD</text>
+    <text x="15" y="70" font-size="11" font-weight="bold" fill="#059669">🟢 100% Ready to Apply</text>
+    <text x="15" y="92" font-size="11" font-weight="bold" fill="#D97706">🟠 Missing Certificates</text>
+    <text x="15" y="114" font-size="11" font-weight="bold" fill="#DC2626">🔴 Ineligible (Clause Cited)</text>
+    <text x="15" y="136" font-size="11" fill="#475569">• Central + State Registry</text>
+    <text x="15" y="158" font-size="11" fill="#475569">• Total Financial Entitlement</text>
+    <rect x="15" y="180" width="190" height="32" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+    <text x="110" y="201" font-size="11" font-weight="bold" text-anchor="middle" fill="#0B1B4F">Route: /dashboard</text>
+  </g>
+
+  <!-- Step 4: Resolution Roadmap -->
+  <g transform="translate(730, 150)" filter="url(#shadow)">
+    <rect width="210" height="230" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect width="210" height="42" rx="14" fill="#0B1B4F"/>
+    <text x="105" y="27" font-size="13" font-weight="bold" text-anchor="middle" fill="#FFFFFF">4. CERTIFICATE ROADMAP</text>
+    <text x="15" y="70" font-size="11" font-weight="bold" fill="#0B1B4F">• Issuing Authority &amp; Portal</text>
+    <text x="15" y="92" font-size="11" fill="#475569">• Statutory SLA Days (e.g. 15d)</text>
+    <text x="15" y="114" font-size="11" fill="#475569">• Max Legal Fee (₹0 / ₹60)</text>
+    <text x="15" y="136" font-size="11" fill="#475569">• Precursor Document Tree</text>
+    <text x="15" y="158" font-size="11" fill="#475569">• Anti-Fraud Sample Watermark</text>
+    <rect x="15" y="180" width="180" height="32" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+    <text x="105" y="201" font-size="11" font-weight="bold" text-anchor="middle" fill="#0B1B4F">Route: /roadmap/:id</text>
+  </g>
+
+  <!-- Step 5: Action Cockpit -->
+  <g transform="translate(960, 150)" filter="url(#shadow)">
+    <rect width="200" height="230" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect width="200" height="42" rx="14" fill="#0B1B4F"/>
+    <text x="100" y="27" font-size="13" font-weight="bold" text-anchor="middle" fill="#FFFFFF">5. ACTION COCKPIT</text>
+    <text x="15" y="70" font-size="11" font-weight="bold" fill="#0B1B4F">• 6-Stage Gov Workflow</text>
+    <text x="15" y="92" font-size="11" fill="#475569">• "Where I Am Present" Pin</text>
+    <text x="15" y="114" font-size="11" fill="#475569">• Days Remaining Countdown</text>
+    <text x="15" y="136" font-size="11" fill="#475569">• .ics Calendar Exporter</text>
+    <text x="15" y="158" font-size="11" fill="#475569">• Direct .gov.in Portal Link</text>
+    <rect x="15" y="180" width="170" height="32" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+    <text x="100" y="201" font-size="11" font-weight="bold" text-anchor="middle" fill="#0B1B4F">Route: /cockpit/:id</text>
+  </g>
+
+  <!-- Lower Section: Engines, Tools & Multi-Language -->
+  <!-- Step 6: Pre-Flight Clerical & PDF Mandate -->
+  <g transform="translate(40, 410)" filter="url(#shadow)">
+    <rect width="360" height="250" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect width="360" height="38" rx="14" fill="#0B1B4F"/>
+    <text x="180" y="25" font-size="13" font-weight="bold" text-anchor="middle" fill="#FFFFFF">6. PRE-FLIGHT AUDIT &amp; MANDATE GENERATOR</text>
+    <text x="20" y="65" font-size="11" font-weight="bold" fill="#0B1B4F">• Indian Initial Expander &amp; Clerical Matcher</text>
+    <text x="20" y="85" font-size="10.5" fill="#475569">  - Resolves 'R. Suresh' vs 'Suresh Radhakrishnan'</text>
+    <text x="20" y="105" font-size="10.5" fill="#475569">  - Levenshtein Distance &amp; Component Inversion</text>
+    <text x="20" y="130" font-size="11" font-weight="bold" fill="#0B1B4F">• Printable RBI Annexure-I NPCI Bank Mandate PDF</text>
+    <text x="20" y="150" font-size="10.5" fill="#475569">  - Instant client-side PDF generation for branch submission</text>
+    <text x="20" y="175" font-size="11" font-weight="bold" fill="#0B1B4F">• Complete Citizen Action Plan PDF Summary</text>
+    <rect x="20" y="200" width="320" height="32" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+    <text x="180" y="221" font-size="11" font-weight="bold" text-anchor="middle" fill="#0B1B4F">Route: /audit | Engine: clericalAudit.ts &amp; mandateGenerator.ts</text>
+  </g>
+
+  <!-- Step 7: Anti-Extortion Dialpad -->
+  <g transform="translate(420, 410)" filter="url(#shadow)">
+    <rect width="360" height="250" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect width="360" height="38" rx="14" fill="#0B1B4F"/>
+    <text x="180" y="25" font-size="13" font-weight="bold" text-anchor="middle" fill="#FFFFFF">7. ANTI-EXTORTION &amp; *99*99# USSD DIALPAD</text>
+    <text x="20" y="65" font-size="11" font-weight="bold" fill="#0B1B4F">• Cyber Café Extortion Rate Comparison Card</text>
+    <text x="20" y="85" font-size="10.5" fill="#475569">  - Statutory legal fees (₹0-₹60) vs Market exploitation (₹500-₹2000)</text>
+    <text x="20" y="110" font-size="11" font-weight="bold" fill="#0B1B4F">• Interactive *99*99# NPCI USSD Simulator</text>
+    <text x="20" y="130" font-size="10.5" fill="#475569">  - Step-by-step phone dialpad simulator for offline Aadhaar bank link check</text>
+    <text x="20" y="155" font-size="11" font-weight="bold" fill="#0B1B4F">• 24x7 Government Vigilance &amp; Grievance Helplines</text>
+    <text x="20" y="175" font-size="10.5" fill="#475569">  - Direct contact numbers for CPGRAMS, TNeGA &amp; State Lokayukta</text>
+    <rect x="20" y="200" width="320" height="32" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+    <text x="180" y="221" font-size="11" font-weight="bold" text-anchor="middle" fill="#0B1B4F">Route: /anti-extortion | Data: antiExtortion.ts</text>
+  </g>
+
+  <!-- Deterministic Engine & Multi-Language Core -->
+  <g transform="translate(800, 410)" filter="url(#shadow)">
+    <rect width="360" height="250" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+    <rect width="360" height="38" rx="14" fill="#B45309"/>
+    <text x="180" y="25" font-size="13" font-weight="bold" text-anchor="middle" fill="#FFFFFF">DETERMINISTIC ENGINE &amp; NATIVE SPEECH</text>
+    <text x="20" y="65" font-size="11" font-weight="bold" fill="#0B1B4F">• Zero-Hallucination Policy Rules Engine</text>
+    <text x="20" y="85" font-size="10.5" fill="#475569">  - Pure TypeScript statutory evaluation against Gazettes</text>
+    <text x="20" y="110" font-size="11" font-weight="bold" fill="#0B1B4F">• 5 Regional Languages + Web Speech API (🔊)</text>
+    <text x="20" y="130" font-size="10.5" fill="#475569">  - English, Hindi (हिन्दी), Telugu (తెలుగు), Tamil (தமிழ்), Malayalam (മലയാളം)</text>
+    <text x="20" y="155" font-size="11" font-weight="bold" fill="#0B1B4F">• 100% Client-Side Privacy (Zero Server Retention)</text>
+    <text x="20" y="175" font-size="10.5" fill="#475569">  - Aadhaar masked (last 4 digits only), no remote databases</text>
+    <rect x="20" y="200" width="320" height="32" rx="6" fill="#FEF3C7" stroke="#FDE68A"/>
+    <text x="180" y="221" font-size="11" font-weight="bold" text-anchor="middle" fill="#B45309">Engine: eligibilityEngine.ts &amp; speechAssistant.ts</text>
+  </g>
+</svg>
