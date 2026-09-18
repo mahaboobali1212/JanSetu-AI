@@ -1,6 +1,6 @@
 import React from 'react';
 import { CitizenProfile, INDIAN_STATES, Gender, Category, CourseLevel, SchoolingType } from '../types/profile';
-import { CertificateInventory } from '../types/certificate';
+import { CertificateInventory, CertificateKey } from '../types/certificate';
 import { Language } from '../types/language';
 import { TRANSLATIONS } from '../data/translations';
 import { PERSONA_PRESETS } from '../data/personas';
@@ -20,11 +20,14 @@ import {
   FileCheck,
   CheckCircle2,
   GraduationCap,
-  BookOpen
+  BookOpen,
+  FileText,
+  Check
 } from 'lucide-react';
 
 interface LoginPageProps {
   profile: CitizenProfile;
+  inventory: CertificateInventory;
   onUpdateProfile: (profile: CitizenProfile) => void;
   onUpdateInventory: (inventory: CertificateInventory) => void;
   onNext: () => void;
@@ -33,6 +36,7 @@ interface LoginPageProps {
 
 export const LoginPage: React.FC<LoginPageProps> = ({
   profile,
+  inventory,
   onUpdateProfile,
   onUpdateInventory,
   onNext,
@@ -85,6 +89,28 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       onUpdateProfile(selected.profile);
       onUpdateInventory(selected.inventory);
     }
+  };
+
+  const certRepositoryItems: { key: CertificateKey; label: string }[] = [
+    { key: 'aadhaarCard', label: 'Aadhaar Card (UIDAI)' },
+    { key: 'marksheet10th12th', label: '10th / 12th Marks Memo' },
+    { key: 'incomeCertificate', label: 'Income Certificate (Tahsildar)' },
+    { key: 'communityCertificate', label: 'Community / Caste Certificate' },
+    { key: 'nativityCertificate', label: 'Nativity / Domicile Certificate' },
+    { key: 'bankPassbookNPCI', label: 'Bank Account Passbook' },
+    { key: 'rationCard', label: 'Ration Card / White Rice Card' },
+    { key: 'firstGraduateCertificate', label: 'First Graduate Certificate (REV-104)' },
+    { key: 'govtSchool7_5Certificate', label: 'Govt School 6–12 Study Memo' },
+    { key: 'disabilityCertificate', label: 'UDID Disability Certificate' },
+    { key: 'ewsCertificate', label: 'EWS Central Certificate' },
+    { key: 'bonafideCertificate', label: 'College Bonafide / Admission Order' },
+  ];
+
+  const toggleRepoCert = (key: CertificateKey) => {
+    onUpdateInventory({
+      ...inventory,
+      [key]: !inventory[key]
+    });
   };
 
   return (
@@ -512,6 +538,63 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               </label>
             </div>
           </div>
+
+          {/* Section 6: Uploaded / Digital Locker Certificates Repository */}
+          <div className="pt-6 border-t border-[#EDE6DD]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+              <div className="flex items-start gap-2.5">
+                <div className="p-2 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 shrink-0 mt-0.5">
+                  <FileText className="w-4 h-4 text-amber-700" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-[#0B1B4F] font-serif">
+                    6. Uploaded / Digital Locker Certificates Repository
+                  </h4>
+                  <p className="text-xs text-slate-500">
+                    Toggle documents currently held by the citizen to evaluate missing prerequisite roadblocks
+                  </p>
+                </div>
+              </div>
+
+              <div className="shrink-0">
+                <span className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#FAF0E1] border border-[#DFC8A5] text-[#854D0E] text-xs font-bold font-mono shadow-2xs">
+                  {certRepositoryItems.filter(item => inventory[item.key]).length} Certificates Registered
+                </span>
+              </div>
+            </div>
+
+            {/* 12-Item Responsive Grid: 2 per line on mobile/tablet, 4 on large screens */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+              {certRepositoryItems.map((item) => {
+                const isHeld = !!inventory[item.key];
+                return (
+                  <button
+                    key={item.key}
+                    type="button"
+                    onClick={() => toggleRepoCert(item.key)}
+                    className={`flex items-center gap-3 p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                      isHeld
+                        ? 'bg-emerald-50/60 border-emerald-400 text-slate-900 shadow-2xs'
+                        : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50/50'
+                    }`}
+                  >
+                    <div
+                      className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 transition-colors ${
+                        isHeld
+                          ? 'bg-emerald-600 text-white'
+                          : 'border-2 border-slate-300 bg-white'
+                      }`}
+                    >
+                      {isHeld && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                    </div>
+                    <span className={`text-xs leading-snug line-clamp-2 ${isHeld ? 'font-bold text-slate-950' : 'font-medium text-slate-700'}`}>
+                      {item.label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
         {/* Action Button */}
@@ -523,7 +606,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
           <button
             onClick={onNext}
-            className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-[#0B1B4F] hover:bg-[#142A6F] text-white font-bold text-sm shadow-luxury flex items-center justify-center gap-2.5 transition-all hover:shadow-luxury-lg hover:-translate-y-0.5"
+            className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-[#0B1B4F] hover:bg-[#142A6F] text-white font-bold text-sm shadow-luxury flex items-center justify-center gap-2.5 transition-all hover:shadow-luxury-lg hover:-translate-y-0.5 cursor-pointer"
           >
             <span className="font-display tracking-wide">{t.save_and_next_inventory}</span>
             <ArrowRight className="w-4 h-4 text-[#F5E29F]" />

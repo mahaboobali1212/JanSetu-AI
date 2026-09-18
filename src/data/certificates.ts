@@ -377,5 +377,37 @@ export const MASTER_CERTIFICATES: Record<CertificateKey, CertificateDefinition> 
     ],
     samplePreviewDescription: 'National blue UDID card stating percentage of permanent disability, medical board authorization, and QR code.',
     isHighRiskTrap: false
+  },
+
+  ewsCertificate: {
+    key: 'ewsCertificate',
+    id: 'EWS-CENTRAL',
+    title: 'Economically Weaker Section (EWS) Certificate (General Category)',
+    titleTranslations: {
+      en: 'Economically Weaker Section (EWS) Central Certificate',
+      hi: 'आर्थिक रूप से कमजोर वर्ग (EWS) प्रमाण पत्र',
+      te: 'ఆర్థికంగా వెనుకబడిన వర్గాల (EWS) ధ్రువీకరణ పత్రం',
+      ta: 'பொருளாதாரத்தில் நலிவடைந்த பிரிவு (EWS) சான்றிதழ்',
+      ml: 'സാമ്പത്തികമായി പിന്നോക്കം നിൽക്കുന്ന വിഭാഗം (EWS) സർട്ടിഫിക്കറ്റ്'
+    },
+    issuingAuthority: 'Tahsildar / Sub-Divisional Officer (SDO)',
+    department: 'Revenue & Social Justice Department',
+    whereToApply: {
+      onlinePortalName: 'State e-District / CSC Center',
+      onlinePortalUrl: 'https://services.india.gov.in',
+      offlineOffice: 'Taluk / Tehsil Office'
+    },
+    statutorySlaDays: 15,
+    statutoryFeeInr: 60,
+    cyberCafeExtortionRate: '₹300 - ₹600',
+    precursorDocuments: ['Income Proof (< ₹8 Lakh)', 'Land / Property Holding Records (< 5 Acres agricultural land)', 'Aadhaar & Ration Card'],
+    stepByStepRoadmap: [
+      'Step 1: Obtain land and family gross annual income certificate.',
+      'Step 2: Submit application Form Annexure-I on e-District / CSC.',
+      'Step 3: Revenue Inspector field inspection of residential flat / agricultural assets.',
+      'Step 4: Tahsildar issues digital EWS certificate valid for 1 Financial Year.'
+    ],
+    samplePreviewDescription: 'Central / State format income & asset certificate for reservation in civil posts and educational admissions under 103rd Constitutional Amendment.',
+    isHighRiskTrap: false
   }
 };

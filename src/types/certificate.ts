@@ -11,7 +11,8 @@ export type CertificateKey =
   | 'bonafideCertificate'
   | 'bankPassbookNPCI'
   | 'rationCard'
-  | 'disabilityCertificate';
+  | 'disabilityCertificate'
+  | 'ewsCertificate';
 
 export interface CertificateInventory {
   aadhaarCard: boolean;
@@ -25,6 +26,7 @@ export interface CertificateInventory {
   bankPassbookNPCI: boolean;
   rationCard: boolean;
   disabilityCertificate: boolean;
+  ewsCertificate?: boolean;
 }
 
 export interface CertificateDefinition {
@@ -59,5 +61,6 @@ export const DEFAULT_INVENTORY: CertificateInventory = {
   bonafideCertificate: true,
   bankPassbookNPCI: false,
   rationCard: true,
-  disabilityCertificate: false
+  disabilityCertificate: false,
+  ewsCertificate: false
 };
