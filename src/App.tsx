@@ -20,6 +20,8 @@ import { DeadlineTrackerPage } from './pages/DeadlineTrackerPage';
 import { AiCopilotDrawer } from './components/AiCopilotDrawer';
 import { PortalNavigatorModal } from './components/PortalNavigatorModal';
 import { ApplicationDossierModal } from './components/ApplicationDossierModal';
+import { AwsArchitectureModal } from './components/AwsArchitectureModal';
+import { CedarPolicyInspectorModal } from './components/CedarPolicyInspectorModal';
 import confetti from 'canvas-confetti';
 
 export function App() {
@@ -52,6 +54,8 @@ export function App() {
   const [isCopilotOpen, setIsCopilotOpen] = useState<boolean>(false);
   const [isDossierOpen, setIsDossierOpen] = useState<boolean>(false);
   const [portalGuideScheme, setPortalGuideScheme] = useState<SchemeDefinition | null>(null);
+  const [isAwsModalOpen, setIsAwsModalOpen] = useState<boolean>(false);
+  const [cedarInspectScheme, setCedarInspectScheme] = useState<SchemeDefinition | null>(null);
 
   // Sync to local storage
   useEffect(() => {
@@ -124,6 +128,7 @@ export function App() {
         readinessPercentage={readinessPercentage}
         onOpenCopilot={() => setIsCopilotOpen(true)}
         onOpenDossier={() => setIsDossierOpen(true)}
+        onOpenAwsStack={() => setIsAwsModalOpen(true)}
       />
 
       {/* Main Dedicated Page Viewport */}
@@ -161,6 +166,7 @@ export function App() {
             onNavigate={handleNavigate}
             onOpenPortalGuide={(scheme) => setPortalGuideScheme(scheme)}
             onOpenDossier={() => setIsDossierOpen(true)}
+            onInspectCedar={(scheme) => setCedarInspectScheme(scheme)}
           />
         )}
 
@@ -256,6 +262,18 @@ export function App() {
         profile={profile}
         inventory={inventory}
         evaluationResults={results}
+      />
+
+      {/* AWS Architecture & Cedar Inspector Modals */}
+      <AwsArchitectureModal
+        isOpen={isAwsModalOpen}
+        onClose={() => setIsAwsModalOpen(false)}
+      />
+
+      <CedarPolicyInspectorModal
+        isOpen={!!cedarInspectScheme}
+        onClose={() => setCedarInspectScheme(null)}
+        scheme={cedarInspectScheme}
       />
 
       {/* Official Footer */}

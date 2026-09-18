@@ -42,6 +42,7 @@ interface DashboardPageProps {
   onNavigate: (page: string) => void;
   onOpenPortalGuide?: (scheme: SchemeDefinition) => void;
   onOpenDossier?: () => void;
+  onInspectCedar?: (scheme: SchemeDefinition) => void;
 }
 
 export const DashboardPage: React.FC<DashboardPageProps> = ({
@@ -53,7 +54,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   onViewRoadmap,
   onNavigate,
   onOpenPortalGuide,
-  onOpenDossier
+  onOpenDossier,
+  onInspectCedar
 }) => {
   const t = TRANSLATIONS[currentLanguage] || TRANSLATIONS.en;
   const [filterTab, setFilterTab] = useState<'ALL' | 'READY' | 'MISSING' | 'INELIGIBLE'>('ALL');
@@ -409,6 +411,18 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                     <Send className="w-3.5 h-3.5 text-emerald-600" />
                     <span className="hidden sm:inline">Alert</span>
                   </button>
+
+                  {onInspectCedar && (
+                    <button
+                      type="button"
+                      onClick={() => onInspectCedar(scheme)}
+                      title="Inspect AWS Cedar Policy Engine Rule"
+                      className="px-2.5 py-2 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-950 text-xs font-semibold border border-amber-300 transition flex items-center gap-1 shadow-2xs cursor-pointer"
+                    >
+                      <ShieldCheck className="w-3.5 h-3.5 text-amber-700" />
+                      <span className="hidden sm:inline">Cedar Policy</span>
+                    </button>
+                  )}
 
                   {onOpenPortalGuide && (
                     <button

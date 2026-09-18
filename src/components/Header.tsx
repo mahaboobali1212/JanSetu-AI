@@ -16,7 +16,8 @@ import {
   Sparkles,
   Scale,
   Layers,
-  Calendar
+  Calendar,
+  Cloud
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -27,6 +28,7 @@ interface HeaderProps {
   readinessPercentage: number;
   onOpenCopilot?: () => void;
   onOpenDossier?: () => void;
+  onOpenAwsStack?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -36,7 +38,8 @@ export const Header: React.FC<HeaderProps> = ({
   onNavigate,
   readinessPercentage,
   onOpenCopilot,
-  onOpenDossier
+  onOpenDossier,
+  onOpenAwsStack
 }) => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const t = TRANSLATIONS[currentLanguage] || TRANSLATIONS.en;
@@ -201,6 +204,17 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
+            {onOpenAwsStack && (
+              <button
+                onClick={onOpenAwsStack}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#152864] hover:bg-[#1e388a] text-[#F5E29F] text-xs font-bold border border-[#DFB738]/40 transition-all cursor-pointer shadow-xs"
+                title="View AWS Serverless & Cedar Policy Architecture"
+              >
+                <Cloud className="w-3.5 h-3.5 text-[#DFB738]" />
+                <span className="hidden sm:inline">AWS Stack</span>
+              </button>
+            )}
+
             {onOpenDossier && (
               <button
                 onClick={onOpenDossier}

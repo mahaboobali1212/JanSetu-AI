@@ -241,7 +241,19 @@ export const AiCopilotDrawer: React.FC<AiCopilotDrawerProps> = ({
             <span>Auditing: <strong>{profile.fullName}</strong> ({profile.stateOfDomicile})</span>
           </div>
           <span className="text-[11px] font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded border border-amber-300">
-            {profile.category} • Income ₹{(profile.annualIncome/100000).toFixed(2)}L
+            {profile.category} • ₹{(profile.annualIncome/100000).toFixed(2)}L
+          </span>
+        </div>
+
+        {/* AWS AI Stack Badge */}
+        <div className="bg-[#152864] text-white px-4 py-1.5 flex items-center justify-between text-[11px] border-b border-amber-500/20 font-mono">
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="text-amber-200 font-bold">AWS Stack:</span>
+            <span className="text-slate-200">Amazon Bedrock (Claude 3.5)</span>
+          </div>
+          <span className="text-[#F5E29F] font-bold bg-white/10 px-2 py-0.5 rounded text-[10px]">
+            Cedar Policy Engine
           </span>
         </div>
 
