@@ -22,6 +22,8 @@ export interface CitizenProfile {
   district: string;
   gender: Gender;
   category: Category;
+  stateCategoryCode?: string;      // State-specific subcategory (e.g. "BC-E", "MBC", "2A", "VJ/DT-A", "EZ")
+  admissionQuota?: string;         // e.g. "convenor_quota", "govt_school_7_5", "management_quota"
   annualIncome: number;
   courseLevel: CourseLevel;
   courseName: string;
@@ -72,6 +74,8 @@ export const DEFAULT_PROFILE: CitizenProfile = {
   district: 'Madurai',
   gender: 'female',
   category: 'MBC',
+  stateCategoryCode: 'MBC',
+  admissionQuota: 'convenor_quota',
   annualIncome: 180000,
   courseLevel: 'ug_engg',
   courseName: 'B.E. Computer Science',

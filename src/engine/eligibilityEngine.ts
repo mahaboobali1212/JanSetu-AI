@@ -114,6 +114,16 @@ export class EligibilityEngine {
       }
     }
 
+    // 10. Admission & Counselling Quota (Convenor Quota) Check
+    const isTuitionFeeScheme = scheme.benefitType === 'fee_waiver' || scheme.criteria.requiresConvenorQuota;
+    if (isTuitionFeeScheme) {
+      if (profile.admissionQuota === 'management_quota') {
+        failedClauses.push(`Admission Quota Ineligible: Government tuition fee waiver / reimbursement strictly mandates admission through Government Centralized Single-Window Counselling (Convenor Quota). Candidates admitted under Management / NRI / Spot Quota are statutory ineligible.`);
+      } else if (profile.admissionQuota === 'convenor_quota' || profile.admissionQuota === 'govt_school_7_5') {
+        matchedClauses.push(`Admission Quota verified: Admitted via Government Single-Window Counselling (Convenor Quota eligible for 100% Fee Reimbursement).`);
+      }
+    }
+
     // Check Missing Certificates
     const missingCertificates: CertificateKey[] = scheme.requiredCertificates.filter(
       certKey => !inventory[certKey]

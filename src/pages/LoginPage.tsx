@@ -6,6 +6,7 @@ import { TRANSLATIONS } from '../data/translations';
 import { PERSONA_PRESETS } from '../data/personas';
 import { getDistrictsForState } from '../data/districts';
 import { getCoursesForLevel } from '../data/courses';
+import { getStateStructure, StateCategoryDefinition, StateQuotaDefinition } from '../data/stateCategories';
 import { 
   User, 
   MapPin, 
@@ -20,7 +21,11 @@ import {
   FileCheck,
   CheckCircle2,
   GraduationCap,
-  BookOpen
+  BookOpen,
+  Globe,
+  Tag,
+  Layers,
+  AlertCircle
 } from 'lucide-react';
 
 interface LoginPageProps {
@@ -46,12 +51,48 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   // Available courses for selected education level
   const availableCourses = getCoursesForLevel(profile.courseLevel);
 
+  // State-specific categories and admission quotas
+  const stateStructure = getStateStructure(profile.stateOfDomicile);
+  const activeCategories = stateStructure.categories;
+  const activeQuotas = stateStructure.admissionQuotas;
+
+  const currentCategoryCode = profile.stateCategoryCode || stateStructure.defaultCategoryCode;
+  const selectedCategoryObj = activeCategories.find(c => c.code === currentCategoryCode) || activeCategories[0];
+
+  const currentQuotaId = profile.admissionQuota || activeQuotas[0]?.id || 'convenor_quota';
+  const selectedQuotaObj = activeQuotas.find(q => q.id === currentQuotaId) || activeQuotas[0];
+
   const handleStateChange = (newState: string) => {
     const districts = getDistrictsForState(newState);
+    const newStructure = getStateStructure(newState);
+    const defaultCat = newStructure.categories.find(c => c.code === newStructure.defaultCategoryCode) || newStructure.categories[0];
+    const defaultQuota = newStructure.admissionQuotas[0];
+
     onUpdateProfile({
       ...profile,
       stateOfDomicile: newState,
-      district: districts[0] || 'Headquarters District'
+      district: districts[0] || 'Headquarters District',
+      category: defaultCat.baseCategory,
+      stateCategoryCode: defaultCat.code,
+      admissionQuota: defaultQuota.id
+    });
+  };
+
+  const handleStateCategoryChange = (code: string) => {
+    const cat = activeCategories.find(c => c.code === code);
+    if (cat) {
+      onUpdateProfile({
+        ...profile,
+        stateCategoryCode: cat.code,
+        category: cat.baseCategory
+      });
+    }
+  };
+
+  const handleAdmissionQuotaChange = (quotaId: string) => {
+    onUpdateProfile({
+      ...profile,
+      admissionQuota: quotaId
     });
   };
 
@@ -287,7 +328,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
             </div>
           </div>
 
-          {/* Row 3: Gender, Category, Annual Income */}
+          {/* Row 3: Gender, State-Specific Category, Annual Income */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-2 font-display tracking-wide">
@@ -296,30 +337,36 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               <select
                 value={profile.gender}
                 onChange={(e) => handleTextChange('gender', e.target.value as Gender)}
-                className="w-full bg-[#FAF7F2] border border-[#DDD0C0] rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0B1B4F] focus:bg-white"
+                className="w-full bg-[#FAF7F2] border border-[#DDD0C0] rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0B1B4F] focus:bg-white font-semibold"
               >
-                <option value="female">Female (பெண் / महिला)</option>
-                <option value="male">Male (ஆண் / पुरुष)</option>
-                <option value="transgender">Transgender (திருநங்கை / उभयलिंगी)</option>
+                <option value="female">Female (பெண் / महिला / స్త్రీ)</option>
+                <option value="male">Male (ஆண் / पुरुष / పురుషుడు)</option>
+                <option value="transgender">Transgender (திருநங்கை / उभयलिंगी / ఇతరులు)</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-2 font-display tracking-wide">
-                {t.category_label}
+              <label className="block text-xs font-bold text-slate-700 mb-2 flex items-center justify-between gap-1.5 font-display tracking-wide">
+                <div className="flex items-center gap-1.5">
+                  <Tag className="w-3.5 h-3.5 text-amber-700" />
+                  <span>Category ({profile.stateOfDomicile})</span>
+                </div>
+                {selectedCategoryObj?.reservationPercentage && (
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#FAF0E1] text-[#854D0E] border border-[#DFC8A5]">
+                    {selectedCategoryObj.reservationPercentage} Quota
+                  </span>
+                )}
               </label>
               <select
-                value={profile.category}
-                onChange={(e) => handleTextChange('category', e.target.value as Category)}
-                className="w-full bg-[#FAF7F2] border border-[#DDD0C0] rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0B1B4F] focus:bg-white"
+                value={currentCategoryCode}
+                onChange={(e) => handleStateCategoryChange(e.target.value)}
+                className="w-full bg-[#FAF7F2] border border-[#DDD0C0] rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0B1B4F] focus:bg-white font-semibold"
               >
-                <option value="MBC">MBC / DNC (Most Backward Class)</option>
-                <option value="OBC">OBC (Other Backward Class)</option>
-                <option value="SC">SC (Scheduled Caste)</option>
-                <option value="ST">ST (Scheduled Tribe)</option>
-                <option value="EWS">EWS (Economically Weaker Section)</option>
-                <option value="Minority">Minority (Muslim/Christian/Sikh/Jain)</option>
-                <option value="General">General / OC</option>
+                {activeCategories.map((cat) => (
+                  <option key={cat.code} value={cat.code}>
+                    {cat.name} {cat.nativeName ? `(${cat.nativeName})` : ''}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -333,11 +380,88 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                 value={profile.annualIncome}
                 onChange={(e) => handleTextChange('annualIncome', Number(e.target.value))}
                 placeholder="180000"
-                className="w-full bg-[#FAF7F2] border border-[#DDD0C0] rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0B1B4F] focus:bg-white"
+                className="w-full bg-[#FAF7F2] border border-[#DDD0C0] rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0B1B4F] focus:bg-white font-semibold"
               />
               <span className="text-[10px] text-slate-500 mt-1 block">
-                Rs. {(profile.annualIncome / 100000).toFixed(2)} Lakhs per annum
+                ₹{(profile.annualIncome / 100000).toFixed(2)} Lakhs per annum
               </span>
+            </div>
+          </div>
+
+          {/* Category Description & Reservation Context Banner */}
+          {selectedCategoryObj && (
+            <div className="p-3.5 rounded-2xl bg-[#FAF7F2] border border-[#EDE4D8] flex items-start gap-3">
+              <div className="w-6 h-6 rounded-lg bg-[#0B1B4F] text-amber-300 flex items-center justify-center font-bold text-xs shrink-0 font-mono mt-0.5">
+                {selectedCategoryObj.code}
+              </div>
+              <div className="text-xs">
+                <span className="font-bold text-[#0B1B4F]">
+                  {selectedCategoryObj.name} {selectedCategoryObj.nativeName ? `(${selectedCategoryObj.nativeName})` : ''}:
+                </span>{' '}
+                <span className="text-slate-600 leading-relaxed">
+                  {selectedCategoryObj.description}
+                </span>
+                <span className="ml-2 font-mono text-[10px] text-slate-400">
+                  [Mapped Base Category: {selectedCategoryObj.baseCategory}]
+                </span>
+              </div>
+            </div>
+          )}
+
+          {/* State Admission & Counselling Quota Selector */}
+          <div className="pt-2">
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <div>
+                <label className="block text-xs font-bold text-slate-800 uppercase tracking-widest font-display flex items-center gap-2">
+                  <Layers className="w-4 h-4 text-amber-700" />
+                  <span>Admission &amp; Counselling Quota ({profile.stateOfDomicile})</span>
+                </label>
+                <p className="text-[11px] text-slate-500 mt-0.5">
+                  State welfare policies mandate admission under <strong>Government Counselling (Convenor Quota)</strong> for 100% Tuition Fee Reimbursement.
+                </p>
+              </div>
+              <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+                {activeQuotas.length} Available Quotas
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              {activeQuotas.map((quota) => {
+                const isSelected = (profile.admissionQuota || activeQuotas[0].id) === quota.id;
+                return (
+                  <button
+                    key={quota.id}
+                    type="button"
+                    onClick={() => handleAdmissionQuotaChange(quota.id)}
+                    className={`text-left p-4 rounded-2xl border transition-all cursor-pointer ${
+                      isSelected
+                        ? quota.feeReimbursementEligible
+                          ? 'bg-emerald-50/70 border-emerald-400 ring-2 ring-emerald-500/20 shadow-sm'
+                          : 'bg-amber-50/70 border-amber-400 ring-2 ring-amber-500/20 shadow-sm'
+                        : 'bg-[#FAF7F2] border-[#EDE6DD] hover:border-[#DFC8A5]'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-2 mb-1.5">
+                      <div className="font-bold text-xs text-[#0B1B4F] font-serif leading-snug">
+                        {quota.name}
+                      </div>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md shrink-0 ${
+                        quota.feeReimbursementEligible
+                          ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                          : 'bg-rose-100 text-rose-800 border border-rose-200'
+                      }`}>
+                        {quota.badge}
+                      </span>
+                    </div>
+                    <div className="text-[11px] text-slate-500 mb-1">
+                      <strong>Authority:</strong> {quota.counsellingBody}
+                    </div>
+                    <p className="text-[11px] text-slate-600 leading-relaxed">
+                      {quota.description}
+                    </p>
+                  </button>
+                );
+              })}
             </div>
           </div>
 

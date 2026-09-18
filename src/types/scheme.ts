@@ -14,6 +14,7 @@ export interface SchemeCriteria {
   requiresFirstGraduate?: boolean;
   requiresSpeciallyAbled?: boolean;
   requiresSingleGirlChild?: boolean;
+  requiresConvenorQuota?: boolean;
   applicableStates?: string[]; // Empty or ['All-India Central'] for pan-India
 }
 
