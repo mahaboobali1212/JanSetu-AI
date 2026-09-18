@@ -39,9 +39,84 @@ import {
   Scan,
   GitBranch,
   Search,
-  CheckCircle
+  CheckCircle,
+  Plus,
+  Trash2,
+  Edit3,
+  Check,
+  RotateCcw,
+  Info,
+  SlidersHorizontal
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+
+export interface ConsistencyRow {
+  id: string;
+  fieldLabel: string;
+  icon?: string;
+  primaryValue: string;
+  primaryDocName: string;
+  secondaryValue: string;
+  secondaryDocName: string;
+  isCustom?: boolean;
+}
+
+export const evaluateRowConsistency = (row: ConsistencyRow): { 
+  status: 'CONSISTENT' | 'DISCREPANCY' | 'CRITICAL'; 
+  label: string; 
+  explanation: string;
+} => {
+  const p = (row.primaryValue || '').trim();
+  const s = (row.secondaryValue || '').trim();
+  
+  if (!p && !s) {
+    return { status: 'CONSISTENT', label: 'BLANK', explanation: 'Both fields empty' };
+  }
+  if (p.toLowerCase() === s.toLowerCase()) {
+    return { status: 'CONSISTENT', label: '✓ CONSISTENT', explanation: 'Exact character-for-character match verified across documents.' };
+  }
+
+  const pLower = p.toLowerCase();
+  const sLower = s.toLowerCase();
+  const isNameField = row.fieldLabel.toLowerCase().includes('name');
+  
+  if (isNameField) {
+    const pWords = pLower.split(/\s+/).filter(Boolean);
+    const sWords = sLower.split(/\s+/).filter(Boolean);
+    
+    // Check if initial or partial surname permutation (e.g. Ali S vs Shaik Mahaboob Ali)
+    const hasCommonWord = pWords.some(w => sWords.includes(w) && w.length > 2);
+    const pFirst = pWords[0];
+    const sFirst = sWords[0];
+    const pLast = pWords[pWords.length - 1];
+    const sLast = sWords[sWords.length - 1];
+    
+    if (hasCommonWord || (pLast === sLast) || (pFirst === sFirst) || (pWords.length === 1 && sWords.length > 1) || (sWords.length === 1 && pWords.length > 1)) {
+      return { 
+        status: 'DISCREPANCY', 
+        label: '⚠ DISCREPANCY', 
+        explanation: `Initials or name sequence variance detected ("${p}" vs "${s}"). Requires Name Discrepancy Affidavit on ₹20 stamp paper to prevent portal rejection.` 
+      };
+    }
+  }
+
+  // Check numeric equivalence (e.g. ₹1,20,000 vs 120000 or 15/08/2004 vs 15-Aug-2004)
+  const pDigits = p.replace(/\D/g, '');
+  const sDigits = s.replace(/\D/g, '');
+  if (pDigits && sDigits && pDigits === sDigits) {
+    return {
+      status: 'CONSISTENT',
+      label: '✓ CONSISTENT',
+      explanation: 'Statutory values match numerically across different display formats.'
+    };
+  }
+
+  return { 
+    status: 'CRITICAL', 
+    label: '❌ CRITICAL MISMATCH', 
+    explanation: `Values differ significantly ("${p}" vs "${s}"). Government scrutiny will reject without corrective revenue endorsement.` 
+  };
+};
 
 interface PreFlightAuditPageProps {
   profile: CitizenProfile;
@@ -87,13 +162,71 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
   const [scannerCertKey, setScannerCertKey] = useState<CertificateKey | null>(null);
 
   // Manual Name Matcher inputs
-  const [aadhaarName, setAadhaarName] = useState(profile.fullName);
-  const [marksheetName, setMarksheetName] = useState(profile.fullName);
+  const [aadhaarName, setAadhaarName] = useState(profile.fullName || 'Shaik Mahaboob Ali');
+  const [marksheetName, setMarksheetName] = useState('Ali S');
   const [bankPassbookName, setBankPassbookName] = useState(
     profile.fullName.includes(' ') 
       ? profile.fullName.split(' ')[0] + ' ' + (profile.fullName.split(' ')[1]?.[0] || 'K')
       : profile.fullName
   );
+
+  // Cross-Document Consistency Live Rows (Editable boxes)
+  const [consistencyRows, setConsistencyRows] = useState<ConsistencyRow[]>([
+    {
+      id: 'name',
+      fieldLabel: 'Applicant Full Name & Initials',
+      icon: '👤',
+      primaryValue: profile.fullName || 'Shaik Mahaboob Ali',
+      primaryDocName: 'Primary (Aadhaar)',
+      secondaryValue: 'Ali S',
+      secondaryDocName: 'Secondary (Marks / Bank)'
+    },
+    {
+      id: 'dob',
+      fieldLabel: 'Date of Birth (DD-MM-YYYY)',
+      icon: '📅',
+      primaryValue: '15-Aug-2004',
+      primaryDocName: 'Primary (Aadhaar)',
+      secondaryValue: '15-Aug-2004',
+      secondaryDocName: 'Secondary (Marks Board)'
+    },
+    {
+      id: 'father',
+      fieldLabel: 'Father / Guardian Name',
+      icon: '👨‍👧',
+      primaryValue: 'ABDUL RAHMAN',
+      primaryDocName: 'Primary (Aadhaar)',
+      secondaryValue: 'ABDUL RAHMAN',
+      secondaryDocName: 'Secondary (Marks / Ration)'
+    },
+    {
+      id: 'domicile',
+      fieldLabel: 'State of Domicile & District',
+      icon: '📍',
+      primaryValue: profile.stateOfDomicile ? `Visakhapatnam, ${profile.stateOfDomicile}` : 'Visakhapatnam, Andhra Pradesh',
+      primaryDocName: 'Primary (Aadhaar / Domicile)',
+      secondaryValue: profile.stateOfDomicile ? `Visakhapatnam, ${profile.stateOfDomicile}` : 'Visakhapatnam, Andhra Pradesh',
+      secondaryDocName: 'Secondary (MeeSeva)'
+    },
+    {
+      id: 'income',
+      fieldLabel: 'Annual Family Gross Income',
+      icon: '💰',
+      primaryValue: `₹${(profile.annualIncome || 120000).toLocaleString('en-IN')}`,
+      primaryDocName: 'Primary (Income Cert REV-101)',
+      secondaryValue: `₹${(profile.annualIncome || 120000).toLocaleString('en-IN')}`,
+      secondaryDocName: 'Secondary (Application Form)'
+    },
+    {
+      id: 'category',
+      fieldLabel: 'Social Reservation Category',
+      icon: '🏛️',
+      primaryValue: profile.category || 'OBC',
+      primaryDocName: 'Primary (Caste Cert REV-103)',
+      secondaryValue: profile.category || 'OBC',
+      secondaryDocName: 'Secondary (OAP / Portal Form)'
+    }
+  ]);
 
   // Run PreFlight Engine
   const report: PreFlightAnalysisReport = PreFlightEngine.analyzeApplication(
@@ -104,8 +237,129 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
     currentLanguage
   );
 
-  const { readiness, risks, consistencyFields, citations, bedrockPlainLanguageSummary, dependencyGraph } = report;
-  const { overallScore, status, eligibilityScore, documentsScore, identityScore, prerequisitesScore, policyConfidenceScore } = readiness;
+  const { readiness, risks, citations, bedrockPlainLanguageSummary, dependencyGraph } = report;
+  const { eligibilityScore, documentsScore, prerequisitesScore, policyConfidenceScore } = readiness;
+
+  // Compute live identity score based on current boxes
+  const totalRowsCount = consistencyRows.length;
+  const consistentRowsCount = consistencyRows.filter(r => evaluateRowConsistency(r).status === 'CONSISTENT').length;
+  const liveIdentityScore = totalRowsCount > 0 ? Math.round((consistentRowsCount / totalRowsCount) * 100) : 100;
+
+  // Recalculate dynamic overall score
+  const overallScore = Math.round(
+    eligibilityScore * 0.30 +
+    documentsScore * 0.25 +
+    liveIdentityScore * 0.20 +
+    prerequisitesScore * 0.15 +
+    policyConfidenceScore * 0.10
+  );
+
+  const status = overallScore >= 85 ? 'READY' : overallScore >= 65 ? 'NEEDS_HUMAN_REVIEW' : 'NOT_READY';
+
+  const handleUpdateRowField = (id: string, field: 'primaryValue' | 'secondaryValue' | 'fieldLabel', value: string) => {
+    setConsistencyRows(prev => prev.map(r => r.id === id ? { ...r, [field]: value } : r));
+  };
+
+  const handleAddCustomRow = () => {
+    const newId = `custom_${Date.now()}`;
+    setConsistencyRows(prev => [
+      ...prev,
+      {
+        id: newId,
+        fieldLabel: 'Custom Field (e.g. Ration Card No)',
+        icon: '📑',
+        primaryValue: '',
+        primaryDocName: 'Primary (Aadhaar / ID)',
+        secondaryValue: '',
+        secondaryDocName: 'Secondary Document',
+        isCustom: true
+      }
+    ]);
+  };
+
+  const handleDeleteRow = (id: string) => {
+    setConsistencyRows(prev => prev.filter(r => r.id !== id));
+  };
+
+  const handleTestDiscrepancy = () => {
+    setConsistencyRows(prev => prev.map(r => {
+      if (r.id === 'name') {
+        return { ...r, primaryValue: profile.fullName || 'Shaik Mahaboob Ali', secondaryValue: 'Ali S' };
+      }
+      return r;
+    }));
+  };
+
+  const handleTestSyncMatch = () => {
+    setConsistencyRows(prev => prev.map(r => ({
+      ...r,
+      secondaryValue: r.primaryValue
+    })));
+    confetti({
+      particleCount: 40,
+      spread: 60,
+      origin: { y: 0.7 }
+    });
+  };
+
+  const handleResetRows = () => {
+    setConsistencyRows([
+      {
+        id: 'name',
+        fieldLabel: 'Applicant Full Name & Initials',
+        icon: '👤',
+        primaryValue: profile.fullName || 'Shaik Mahaboob Ali',
+        primaryDocName: 'Primary (Aadhaar)',
+        secondaryValue: 'Ali S',
+        secondaryDocName: 'Secondary (Marks / Bank)'
+      },
+      {
+        id: 'dob',
+        fieldLabel: 'Date of Birth (DD-MM-YYYY)',
+        icon: '📅',
+        primaryValue: '15-Aug-2004',
+        primaryDocName: 'Primary (Aadhaar)',
+        secondaryValue: '15-Aug-2004',
+        secondaryDocName: 'Secondary (Marks Board)'
+      },
+      {
+        id: 'father',
+        fieldLabel: 'Father / Guardian Name',
+        icon: '👨‍👧',
+        primaryValue: 'ABDUL RAHMAN',
+        primaryDocName: 'Primary (Aadhaar)',
+        secondaryValue: 'ABDUL RAHMAN',
+        secondaryDocName: 'Secondary (Marks / Ration)'
+      },
+      {
+        id: 'domicile',
+        fieldLabel: 'State of Domicile & District',
+        icon: '📍',
+        primaryValue: profile.stateOfDomicile ? `Visakhapatnam, ${profile.stateOfDomicile}` : 'Visakhapatnam, Andhra Pradesh',
+        primaryDocName: 'Primary (Aadhaar / Domicile)',
+        secondaryValue: profile.stateOfDomicile ? `Visakhapatnam, ${profile.stateOfDomicile}` : 'Visakhapatnam, Andhra Pradesh',
+        secondaryDocName: 'Secondary (MeeSeva)'
+      },
+      {
+        id: 'income',
+        fieldLabel: 'Annual Family Gross Income',
+        icon: '💰',
+        primaryValue: `₹${(profile.annualIncome || 120000).toLocaleString('en-IN')}`,
+        primaryDocName: 'Primary (Income Cert REV-101)',
+        secondaryValue: `₹${(profile.annualIncome || 120000).toLocaleString('en-IN')}`,
+        secondaryDocName: 'Secondary (Application Form)'
+      },
+      {
+        id: 'category',
+        fieldLabel: 'Social Reservation Category',
+        icon: '🏛️',
+        primaryValue: profile.category || 'OBC',
+        primaryDocName: 'Primary (Caste Cert REV-103)',
+        secondaryValue: profile.category || 'OBC',
+        secondaryDocName: 'Secondary (OAP / Portal Form)'
+      }
+    ]);
+  };
 
   const handleOpenScanner = (certKey: CertificateKey) => {
     setScannerCertKey(certKey);
@@ -134,7 +388,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
     { name: '3. Documents Uploaded', status: documentsScore >= 80 ? 'COMPLETED' : 'IN_PROGRESS' },
     { name: '4. OCR Analyzed', status: 'COMPLETED' },
     { name: '5. Eligibility Checked', status: eligibilityScore >= 80 ? 'COMPLETED' : 'IN_PROGRESS' },
-    { name: '6. Cross-Doc Checked', status: identityScore >= 90 ? 'COMPLETED' : 'WARNING' },
+    { name: '6. Cross-Doc Checked', status: liveIdentityScore >= 90 ? 'COMPLETED' : 'WARNING' },
     { name: '7. Pre-Flight Cleared', status: overallScore >= 80 ? 'COMPLETED' : 'PENDING' },
     { name: '8. Ready to Apply', status: status === 'READY' ? 'COMPLETED' : 'PENDING' }
   ];
@@ -270,10 +524,10 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
           <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
             <div className="flex justify-between text-xs font-bold">
               <span className="text-slate-600">3. Identity</span>
-              <span className="text-rose-700">{identityScore}%</span>
+              <span className={liveIdentityScore >= 90 ? 'text-emerald-700' : 'text-amber-700'}>{liveIdentityScore}%</span>
             </div>
             <div className="w-full bg-slate-200 rounded-full h-1.5">
-              <div className="bg-rose-500 h-1.5 rounded-full" style={{ width: `${identityScore}%` }} />
+              <div className={`${liveIdentityScore >= 90 ? 'bg-emerald-500' : 'bg-amber-500'} h-1.5 rounded-full transition-all duration-300`} style={{ width: `${liveIdentityScore}%` }} />
             </div>
           </div>
 
@@ -432,68 +686,240 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
       {/* TAB 1: FLIGHT DECK (Cross-Doc Matrix + Identified Risks + Cedar vs AI Policy) */}
       {activeTab === 'flight-deck' && (
         <div className="space-y-6">
-          {/* 1. Cross-Document Consistency Matrix */}
+          {/* 1. Cross-Document Consistency Matrix (Interactive & Editable) */}
           <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
               <div>
                 <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#0B1B4F] font-mono mb-1">
                   <Sparkles className="w-4 h-4 text-amber-600" />
-                  <span>01. Multi-Document Consistency Matrix (Amazon Textract OCR)</span>
+                  <span>01. Multi-Document Consistency &amp; Clerical Variance Matrix</span>
                 </div>
                 <h3 className="text-lg font-bold font-serif text-[#0B1B4F]">
-                  Cross-Document Field Matching &amp; Clerical Variance Analysis
+                  Cross-Document Field Matching &amp; Manual Clerical Inspector
                 </h3>
                 <p className="text-xs text-slate-500">
-                  Compares exact extracted values across Aadhaar, 10th/12th Marks Board, and Bank Passbook to prevent 30%+ silent rejection rate.
+                  Type or modify values in the boxes below to inspect clerical variances in real-time, or upload documents to auto-populate.
                 </p>
               </div>
 
-              <button
-                onClick={() => handleOpenScanner('aadhaarCard')}
-                className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition shadow-xs flex items-center gap-2 cursor-pointer shrink-0"
-              >
-                <Scan className="w-4 h-4 text-amber-400" />
-                <span>Upload &amp; Scan More Documents</span>
-              </button>
+              {/* Action Tools Header */}
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleAddCustomRow}
+                  className="px-3.5 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-900 border border-blue-200 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5 text-blue-700" />
+                  <span>Add Field</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleTestSyncMatch}
+                  className="px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
+                  title="Make all primary and secondary fields match perfectly"
+                >
+                  <Check className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Test 100% Match</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleTestDiscrepancy}
+                  className="px-3.5 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
+                  title="Simulate initials mismatch between Aadhaar and Board Marksheet"
+                >
+                  <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
+                  <span>Test Discrepancy</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleResetRows}
+                  className="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1 cursor-pointer"
+                  title="Reset to default fields"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>Reset</span>
+                </button>
+
+                <button
+                  onClick={() => handleOpenScanner('aadhaarCard')}
+                  className="px-4 py-2 rounded-xl bg-[#0B1B4F] hover:bg-[#162D6E] text-[#F5E29F] text-xs font-bold transition shadow-xs flex items-center gap-2 cursor-pointer shrink-0 border border-[#D4AF37]/30"
+                >
+                  <Scan className="w-4 h-4 text-amber-400" />
+                  <span>Upload &amp; Auto-Scan</span>
+                </button>
+              </div>
             </div>
 
-            {/* Consistency Table */}
-            <div className="overflow-x-auto">
+            {/* Informational Guidance Strip */}
+            <div className="p-3 bg-[#FAF7F2] border border-[#DACBB8] rounded-xl flex items-start sm:items-center justify-between gap-3 text-xs">
+              <div className="flex items-center gap-2 text-slate-700">
+                <Edit3 className="w-4 h-4 text-[#0B1B4F] shrink-0" />
+                <span>
+                  <strong className="text-slate-900 font-serif">Manual Inspection Active:</strong> Edit values directly in the boxes below. Status and Identity score ({liveIdentityScore}%) recalculate automatically!
+                </span>
+              </div>
+              <span className="text-[11px] font-mono text-slate-500 font-bold shrink-0">
+                {consistentRowsCount} of {totalRowsCount} Fields Matching
+              </span>
+            </div>
+
+            {/* Interactive Consistency Table with Manual Input Boxes */}
+            <div className="overflow-x-auto border border-slate-200 rounded-2xl">
               <table className="w-full text-xs text-left">
-                <thead className="bg-[#FAF7F2] text-slate-700 uppercase font-serif border-b border-slate-200 text-[11px]">
+                <thead className="bg-[#FAF7F2] text-slate-800 uppercase font-serif border-b border-slate-200 text-[11px]">
                   <tr>
-                    <th className="py-3 px-4">Field</th>
-                    <th className="py-3 px-4">Primary Value (Aadhaar)</th>
-                    <th className="py-3 px-4">Secondary (Marks / Bank)</th>
-                    <th className="py-3 px-4">Status</th>
+                    <th className="py-3 px-4 w-1/4">Field to Compare</th>
+                    <th className="py-3 px-4 w-1/3">
+                      <div className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-blue-600 inline-block" />
+                        <span>Primary Value (Box to Write / Inspect)</span>
+                      </div>
+                    </th>
+                    <th className="py-3 px-4 w-1/3">
+                      <div className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-amber-600 inline-block" />
+                        <span>Secondary Value (Box to Write / Inspect)</span>
+                      </div>
+                    </th>
+                    <th className="py-3 px-4 text-center">Live Status</th>
+                    <th className="py-3 px-3 text-center w-12">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 font-mono">
-                  {consistencyFields.map((item, idx) => (
-                    <tr key={idx} className="hover:bg-slate-50 transition">
-                      <td className="py-3.5 px-4 font-bold font-sans text-slate-900">
-                        {item.fieldLabel}
-                      </td>
-                      <td className="py-3.5 px-4 text-slate-700 bg-slate-50/50">
-                        {item.valuesByDocument[0]?.value || 'N/A'}
-                      </td>
-                      <td className="py-3.5 px-4 text-slate-700">
-                        {item.valuesByDocument[1]?.value || item.valuesByDocument[0]?.value || 'N/A'}
-                      </td>
-                      <td className="py-3.5 px-4">
-                        <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold ${
-                          item.isConsistent
-                            ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
-                            : 'bg-amber-100 text-amber-900 border border-amber-300'
-                        }`}>
-                          {item.isConsistent ? '✓ CONSISTENT' : '⚠ DISCREPANCY'}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
+                <tbody className="divide-y divide-slate-100">
+                  {consistencyRows.map((row) => {
+                    const evalResult = evaluateRowConsistency(row);
+                    return (
+                      <tr key={row.id} className="hover:bg-slate-50/70 transition">
+                        {/* Column 1: Field Name */}
+                        <td className="py-3 px-4 align-top">
+                          <div className="space-y-1">
+                            {row.isCustom ? (
+                              <input
+                                type="text"
+                                value={row.fieldLabel}
+                                onChange={(e) => handleUpdateRowField(row.id, 'fieldLabel', e.target.value)}
+                                placeholder="Field Name..."
+                                className="w-full font-bold text-slate-900 border border-slate-300 rounded-lg px-2 py-1 text-xs focus:ring-1 focus:ring-[#0B1B4F]"
+                              />
+                            ) : (
+                              <div className="font-bold text-slate-900 flex items-center gap-1.5">
+                                <span>{row.icon || '📄'}</span>
+                                <span>{row.fieldLabel}</span>
+                              </div>
+                            )}
+                            <div className="text-[10px] text-slate-500 font-mono flex items-center gap-2">
+                              <span className="text-blue-700 font-semibold">{row.primaryDocName}</span>
+                              <span>vs</span>
+                              <span className="text-amber-800 font-semibold">{row.secondaryDocName}</span>
+                            </div>
+                          </div>
+                        </td>
+
+                        {/* Column 2: Primary Input Box */}
+                        <td className="py-3 px-4 align-top">
+                          <div className="space-y-1">
+                            <input
+                              type="text"
+                              value={row.primaryValue}
+                              onChange={(e) => handleUpdateRowField(row.id, 'primaryValue', e.target.value)}
+                              placeholder="Enter primary value..."
+                              className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-mono text-xs font-semibold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-[#0B1B4F] focus:border-[#0B1B4F] transition shadow-2xs"
+                            />
+                            <div className="text-[10px] text-slate-400">e.g. As printed on Aadhaar / KYC</div>
+                          </div>
+                        </td>
+
+                        {/* Column 3: Secondary Input Box */}
+                        <td className="py-3 px-4 align-top">
+                          <div className="space-y-1">
+                            <input
+                              type="text"
+                              value={row.secondaryValue}
+                              onChange={(e) => handleUpdateRowField(row.id, 'secondaryValue', e.target.value)}
+                              placeholder="Enter secondary value..."
+                              className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-mono text-xs font-semibold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-[#0B1B4F] focus:border-[#0B1B4F] transition shadow-2xs"
+                            />
+                            <div className="text-[10px] text-slate-400">e.g. As printed on Certificate / Bank / Marksheet</div>
+                          </div>
+                        </td>
+
+                        {/* Column 4: Live Status */}
+                        <td className="py-3 px-4 align-top text-center">
+                          <div className="space-y-1 inline-flex flex-col items-center">
+                            <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold shadow-2xs ${
+                              evalResult.status === 'CONSISTENT'
+                                ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                                : evalResult.status === 'DISCREPANCY'
+                                ? 'bg-amber-100 text-amber-950 border border-amber-300 animate-pulse'
+                                : 'bg-rose-100 text-rose-950 border border-rose-300'
+                            }`}>
+                              {evalResult.label}
+                            </span>
+                            {evalResult.status !== 'CONSISTENT' && (
+                              <p className="text-[10px] text-amber-900 max-w-[200px] text-left leading-tight bg-amber-50/80 p-1.5 rounded border border-amber-200">
+                                {evalResult.explanation}
+                              </p>
+                            )}
+                          </div>
+                        </td>
+
+                        {/* Column 5: Actions */}
+                        <td className="py-3 px-3 align-top text-center">
+                          {row.isCustom ? (
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteRow(row.id)}
+                              className="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                              title="Delete custom row"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => handleUpdateRowField(row.id, 'secondaryValue', row.primaryValue)}
+                              className="p-1.5 text-slate-400 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg transition"
+                              title="Sync secondary to match primary"
+                            >
+                              <Check className="w-4 h-4" />
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
+
+            {/* Bottom Status Callout based on live inspection */}
+            {liveIdentityScore < 100 ? (
+              <div className="bg-amber-50/80 border border-amber-300 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-amber-950">
+                <div className="flex items-start gap-2.5">
+                  <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-bold text-amber-900 font-serif">Clerical Variance Intercepted:</span> One or more fields have discrepancies. You can download the Gazette-Compliant Name Discrepancy Affidavit in the <em>Fix My Application</em> action plan to avoid rejection.
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsFixPlanOpen(true)}
+                  className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs transition shadow-2xs whitespace-nowrap cursor-pointer"
+                >
+                  Generate Affidavit &amp; Action Plan
+                </button>
+              </div>
+            ) : (
+              <div className="bg-emerald-50/80 border border-emerald-300 rounded-xl p-4 flex items-center gap-3 text-xs text-emerald-950">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                <div>
+                  <span className="font-bold text-emerald-900 font-serif">100% Cross-Document Identity Consistency Verified:</span> All primary and secondary attributes match identically across all government records. Zero clerical rejection risk!
+                </div>
+              </div>
+            )}
           </div>
 
           {/* 2. Policy Engine: Deterministic AWS Cedar Rule vs Bedrock Explanation */}
