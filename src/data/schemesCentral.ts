@@ -74,8 +74,8 @@ export const CENTRAL_SCHEMES: SchemeDefinition[] = [
     ],
     navigationGuide: {
       applicationMode: 'citizen_otr_portal',
-      otrRegistrationUrl: 'https://scholarships.gov.in/otr/',
-      applicantLoginUrl: 'https://scholarships.gov.in/student/login',
+      otrRegistrationUrl: 'https://scholarships.gov.in',
+      applicantLoginUrl: 'https://scholarships.gov.in',
       searchKeyword: 'Department of Higher Education - Central Sector Scheme PM-USP',
       portalMenuHierarchy: ['NSP Home', 'Apply for Scholarships', 'Department of Higher Education', 'PM-USP Central Sector'],
       requiredUploadSpecs: [
@@ -154,8 +154,8 @@ export const CENTRAL_SCHEMES: SchemeDefinition[] = [
     ],
     navigationGuide: {
       applicationMode: 'citizen_otr_portal',
-      otrRegistrationUrl: 'https://scholarships.gov.in/otr/',
-      applicantLoginUrl: 'https://scholarships.gov.in/student/login',
+      otrRegistrationUrl: 'https://scholarships.gov.in',
+      applicantLoginUrl: 'https://scholarships.gov.in',
       searchKeyword: 'AICTE - PRAGATI SCHOLARSHIP SCHEME FOR GIRL STUDENTS',
       portalMenuHierarchy: ['NSP Home', 'All India Council for Technical Education (AICTE)', 'Pragati Scholarship (Degree/Diploma)'],
       requiredUploadSpecs: [
@@ -233,8 +233,8 @@ export const CENTRAL_SCHEMES: SchemeDefinition[] = [
     ],
     navigationGuide: {
       applicationMode: 'citizen_otr_portal',
-      otrRegistrationUrl: 'https://scholarships.gov.in/otr/',
-      applicantLoginUrl: 'https://scholarships.gov.in/student/login',
+      otrRegistrationUrl: 'https://scholarships.gov.in',
+      applicantLoginUrl: 'https://scholarships.gov.in',
       searchKeyword: 'Ministry of Social Justice and Empowerment - Post Matric SC',
       portalMenuHierarchy: ['NSP Home', 'Ministry of Social Justice & Empowerment', 'Post Matric Scholarship for SC'],
       requiredUploadSpecs: [
@@ -373,8 +373,8 @@ export const CENTRAL_SCHEMES: SchemeDefinition[] = [
     ],
     navigationGuide: {
       applicationMode: 'citizen_otr_portal',
-      otrRegistrationUrl: 'https://scholarships.gov.in/otr/',
-      applicantLoginUrl: 'https://scholarships.gov.in/student/login',
+      otrRegistrationUrl: 'https://scholarships.gov.in',
+      applicantLoginUrl: 'https://scholarships.gov.in',
       searchKeyword: 'PM YASASVI Top Class Education for OBC EBC DNT',
       portalMenuHierarchy: ['NSP Home', 'Ministry of Social Justice & Empowerment', 'PM-YASASVI Scheme'],
       requiredUploadSpecs: [
