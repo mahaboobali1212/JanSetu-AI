@@ -76,7 +76,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 </li>
                 <li>
                   <button onClick={() => onNavigate('dashboard')} className="hover:text-white transition-colors">
-                    3. Calculated Scholarships Dashboard
+                    3. Calculated Schemes & Deadlines
                   </button>
                 </li>
                 <li>
@@ -85,23 +85,13 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => onNavigate('compare')} className="hover:text-white transition-colors text-amber-200">
-                    5. Scheme Stacking & Comparison
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => onNavigate('deadlines')} className="hover:text-white transition-colors text-amber-200">
-                    6. Live Deadlines Calendar & Alerts
-                  </button>
-                </li>
-                <li>
                   <button onClick={() => onNavigate('audit')} className="hover:text-white transition-colors">
-                    7. Pre-Flight Clerical & Banking Audit
+                    5. Pre-Flight Clerical & Banking Audit
                   </button>
                 </li>
                 <li>
                   <button onClick={() => onNavigate('anti-extortion')} className="hover:text-white transition-colors">
-                    8. Anti-Extortion & *99*99# USSD
+                    6. Anti-Extortion & *99*99# USSD
                   </button>
                 </li>
               </ul>
