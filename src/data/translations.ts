@@ -15,6 +15,9 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     nav_step5: 'Scheme Cockpit',
     nav_audit: 'Clerical & NPCI Audit',
     nav_anti_extortion: 'Anti-Extortion & USSD',
+    nav_grievance: 'RTI & Grievance (Anti-Delay)',
+    nav_compare: 'Scheme Stacking Matrix',
+    nav_deadlines: 'Live Deadlines',
     
     // Page 1: Login & Profile
     page1_heading: 'Step 1: Citizen Onboarding & Identity Setup',
@@ -83,6 +86,9 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     nav_step5: 'योजना कॉकपिट',
     nav_audit: 'लिपिकीय एवं NPCI ऑडिट',
     nav_anti_extortion: 'शोषण रोकथाम एवं USSD',
+    nav_grievance: 'RTI एवं जनसुनवाई (देरी निवारण)',
+    nav_compare: 'योजना तुलना एवं स्टेकिंग',
+    nav_deadlines: 'अंतिम तिथियाँ (Deadlines)',
     
     page1_heading: 'चरण 1: नागरिक प्रोफ़ाइल एवं पहचान विवरण',
     page1_sub: 'केंद्र एवं राज्य की सभी योजनाओं के लिए सटीक पात्रता जांच हेतु अपना विवरण दर्ज करें।',
@@ -147,6 +153,9 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     nav_step5: 'స్కీమ్ కాక్‌పిట్',
     nav_audit: 'క్లెరికల్ & NPCI ఆడిట్',
     nav_anti_extortion: 'మోసాల నివారణ & USSD',
+    nav_grievance: 'RTI & ప్రజావాణి (ఆలస్య నివారణ)',
+    nav_compare: 'పథకాల పోలిక & డ్యూయల్ ప్రయోజనం',
+    nav_deadlines: 'దరఖాస్తు గడువులు (Deadlines)',
     
     page1_heading: 'దశ 1: పౌర వివరాలు మరియు ప్రొఫైల్ నమోదు',
     page1_sub: 'కేంద్ర మరియు రాష్ట్ర పథకాలలో కచ్చితమైన చట్టబద్ధమైన అర్హతను లెక్కించడానికి మీ వివరాలను నమోదు చేయండి.',
@@ -211,6 +220,9 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     nav_step5: 'திட்ட காக்பிட்',
     nav_audit: 'எழுத்துப்பிழை & NPCI தணிக்கை',
     nav_anti_extortion: 'சுரண்டல் தடுப்பு & USSD',
+    nav_grievance: 'RTI & குறைதீர்ப்பு (தாமத தடுப்பு)',
+    nav_compare: 'திட்டங்கள் ஒப்பீடு & இரட்டை பலன்',
+    nav_deadlines: 'கடைசி தேதிகள் (Deadlines)',
     
     page1_heading: 'படி 1: மாணவர் சுயவிவரம் மற்றும் அடையாளம் பதிவு',
     page1_sub: 'அனைத்து மத்திய மற்றும் தமிழக அரசின் திட்டங்களில் சட்டப்பூர்வ தகுதியை அறிய உங்கள் விவரங்களை உள்ளிடவும்.',
@@ -275,6 +287,9 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     nav_step5: 'സ്കീം കോക്ക്പിറ്റ്',
     nav_audit: 'ക്ലറിക്കൽ & NPCI ഓഡിറ്റ്',
     nav_anti_extortion: 'തട്ടിപ്പ് പ്രതിരോധം & USSD',
+    nav_grievance: 'RTI & പരാതി പരിഹാരം (കാലതാമസം)',
+    nav_compare: 'സ്കോളർഷിപ്പ് താരതമ്യം',
+    nav_deadlines: 'അവസാന തീയതികൾ (Deadlines)',
     
     page1_heading: 'ഘട്ടം 1: പൗര വിവരങ്ങളും പ്രൊഫൈൽ ക്രമീകരണവും',
     page1_sub: 'എല്ലാ കേന്ദ്ര-സംസ്ഥാന സ്കോളർഷിപ്പുകൾക്കും കൃത്യമായ നിയമപരമായ യോഗ്യത അറിയാൻ നിങ്ങളുടെ വിവരങ്ങൾ നൽകുക.',

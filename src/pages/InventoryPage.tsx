@@ -25,8 +25,10 @@ import {
   Info,
   MapPin,
   HelpCircle,
-  Globe
+  Globe,
+  Scan
 } from 'lucide-react';
+import { DocumentScannerModal } from '../components/DocumentScannerModal';
 
 interface InventoryPageProps {
   inventory: CertificateInventory;
@@ -248,6 +250,8 @@ export const InventoryPage: React.FC<InventoryPageProps> = ({
   const t = TRANSLATIONS[currentLanguage] || TRANSLATIONS.en;
 
   const [filterMode, setFilterMode] = useState<'all' | 'held' | 'missing'>('all');
+  const [isScannerOpen, setIsScannerOpen] = useState<boolean>(false);
+  const [scannerTargetCert, setScannerTargetCert] = useState<CertificateKey | null>(null);
 
   const certKeys = Object.keys(MASTER_CERTIFICATES) as CertificateKey[];
   const heldCount = certKeys.filter((k) => !!inventory[k]).length;
@@ -379,6 +383,37 @@ export const InventoryPage: React.FC<InventoryPageProps> = ({
             <Info className="w-3.5 h-3.5 text-amber-600" />
             <span>Click any box or switch to toggle whether you have the document</span>
           </div>
+        </div>
+
+        {/* Optional AI Smart Document Scanner Banner */}
+        <div className="mt-4 p-4 rounded-2xl bg-gradient-to-r from-[#0B1B4F] to-[#162D6E] text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md border border-[#D4AF37]/30">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[#D4AF37]/20 border border-[#D4AF37]/40 flex items-center justify-center text-[#F5E29F] shrink-0">
+              <Scan className="w-5 h-5 animate-pulse" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#D4AF37] bg-[#D4AF37]/10 px-2 py-0.5 rounded border border-[#D4AF37]/30">
+                  Optional AI Verifier
+                </span>
+                <span className="text-xs text-slate-300 font-serif">Smart Expiry & Hologram Auditor</span>
+              </div>
+              <p className="text-xs text-slate-200 mt-0.5">
+                Have certificates on your phone or PC? Test them with our Smart Scanner to auto-verify validity dates, or simply continue manually selecting below!
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              setScannerTargetCert(null);
+              setIsScannerOpen(true);
+            }}
+            className="shrink-0 px-4 py-2.5 rounded-xl bg-[#D4AF37] hover:bg-[#E5C158] text-[#0B1B4F] text-xs font-bold transition shadow-md flex items-center gap-2 cursor-pointer font-serif"
+          >
+            <Scan className="w-4 h-4 text-[#0B1B4F]" />
+            <span>Launch Smart Document Scanner</span>
+          </button>
         </div>
       </div>
 
@@ -528,15 +563,30 @@ export const InventoryPage: React.FC<InventoryPageProps> = ({
                   )}
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => onViewRoadmap(key)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-slate-50 border border-[#DFC8A5] text-[#0B1B4F] text-xs font-bold shadow-2xs transition-all cursor-pointer group"
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-amber-600 group-hover:scale-110 transition-transform" />
-                  <span>How to Get (SLA Roadmap)</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-amber-700 group-hover:translate-x-0.5 transition-transform" />
-                </button>
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setScannerTargetCert(key);
+                      setIsScannerOpen(true);
+                    }}
+                    className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-amber-100 text-slate-700 hover:text-amber-950 text-xs font-bold transition border border-slate-200 cursor-pointer"
+                    title="Scan or upload photo to auto-verify"
+                  >
+                    <Scan className="w-3.5 h-3.5 text-amber-600" />
+                    <span>Scan (AI)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => onViewRoadmap(key)}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-slate-50 border border-[#DFC8A5] text-[#0B1B4F] text-xs font-bold shadow-2xs transition-all cursor-pointer group"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-amber-600 group-hover:scale-110 transition-transform" />
+                    <span>How to Get (SLA Roadmap)</span>
+                    <ChevronRight className="w-3.5 h-3.5 text-amber-700 group-hover:translate-x-0.5 transition-transform" />
+                  </button>
+                </div>
               </div>
             </div>
           );
@@ -572,6 +622,23 @@ export const InventoryPage: React.FC<InventoryPageProps> = ({
           </button>
         </div>
       </div>
+
+      {/* Optional AI Document Scanner Modal */}
+      <DocumentScannerModal
+        isOpen={isScannerOpen}
+        onClose={() => {
+          setIsScannerOpen(false);
+          setScannerTargetCert(null);
+        }}
+        targetCertKey={scannerTargetCert}
+        userState={userState}
+        onVerifyCertificate={(certKey) => {
+          onUpdateInventory({
+            ...inventory,
+            [certKey]: true
+          });
+        }}
+      />
     </div>
   );
 };

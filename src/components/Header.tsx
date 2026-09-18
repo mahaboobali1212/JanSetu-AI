@@ -13,7 +13,10 @@ import {
   UserCheck,
   Bot,
   Printer,
-  Sparkles
+  Sparkles,
+  Scale,
+  Layers,
+  Calendar
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -53,6 +56,9 @@ export const Header: React.FC<HeaderProps> = ({
     { id: 'login', label: t.nav_step1, icon: UserCheck },
     { id: 'inventory', label: t.nav_step2, icon: FileCheck2 },
     { id: 'dashboard', label: t.nav_step3, icon: Award },
+    { id: 'grievance', label: t.nav_grievance || 'RTI & Grievance', icon: Scale },
+    { id: 'compare', label: t.nav_compare || 'Scheme Stacking', icon: Layers },
+    { id: 'deadlines', label: t.nav_deadlines || 'Live Deadlines', icon: Calendar },
     { id: 'audit', label: t.nav_audit, icon: ShieldCheck },
     { id: 'anti-extortion', label: t.nav_anti_extortion, icon: PhoneCall },
   ];

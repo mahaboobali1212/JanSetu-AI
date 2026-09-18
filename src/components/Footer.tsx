@@ -80,13 +80,28 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   </button>
                 </li>
                 <li>
+                  <button onClick={() => onNavigate('grievance')} className="hover:text-white transition-colors text-amber-200">
+                    4. 1-Click RTI & Grievance Generator
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => onNavigate('compare')} className="hover:text-white transition-colors text-amber-200">
+                    5. Scheme Stacking & Comparison
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => onNavigate('deadlines')} className="hover:text-white transition-colors text-amber-200">
+                    6. Live Deadlines Calendar & Alerts
+                  </button>
+                </li>
+                <li>
                   <button onClick={() => onNavigate('audit')} className="hover:text-white transition-colors">
-                    4. Pre-Flight Clerical & Banking Audit
+                    7. Pre-Flight Clerical & Banking Audit
                   </button>
                 </li>
                 <li>
                   <button onClick={() => onNavigate('anti-extortion')} className="hover:text-white transition-colors">
-                    5. Anti-Extortion & *99*99# USSD
+                    8. Anti-Extortion & *99*99# USSD
                   </button>
                 </li>
               </ul>

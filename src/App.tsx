@@ -14,6 +14,9 @@ import { CertificateRoadmapPage } from './pages/CertificateRoadmapPage';
 import { SchemeCockpitPage } from './pages/SchemeCockpitPage';
 import { PreFlightAuditPage } from './pages/PreFlightAuditPage';
 import { AntiExtortionPage } from './pages/AntiExtortionPage';
+import { GrievanceEscalationPage } from './pages/GrievanceEscalationPage';
+import { SchemeComparePage } from './pages/SchemeComparePage';
+import { DeadlineTrackerPage } from './pages/DeadlineTrackerPage';
 import { AiCopilotDrawer } from './components/AiCopilotDrawer';
 import { PortalNavigatorModal } from './components/PortalNavigatorModal';
 import { ApplicationDossierModal } from './components/ApplicationDossierModal';
@@ -195,6 +198,32 @@ export function App() {
           <AntiExtortionPage
             currentLanguage={currentLanguage}
             onBack={() => handleNavigate('dashboard')}
+          />
+        )}
+
+        {currentPage === 'grievance' && (
+          <GrievanceEscalationPage
+            profile={profile}
+            currentLanguage={currentLanguage}
+            onBack={() => handleNavigate('dashboard')}
+          />
+        )}
+
+        {currentPage === 'compare' && (
+          <SchemeComparePage
+            currentLanguage={currentLanguage}
+            onBack={() => handleNavigate('dashboard')}
+            onOpenCockpit={handleOpenCockpit}
+            onOpenPortalGuide={(scheme) => setPortalGuideScheme(scheme)}
+          />
+        )}
+
+        {currentPage === 'deadlines' && (
+          <DeadlineTrackerPage
+            profile={profile}
+            currentLanguage={currentLanguage}
+            onBack={() => handleNavigate('dashboard')}
+            onOpenCockpit={handleOpenCockpit}
           />
         )}
       </main>
