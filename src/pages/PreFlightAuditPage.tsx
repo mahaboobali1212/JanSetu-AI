@@ -14,6 +14,7 @@ import { WhyNotReadyModal } from '../components/WhyNotReadyModal';
 import { FixMyApplicationModal } from '../components/FixMyApplicationModal';
 import { DocumentScannerModal } from '../components/DocumentScannerModal';
 import { MandateGenerator } from '../engine/mandateGenerator';
+import { PREFLIGHT_TRANSLATIONS, PreFlightI18n } from '../data/preflightTranslations';
 import { 
   ShieldCheck, 
   AlertTriangle, 
@@ -98,7 +99,7 @@ function getLevenshteinDistance(a: string, b: string): number {
   return matrix[b.length][a.length];
 }
 
-export const evaluateRowConsistency = (row: ConsistencyRow): { 
+export const evaluateRowConsistency = (row: ConsistencyRow, pfT?: PreFlightI18n): { 
   status: 'CONSISTENT' | 'DISCREPANCY' | 'CRITICAL'; 
   label: string; 
   explanation: string;
@@ -110,12 +111,16 @@ export const evaluateRowConsistency = (row: ConsistencyRow): {
     return { status: 'CONSISTENT', label: 'BLANK', explanation: 'Both fields empty' };
   }
   if (p.toLowerCase() === s.toLowerCase()) {
-    return { status: 'CONSISTENT', label: '✓ CONSISTENT', explanation: 'Exact character-for-character match verified across documents.' };
+    return { 
+      status: 'CONSISTENT', 
+      label: pfT?.statusConsistent || '✓ CONSISTENT', 
+      explanation: pfT?.status100MatchNotice || 'Exact character-for-character match verified across documents.' 
+    };
   }
 
   const pLower = p.toLowerCase();
   const sLower = s.toLowerCase();
-  const isNameField = row.fieldLabel.toLowerCase().includes('name');
+  const isNameField = row.fieldLabel.toLowerCase().includes('name') || row.id === 'name' || row.id === 'father';
   
   if (isNameField) {
     // 1. Check for single/double letter phonetic spelling variance (e.g. Mahaboob vs Mehaboob, Shaik vs Shaikh)
@@ -126,7 +131,7 @@ export const evaluateRowConsistency = (row: ConsistencyRow): {
     if (levDist <= 2 || similarity >= 0.82) {
       return {
         status: 'DISCREPANCY',
-        label: '⚠ PHONETIC / SPELLING VARIANCE',
+        label: pfT?.statusPhonetic || '⚠ PHONETIC / SPELLING VARIANCE',
         explanation: `Minor spelling or vowel difference detected ("${p}" vs "${s}"). Requires Name Discrepancy Affidavit on ₹20 stamp paper to prevent DBT rejection.`
       };
     }
@@ -144,7 +149,7 @@ export const evaluateRowConsistency = (row: ConsistencyRow): {
     if (hasCommonWord || (pLast === sLast) || (pFirst === sFirst) || (pWords.length === 1 && sWords.length > 1) || (sWords.length === 1 && pWords.length > 1)) {
       return { 
         status: 'DISCREPANCY', 
-        label: '⚠ INITIALS / SEQUENCE VARIANCE', 
+        label: pfT?.statusInitials || '⚠ INITIALS / SEQUENCE VARIANCE', 
         explanation: `Initials or name sequence variance detected ("${p}" vs "${s}"). Requires Name Discrepancy Affidavit on ₹20 stamp paper to prevent portal rejection.` 
       };
     }
@@ -156,14 +161,14 @@ export const evaluateRowConsistency = (row: ConsistencyRow): {
   if (pDigits && sDigits && pDigits === sDigits) {
     return {
       status: 'CONSISTENT',
-      label: '✓ CONSISTENT',
+      label: pfT?.statusConsistent || '✓ CONSISTENT',
       explanation: 'Statutory values match numerically across different display formats.'
     };
   }
 
   return { 
     status: 'CRITICAL', 
-    label: '❌ CRITICAL MISMATCH', 
+    label: pfT?.statusCritical || '❌ CRITICAL MISMATCH', 
     explanation: `Values differ significantly ("${p}" vs "${s}"). Government scrutiny will reject without corrective revenue endorsement.` 
   };
 };
@@ -190,6 +195,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
   onOpenCopilot
 }) => {
   const t = TRANSLATIONS[currentLanguage] || TRANSLATIONS.en;
+  const pfT = PREFLIGHT_TRANSLATIONS[currentLanguage] || PREFLIGHT_TRANSLATIONS.en;
 
   // All schemes available
   const allSchemes: SchemeDefinition[] = [
@@ -292,7 +298,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
 
   // Compute live identity score based on current boxes
   const totalRowsCount = consistencyRows.length;
-  const consistentRowsCount = consistencyRows.filter(r => evaluateRowConsistency(r).status === 'CONSISTENT').length;
+  const consistentRowsCount = consistencyRows.filter(r => evaluateRowConsistency(r, pfT).status === 'CONSISTENT').length;
   const liveIdentityScore = totalRowsCount > 0 ? Math.round((consistentRowsCount / totalRowsCount) * 100) : 100;
 
   // Recalculate dynamic overall score
@@ -433,14 +439,14 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
   };
 
   const timelineStages = [
-    { name: '1. Profile Setup', status: 'COMPLETED' },
-    { name: '2. Scheme Selected', status: 'COMPLETED' },
-    { name: '3. Documents Uploaded', status: documentsScore >= 80 ? 'COMPLETED' : 'IN_PROGRESS' },
-    { name: '4. OCR Analyzed', status: 'COMPLETED' },
-    { name: '5. Eligibility Checked', status: eligibilityScore >= 80 ? 'COMPLETED' : 'IN_PROGRESS' },
-    { name: '6. Cross-Doc Checked', status: liveIdentityScore >= 90 ? 'COMPLETED' : 'WARNING' },
-    { name: '7. Pre-Flight Cleared', status: overallScore >= 80 ? 'COMPLETED' : 'PENDING' },
-    { name: '8. Ready to Apply', status: status === 'READY' ? 'COMPLETED' : 'PENDING' }
+    { name: pfT.stages[0] || '1. Profile Setup', status: 'COMPLETED' },
+    { name: pfT.stages[1] || '2. Scheme Selected', status: 'COMPLETED' },
+    { name: pfT.stages[2] || '3. Documents Uploaded', status: documentsScore >= 80 ? 'COMPLETED' : 'IN_PROGRESS' },
+    { name: pfT.stages[3] || '4. OCR Analyzed', status: 'COMPLETED' },
+    { name: pfT.stages[4] || '5. Eligibility Checked', status: eligibilityScore >= 80 ? 'COMPLETED' : 'IN_PROGRESS' },
+    { name: pfT.stages[5] || '6. Cross-Doc Checked', status: liveIdentityScore >= 90 ? 'COMPLETED' : 'WARNING' },
+    { name: pfT.stages[6] || '7. Pre-Flight Cleared', status: overallScore >= 80 ? 'COMPLETED' : 'PENDING' },
+    { name: pfT.stages[7] || '8. Ready to Apply', status: status === 'READY' ? 'COMPLETED' : 'PENDING' }
   ];
 
   return (
@@ -452,13 +458,13 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold transition-colors shadow-xs cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5 text-[#0B1B4F]" />
-          <span>← Back to Dashboard</span>
+          <span>{pfT.backToDashboard}</span>
         </button>
 
         {/* Scheme Selector Dropdown */}
         <div className="flex items-center gap-2">
           <label className="text-xs font-bold text-slate-600 font-serif">
-            Audit Target Scheme:
+            {pfT.auditTargetScheme}
           </label>
           <select
             value={selectedSchemeId}
@@ -483,11 +489,11 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-900 text-xs font-bold uppercase tracking-wider font-mono">
               <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
-              <span>AI-Powered Government Application Pre-Flight Engine</span>
+              <span>{pfT.readinessTag}</span>
             </div>
 
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#0B1B4F] font-serif leading-tight">
-              Pre-Flight Application Flight Deck
+              {pfT.overallReadinessTitle}
             </h2>
 
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -553,7 +559,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
         <div className="mt-6 pt-6 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
             <div className="flex justify-between text-xs font-bold">
-              <span className="text-slate-600">1. Eligibility</span>
+              <span className="text-slate-600">{pfT.eligibilityBreakdown}</span>
               <span className="text-emerald-700">{eligibilityScore}%</span>
             </div>
             <div className="w-full bg-slate-200 rounded-full h-1.5">
@@ -563,7 +569,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
 
           <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
             <div className="flex justify-between text-xs font-bold">
-              <span className="text-slate-600">2. Documents</span>
+              <span className="text-slate-600">{pfT.documentsBreakdown}</span>
               <span className="text-amber-700">{documentsScore}%</span>
             </div>
             <div className="w-full bg-slate-200 rounded-full h-1.5">
@@ -573,7 +579,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
 
           <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
             <div className="flex justify-between text-xs font-bold">
-              <span className="text-slate-600">3. Identity</span>
+              <span className="text-slate-600">{pfT.identityBreakdown}</span>
               <span className={liveIdentityScore >= 90 ? 'text-emerald-700' : 'text-amber-700'}>{liveIdentityScore}%</span>
             </div>
             <div className="w-full bg-slate-200 rounded-full h-1.5">
@@ -583,7 +589,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
 
           <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
             <div className="flex justify-between text-xs font-bold">
-              <span className="text-slate-600">4. Prerequisites</span>
+              <span className="text-slate-600">{pfT.prerequisitesBreakdown}</span>
               <span className="text-indigo-700">{prerequisitesScore}%</span>
             </div>
             <div className="w-full bg-slate-200 rounded-full h-1.5">
@@ -593,7 +599,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
 
           <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
             <div className="flex justify-between text-xs font-bold">
-              <span className="text-slate-600">5. Policy Conf.</span>
+              <span className="text-slate-600">{pfT.policyBreakdown}</span>
               <span className="text-blue-700">{policyConfidenceScore}%</span>
             </div>
             <div className="w-full bg-slate-200 rounded-full h-1.5">
@@ -605,7 +611,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
         {/* 8-Stage Progress Timeline */}
         <div className="mt-6 pt-6 border-t border-slate-100">
           <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 font-serif">
-            8-Stage Sovereign Application Progress Pipeline:
+            {pfT.timelineHeading}
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
             {timelineStages.map((stage, idx) => (
@@ -638,7 +644,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
               className="px-4 py-2.5 rounded-xl bg-white border border-slate-300 hover:bg-slate-50 text-slate-800 text-xs font-bold transition shadow-xs flex items-center gap-2 cursor-pointer"
             >
               <HelpCircle className="w-4 h-4 text-amber-600" />
-              <span>Why Am I Not Ready?</span>
+              <span>{pfT.whyNotReadyBtn}</span>
             </button>
 
             <button
@@ -646,7 +652,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
               className="px-5 py-2.5 rounded-xl bg-[#0B1B4F] hover:bg-[#162D6E] text-[#F5E29F] text-xs font-bold transition shadow-md flex items-center gap-2 cursor-pointer border border-[#D4AF37]/30"
             >
               <Wrench className="w-4 h-4" />
-              <span>Fix My Application (Action Plan)</span>
+              <span>{pfT.fixMyApplicationBtn}</span>
             </button>
 
             {onOpenCopilot && (
@@ -655,7 +661,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
                 className="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition shadow-xs flex items-center gap-2 cursor-pointer"
               >
                 <Bot className="w-4 h-4 text-slate-950" />
-                <span>Ask JanSetu Copilot</span>
+                <span>{pfT.askCopilotBtn}</span>
               </button>
             )}
           </div>
@@ -693,7 +699,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
           }`}
         >
           <ShieldCheck className="w-4 h-4" />
-          <span>Cross-Doc Matrix &amp; Risk Engine</span>
+          <span>{pfT.tabFlightDeck}</span>
         </button>
 
         <button
@@ -705,7 +711,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
           }`}
         >
           <GitBranch className="w-4 h-4" />
-          <span>Application Dependency Graph</span>
+          <span>{pfT.tabDependencyGraph}</span>
         </button>
 
         <button
@@ -717,7 +723,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
           }`}
         >
           <Layers className="w-4 h-4" />
-          <span>Document Vault Dashboard</span>
+          <span>{pfT.tabVault}</span>
         </button>
 
         <button
@@ -729,7 +735,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
           }`}
         >
           <CreditCard className="w-4 h-4" />
-          <span>Clerical Matcher &amp; NPCI Mandate</span>
+          <span>{pfT.tabClerical}</span>
         </button>
       </div>
 
@@ -745,10 +751,10 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
                   <span>01. Multi-Document Consistency &amp; Clerical Variance Matrix</span>
                 </div>
                 <h3 className="text-lg font-bold font-serif text-[#0B1B4F]">
-                  Cross-Document Field Matching &amp; Manual Clerical Inspector
+                  {pfT.crossDocTitle}
                 </h3>
                 <p className="text-xs text-slate-500">
-                  Type or modify values in the boxes below to inspect clerical variances in real-time, or upload documents to auto-populate.
+                  {pfT.crossDocSub}
                 </p>
               </div>
 
@@ -760,7 +766,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
                   className="px-3.5 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-900 border border-blue-200 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
                 >
                   <Plus className="w-3.5 h-3.5 text-blue-700" />
-                  <span>Add Field</span>
+                  <span>{pfT.addFieldBtn}</span>
                 </button>
 
                 <button
@@ -770,7 +776,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
                   title="Make all primary and secondary fields match perfectly"
                 >
                   <Check className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Test 100% Match</span>
+                  <span>{pfT.testMatchBtn}</span>
                 </button>
 
                 <button
@@ -780,7 +786,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
                   title="Simulate initials mismatch between Aadhaar and Board Marksheet"
                 >
                   <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
-                  <span>Test Discrepancy</span>
+                  <span>{pfT.testDiscrepancyBtn}</span>
                 </button>
 
                 <button
@@ -790,7 +796,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
                   title="Reset to default fields"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
-                  <span>Reset</span>
+                  <span>{pfT.resetBtn}</span>
                 </button>
 
                 <button
@@ -798,7 +804,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
                   className="px-4 py-2 rounded-xl bg-[#0B1B4F] hover:bg-[#162D6E] text-[#F5E29F] text-xs font-bold transition shadow-xs flex items-center gap-2 cursor-pointer shrink-0 border border-[#D4AF37]/30"
                 >
                   <Scan className="w-4 h-4 text-amber-400" />
-                  <span>Upload &amp; Auto-Scan</span>
+                  <span>{pfT.uploadScanBtn}</span>
                 </button>
               </div>
             </div>
@@ -806,18 +812,18 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
             {/* Quick Audit Target Selector Pills */}
             <div className="space-y-2">
               <label className="text-xs font-bold uppercase tracking-wider text-slate-700 font-serif flex items-center gap-1.5">
-                <span>Select Target Document to Audit Against Aadhaar:</span>
+                <span>{pfT.selectTargetDocLabel}</span>
               </label>
               <div className="flex flex-wrap gap-2">
                 {[
-                  { id: 'all', label: '🌐 All Documents (Full Matrix)', desc: 'Multi-document audit' },
-                  { id: 'marksheet', label: '📝 Marksheet (10th/12th)', targetDoc: '📝 10th / 12th Board Marksheet' },
-                  { id: 'bank', label: '🏦 Bank Passbook (NPCI DBT)', targetDoc: '🏦 Bank Passbook (NPCI DBT)' },
-                  { id: 'income', label: '💰 Income Certificate (REV-101)', targetDoc: '💰 Income Certificate (REV-101)' },
-                  { id: 'caste', label: '🏛️ Community / Caste (REV-103)', targetDoc: '🏛️ Community / Caste (REV-103)' },
-                  { id: 'ration', label: '🍚 Smart Ration Card', targetDoc: '🍚 Smart Ration Card (NFSA)' },
-                  { id: 'domicile', label: '📍 State Domicile Certificate', targetDoc: '📍 State Domicile / Nativity' },
-                  { id: 'first_grad', label: '🎓 First Graduate (REV-104)', targetDoc: '🎓 First Graduate (REV-104)' },
+                  { id: 'all', label: pfT.docLabels.custom || '🌐 All Documents (Full Matrix)', targetDoc: '' },
+                  { id: 'marksheet', label: pfT.docLabels.marksheet || '📝 Marksheet (10th/12th)', targetDoc: pfT.docLabels.marksheet || '📝 10th / 12th Board Marksheet' },
+                  { id: 'bank', label: pfT.docLabels.bank || '🏦 Bank Passbook (NPCI DBT)', targetDoc: pfT.docLabels.bank || '🏦 Bank Passbook (NPCI DBT)' },
+                  { id: 'income', label: pfT.docLabels.income || '💰 Income Certificate (REV-101)', targetDoc: pfT.docLabels.income || '💰 Income Certificate (REV-101)' },
+                  { id: 'caste', label: pfT.docLabels.caste || '🏛️ Community / Caste (REV-103)', targetDoc: pfT.docLabels.caste || '🏛️ Community / Caste (REV-103)' },
+                  { id: 'ration', label: pfT.docLabels.ration || '🍚 Smart Ration Card', targetDoc: pfT.docLabels.ration || '🍚 Smart Ration Card (NFSA)' },
+                  { id: 'domicile', label: pfT.docLabels.domicile || '📍 State Domicile Certificate', targetDoc: pfT.docLabels.domicile || '📍 State Domicile / Nativity' },
+                  { id: 'first_grad', label: pfT.docLabels.first_grad || '🎓 First Graduate (REV-104)', targetDoc: pfT.docLabels.first_grad || '🎓 First Graduate (REV-104)' },
                 ].map((pill) => (
                   <button
                     key={pill.id}
@@ -845,11 +851,11 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
               <div className="flex items-center gap-2 text-slate-700">
                 <Edit3 className="w-4 h-4 text-[#0B1B4F] shrink-0" />
                 <span>
-                  <strong className="text-slate-900 font-serif">Manual Inspection Active:</strong> Choose which documents to compare from the dropdowns, then edit values in the boxes below to check variances instantly!
+                  {pfT.manualActiveNotice}
                 </span>
               </div>
               <span className="text-[11px] font-mono text-slate-500 font-bold shrink-0">
-                {consistentRowsCount} of {totalRowsCount} Fields Matching ({liveIdentityScore}%)
+                {consistentRowsCount} of {totalRowsCount} {pfT.fieldsMatchingBadge} ({liveIdentityScore}%)
               </span>
             </div>
 
@@ -858,26 +864,29 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
               <table className="w-full text-xs text-left">
                 <thead className="bg-[#FAF7F2] text-slate-800 uppercase font-serif border-b border-slate-200 text-[11px]">
                   <tr>
-                    <th className="py-3 px-4 w-1/4">Field to Compare</th>
+                    <th className="py-3 px-4 w-1/4">{pfT.thFieldToCompare}</th>
                     <th className="py-3 px-4 w-1/3">
                       <div className="flex items-center gap-1.5">
                         <span className="w-2 h-2 rounded-full bg-blue-600 inline-block" />
-                        <span>Primary Value (Box to Write / Inspect)</span>
+                        <span>{pfT.thPrimaryValue}</span>
                       </div>
                     </th>
                     <th className="py-3 px-4 w-1/3">
                       <div className="flex items-center gap-1.5">
                         <span className="w-2 h-2 rounded-full bg-amber-600 inline-block" />
-                        <span>Secondary Value (Box to Write / Inspect)</span>
+                        <span>{pfT.thSecondaryValue}</span>
                       </div>
                     </th>
-                    <th className="py-3 px-4 text-center">Live Status</th>
-                    <th className="py-3 px-3 text-center w-12">Action</th>
+                    <th className="py-3 px-4 text-center">{pfT.thLiveStatus}</th>
+                    <th className="py-3 px-3 text-center w-12">{pfT.thAction}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {consistencyRows.map((row) => {
-                    const evalResult = evaluateRowConsistency(row);
+                    const evalResult = evaluateRowConsistency(row, pfT);
+                    const localizedFieldLabel = row.isCustom 
+                      ? row.fieldLabel 
+                      : (pfT.fieldNames[row.id as keyof typeof pfT.fieldNames] || row.fieldLabel);
                     return (
                       <tr key={row.id} className="hover:bg-slate-50/70 transition">
                         {/* Column 1: Field Name & Document Selectors */}
@@ -894,34 +903,40 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
                             ) : (
                               <div className="font-bold text-slate-900 flex items-center gap-1.5">
                                 <span>{row.icon || '📄'}</span>
-                                <span>{row.fieldLabel}</span>
+                                <span>{localizedFieldLabel}</span>
                               </div>
                             )}
 
                             {/* Document Selector Dropdowns */}
                             <div className="space-y-1 text-[10px]">
                               <div>
-                                <label className="text-slate-500 font-semibold block mb-0.5">Primary Baseline:</label>
+                                <label className="text-slate-500 font-semibold block mb-0.5">{pfT.primaryBaselineLabel}</label>
                                 <select
                                   value={row.primaryDocName}
                                   onChange={(e) => handleUpdateRowField(row.id, 'primaryDocName', e.target.value)}
                                   className="w-full bg-white border border-slate-200 rounded-md px-1.5 py-0.5 text-[10px] font-bold text-blue-900"
                                 >
-                                  {COMPARISON_DOCUMENTS.map(doc => (
-                                    <option key={doc.id} value={doc.label}>{doc.label}</option>
-                                  ))}
+                                  {COMPARISON_DOCUMENTS.map(doc => {
+                                    const localizedDocLabel = pfT.docLabels[doc.id] || doc.label;
+                                    return (
+                                      <option key={doc.id} value={doc.label}>{localizedDocLabel}</option>
+                                    );
+                                  })}
                                 </select>
                               </div>
                               <div>
-                                <label className="text-slate-500 font-semibold block mb-0.5">Compare Against:</label>
+                                <label className="text-slate-500 font-semibold block mb-0.5">{pfT.compareAgainstLabel}</label>
                                 <select
                                   value={row.secondaryDocName}
                                   onChange={(e) => handleUpdateRowField(row.id, 'secondaryDocName', e.target.value)}
                                   className="w-full bg-white border border-slate-200 rounded-md px-1.5 py-0.5 text-[10px] font-bold text-amber-900"
                                 >
-                                  {COMPARISON_DOCUMENTS.map(doc => (
-                                    <option key={doc.id} value={doc.label}>{doc.label}</option>
-                                  ))}
+                                  {COMPARISON_DOCUMENTS.map(doc => {
+                                    const localizedDocLabel = pfT.docLabels[doc.id] || doc.label;
+                                    return (
+                                      <option key={doc.id} value={doc.label}>{localizedDocLabel}</option>
+                                    );
+                                  })}
                                 </select>
                               </div>
                             </div>
@@ -938,7 +953,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
                               placeholder="Enter primary value..."
                               className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-mono text-xs font-semibold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-[#0B1B4F] focus:border-[#0B1B4F] transition shadow-2xs"
                             />
-                            <div className="text-[10px] text-blue-700 font-medium">As printed on {row.primaryDocName}</div>
+                            <div className="text-[10px] text-blue-700 font-medium">{pfT.asPrintedOn} {row.primaryDocName}</div>
                           </div>
                         </td>
 
@@ -952,7 +967,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
                               placeholder="Enter secondary value..."
                               className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-mono text-xs font-semibold text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-[#0B1B4F] focus:border-[#0B1B4F] transition shadow-2xs"
                             />
-                            <div className="text-[10px] text-amber-800 font-medium">As printed on {row.secondaryDocName}</div>
+                            <div className="text-[10px] text-amber-800 font-medium">{pfT.asPrintedOn} {row.secondaryDocName}</div>
                           </div>
                         </td>
 
@@ -1011,7 +1026,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
                 <div className="flex items-start gap-2.5">
                   <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-bold text-amber-900 font-serif">Clerical Variance Intercepted:</span> One or more fields have discrepancies. You can download the Gazette-Compliant Name Discrepancy Affidavit in the <em>Fix My Application</em> action plan to avoid rejection.
+                    <span className="font-bold text-amber-900 font-serif">⚠ {pfT.statusDiscrepancy}:</span> {pfT.statusVarianceNotice}
                   </div>
                 </div>
                 <button
@@ -1019,14 +1034,14 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
                   onClick={() => setIsFixPlanOpen(true)}
                   className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs transition shadow-2xs whitespace-nowrap cursor-pointer"
                 >
-                  Generate Affidavit &amp; Action Plan
+                  {pfT.generateAffidavitBtn}
                 </button>
               </div>
             ) : (
               <div className="bg-emerald-50/80 border border-emerald-300 rounded-xl p-4 flex items-center gap-3 text-xs text-emerald-950">
                 <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
                 <div>
-                  <span className="font-bold text-emerald-900 font-serif">100% Cross-Document Identity Consistency Verified:</span> All primary and secondary attributes match identically across all government records. Zero clerical rejection risk!
+                  <span className="font-bold text-emerald-900 font-serif">{pfT.statusConsistent}:</span> {pfT.status100MatchNotice}
                 </div>
               </div>
             )}
