@@ -141,32 +141,44 @@ JanSetu AI guides citizens through an 8-stage verification pipeline to ensure 10
   - `NOT READY ✗` (Rose): Critical blocker present (e.g., unseeded NPCI bank account).
   - `NEEDS HUMAN REVIEW ?` (Amber): Minor name/initial variance requiring supporting affidavit.
 
-### 2. Multi-Field Cross-Document Consistency Matrix
-- Extracts and compares:
-  - **Applicant Name** (e.g., `Priya Sundaram` vs `Priya S` vs `Priya Sundar`)
-  - **Date of Birth** (e.g., `15/08/2005` across Aadhaar and Board Marksheet)
-  - **Parent / Guardian Name** (e.g., Father's name on Community vs Income Certificate)
-  - **Residential Address & District**
-  - **Certificate Number & Issuing Authority**
-  - **Issue Date & Expiry Timeline**
+### 2. Interactive Cross-Document Consistency Matrix & Manual Clerical Inspector
+- **Dual-Mode Inspection**:
+  - **Manual Write-In Mode**: Direct interactive input boxes allowing citizens and kiosk operators to type/edit values manually without uploading files to test clerical variances instantly.
+  - **Auto-Scan Mode**: Powered by **Amazon Textract Document AI** to extract structured fields automatically from uploaded files.
+- **Dynamic Multi-Document Pair Auditing**:
+  - Compare any document baseline against Aadhaar: *10th/12th Marksheet*, *Bank Passbook (NPCI DBT)*, *Income Certificate (REV-101)*, *Community / Caste Certificate (REV-103)*, *Smart Ration Card (NFSA)*, *State Domicile / Nativity*, *First Graduate (REV-104)*, *College Bonafide*, *EWS*, and *UDID Disability*.
+- **Intelligent Variance Algorithms**:
+  - **Levenshtein Distance Phonetic Matcher**: Identifies minor spelling variances (e.g., `Mahaboob` vs `Mehaboob`, `Shaik` vs `Shaikh`).
+  - **Initials & Sequence Permutation Matcher**: Identifies inverted surnames and initial expansions (e.g., `Ali S` vs `Shaik Mahaboob Ali`).
+  - **Numeric & Date Normalizer**: Equates statutory values across diverse representations (e.g., `₹1,20,000` vs `120000`, `15/08/2004` vs `15-Aug-2004`).
+- **Interactive Sandbox & Testing Tools**:
+  - `+ Add Field`: Add custom fields (e.g., Ration Card No, Student ID).
+  - `Test 100% Match`: One-click instant match simulation with celebratory confetti.
+  - `Test Discrepancy`: One-click simulation of real-world clerical mismatches.
+  - `Reset`: One-click restore to baseline profile attributes.
 
-### 3. Application Dependency Graph
+### 3. Deep Multilingual Localization (5 Indian Languages)
+- Full native UI translations across **English**, **Telugu (తెలుగు)**, **Hindi (हिन्दी)**, **Tamil (தமிழ்)**, and **Malayalam (മലയാളം)**.
+- **Bilingual Ergonomics**: Citizens can type English text into the document input boxes (as names on Indian ID cards are printed in Roman script), while all surrounding instructions, labels, table headers, document options, status notices, and questions render in their chosen regional language.
+- Covers the 8-Stage Sovereign Timeline, 5 Breakdown Sub-Bars, Action Modals, and Status Badges.
+
+### 4. Application Dependency Graph
 - Interactive visual node graph representing the statutory dependency tree:
   `Aadhaar (UIDAI) ➔ Active Bank Account ➔ NPCI DBT Seeding ➔ State Certificates ➔ Portal OTR ➔ College Scrutiny ➔ State Treasury Disbursement`.
 - Interactive blocker inspection with direct 1-click remediation trigger.
 
-### 4. "Why Am I Not Ready?" Diagnostic Explainer
+### 5. "Why Am I Not Ready?" Diagnostic Explainer
 - 4-part root-cause breakdown combining AWS Cedar rules with Amazon Bedrock plain-language explanation.
 - Verified Government Gazette citations with G.O. numbers and direct government portal links.
 - Official disclaimer if policy sources cannot be independently verified.
 
-### 5. "Fix My Application" 1-Click Action Plan
+### 6. "Fix My Application" 1-Click Action Plan
 - Provides 4-box problem diagnostics: *What is Wrong*, *Why It Matters*, *Action to Take*, and *Next Check Step*.
 - Direct 1-click generation of printable **RBI / NPCI Annexure-I Bank Application Form (PDF)**.
 - Direct 1-click generation of **JanSetu Pre-Flight Remediation Plan (PDF)**.
 - Real-time resolution progress tracking with interactive status updates and confetti feedback.
 
-### 6. Unified Document Vault Dashboard
+### 7. Unified Document Vault Dashboard
 - Live certificate status badges: `Valid ✓`, `Warning ⚠`, `Missing ✗`, `Needs Review ?`.
 - Extracted Amazon Textract metadata (Ref No, Issuing Authority, Expiry, OCR Confidence %).
 - Filter by status and live search.
