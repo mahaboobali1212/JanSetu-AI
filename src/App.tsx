@@ -143,6 +143,7 @@ export function App() {
             onBack={() => handleNavigate('login')}
             currentLanguage={currentLanguage}
             onViewRoadmap={handleOpenRoadmap}
+            userState={profile.stateOfDomicile}
           />
         )}
 
@@ -164,6 +165,7 @@ export function App() {
           <CertificateRoadmapPage
             certKey={selectedRoadmapCert}
             currentLanguage={currentLanguage}
+            userState={profile.stateOfDomicile}
             onBack={() => handleNavigate('dashboard')}
             onNavigate={handleNavigate}
           />
