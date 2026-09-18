@@ -523,7 +523,7 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
     navigationGuide: {
       applicationMode: 'citizen_otr_portal',
       otrRegistrationUrl: 'https://ssp.postmatric.karnataka.gov.in',
-      applicantLoginUrl: 'https://ssp.postmatric.karnataka.gov.in/student/login',
+      applicantLoginUrl: 'https://ssp.postmatric.karnataka.gov.in',
       searchKeyword: 'Karnataka SSP Post Matric Scholarship & Vidyasiri',
       portalMenuHierarchy: ['SSP Home', 'Student Account Login', 'Kutumba ID Verification', 'Scholarship Application'],
       requiredUploadSpecs: [
