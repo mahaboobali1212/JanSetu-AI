@@ -128,7 +128,6 @@ export function App() {
         {currentPage === 'login' && (
           <LoginPage
             profile={profile}
-            inventory={inventory}
             onUpdateProfile={setProfile}
             onUpdateInventory={setInventory}
             onNext={() => handleNavigate('inventory')}
