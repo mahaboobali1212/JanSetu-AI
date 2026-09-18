@@ -190,6 +190,7 @@ export function App() {
             profile={profile}
             currentLanguage={currentLanguage}
             onBack={() => handleNavigate('dashboard')}
+            onNavigate={handleNavigate}
             onOpenDossier={() => setIsDossierOpen(true)}
           />
         )}

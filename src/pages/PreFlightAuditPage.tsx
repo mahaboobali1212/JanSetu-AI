@@ -17,12 +17,14 @@ import {
   FileCheck,
   Printer
 } from 'lucide-react';
+import { Scale, ArrowRight } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface PreFlightAuditPageProps {
   profile: CitizenProfile;
   currentLanguage: Language;
   onBack: () => void;
+  onNavigate?: (page: string) => void;
   onOpenDossier?: () => void;
 }
 
@@ -30,6 +32,7 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
   profile,
   currentLanguage,
   onBack,
+  onNavigate,
   onOpenDossier
 }) => {
   const t = TRANSLATIONS[currentLanguage] || TRANSLATIONS.en;
@@ -257,6 +260,35 @@ export const PreFlightAuditPage: React.FC<PreFlightAuditPageProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Next Step Banner: 1-Click RTI & Grievance Generator */}
+      {onNavigate && (
+        <div className="bg-gradient-to-r from-[#0B1B4F] to-[#162D6E] rounded-2xl p-6 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-luxury border border-[#D4AF37]/30">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-bold uppercase tracking-widest bg-[#D4AF37] text-[#0B1B4F] px-2.5 py-0.5 rounded font-mono">
+                Next Civic Power Tool
+              </span>
+              <span className="text-xs text-slate-300 font-serif">State Right to Services & RTI Act</span>
+            </div>
+            <h4 className="text-lg font-bold font-serif text-white">
+              Facing Certificate Delays at MeeSeva / e-Sevai / Tahsildar Office?
+            </h4>
+            <p className="text-xs text-slate-200 max-w-xl">
+              Use our 1-Click Statutory RTI & Grievance Generator to draft legally binding default notices and RTI Form-A petitions to enforce statutory SLA delivery.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => onNavigate('grievance')}
+            className="shrink-0 px-6 py-3.5 rounded-xl bg-[#D4AF37] hover:bg-[#E5C158] text-[#0B1B4F] font-bold text-xs shadow-md transition-all flex items-center gap-2 cursor-pointer font-serif"
+          >
+            <span>Launch RTI & Grievance Generator</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
