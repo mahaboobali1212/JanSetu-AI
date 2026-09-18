@@ -57,7 +57,7 @@ export const MASTER_CERTIFICATES: Record<CertificateKey, CertificateDefinition> 
     department: 'Revenue & Disaster Management Department',
     whereToApply: {
       onlinePortalName: 'State e-District / e-Sevai / MeeSeva / Akshaya Portal',
-      onlinePortalUrl: 'https://edistrict.gov.in',
+      onlinePortalUrl: 'https://services.india.gov.in',
       offlineOffice: 'Taluk Office / Zonal Deputy Tahsildar'
     },
     statutorySlaDays: 8,
@@ -128,8 +128,8 @@ export const MASTER_CERTIFICATES: Record<CertificateKey, CertificateDefinition> 
     issuingAuthority: 'Tahsildar',
     department: 'Revenue Department',
     whereToApply: {
-      onlinePortalName: 'State e-District / e-Sevai',
-      onlinePortalUrl: 'https://edistrict.gov.in',
+      onlinePortalName: 'State e-District / e-Sevai / MeeSeva',
+      onlinePortalUrl: 'https://services.india.gov.in',
       offlineOffice: 'Taluk Office'
     },
     statutorySlaDays: 7,

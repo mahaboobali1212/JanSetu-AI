@@ -20,7 +20,7 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
     benefitAmount: '₹1,000 / month (₹12,000 per year DBT)',
     benefitAmountAnnualNumeric: 12000,
     benefitType: 'cash_dbt',
-    officialPortalUrl: 'https://www.pudhumaipenn.tn.gov.in',
+    officialPortalUrl: 'https://penkalvi.tn.gov.in',
     portalName: 'Pudhumai Penn Official Portal',
     applicationClosingDate: '2026-10-31',
     requiredCertificates: [
@@ -70,8 +70,8 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
     ],
     navigationGuide: {
       applicationMode: 'college_nodal_officer',
-      otrRegistrationUrl: 'https://www.pudhumaipenn.tn.gov.in',
-      applicantLoginUrl: 'https://www.pudhumaipenn.tn.gov.in',
+      otrRegistrationUrl: 'https://penkalvi.tn.gov.in',
+      applicantLoginUrl: 'https://penkalvi.tn.gov.in',
       searchKeyword: 'Moovalur Ramamirtham Ammaiyar Pudhumai Penn Scheme',
       portalMenuHierarchy: ['Pudhumai Penn Home', 'Institution Login (By College)', 'Upload Student EMIS ID & Aadhaar'],
       requiredUploadSpecs: [
@@ -296,7 +296,7 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
     navigationGuide: {
       applicationMode: 'citizen_otr_portal',
       otrRegistrationUrl: 'https://telanganaepass.cgg.gov.in',
-      applicantLoginUrl: 'https://telanganaepass.cgg.gov.in/PostmatricFreshRegistrations.do',
+      applicantLoginUrl: 'https://telanganaepass.cgg.gov.in',
       searchKeyword: 'Telangana ePASS Post Matric Fresh Application (RTF & MTF)',
       portalMenuHierarchy: ['ePASS Home', 'Postmatric Service', 'Fresh Registration', 'Enter SSC Hallticket & MeeSeva IDs'],
       requiredUploadSpecs: [
@@ -372,7 +372,7 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
     navigationGuide: {
       applicationMode: 'citizen_otr_portal',
       otrRegistrationUrl: 'https://jnanabhumi.ap.gov.in',
-      applicantLoginUrl: 'https://jnanabhumi.ap.gov.in/StudentLogin.edu',
+      applicantLoginUrl: 'https://jnanabhumi.ap.gov.in',
       searchKeyword: 'Jagananna Vidya Deevena & Vasathi Deevena (JVD)',
       portalMenuHierarchy: ['JnanaBhumi Home', 'Student Service', 'Jagananna Vidya Deevena Registration'],
       requiredUploadSpecs: [
@@ -448,7 +448,7 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
     navigationGuide: {
       applicationMode: 'citizen_otr_portal',
       otrRegistrationUrl: 'https://egrantz.kerala.gov.in',
-      applicantLoginUrl: 'https://egrantz.kerala.gov.in/Student/login',
+      applicantLoginUrl: 'https://egrantz.kerala.gov.in',
       searchKeyword: 'E-Grants 3.0 Post-Matric Scholarship Scheme',
       portalMenuHierarchy: ['E-Grants Home', 'Student One-Time Registration', 'Apply for Scheme'],
       requiredUploadSpecs: [
@@ -598,7 +598,7 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
     navigationGuide: {
       applicationMode: 'citizen_otr_portal',
       otrRegistrationUrl: 'https://scholarship.up.gov.in',
-      applicantLoginUrl: 'https://scholarship.up.gov.in/index.aspx',
+      applicantLoginUrl: 'https://scholarship.up.gov.in',
       searchKeyword: 'UP Scholarship Postmatric Other than Inter Fresh',
       portalMenuHierarchy: ['UP Scholarship Home', 'Student Section', 'Registration', 'DigiLocker Verification'],
       requiredUploadSpecs: [
@@ -673,7 +673,7 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
     navigationGuide: {
       applicationMode: 'citizen_otr_portal',
       otrRegistrationUrl: 'https://mahadbt.maharashtra.gov.in',
-      applicantLoginUrl: 'https://mahadbt.maharashtra.gov.in/Login/Login',
+      applicantLoginUrl: 'https://mahadbt.maharashtra.gov.in',
       searchKeyword: 'Directorate of Higher Education - Rajarshi Chhatrapati Shahu Maharaj Shikshan Shulkh Shishyavrutti Scheme',
       portalMenuHierarchy: ['MahaDBT Home', 'Post Matric Scholarship', 'Directorate of Higher Education (DHE)', 'Select Scheme'],
       requiredUploadSpecs: [

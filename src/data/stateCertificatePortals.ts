@@ -48,7 +48,7 @@ export function getStateAwareCertificateInfo(
         issuingAuthority: 'Tahsildar / Mandal Revenue Officer (MRO)',
         department: 'Revenue Department, Government of Telangana',
         onlinePortalName: 'Telangana MeeSeva 2.0 Portal',
-        onlinePortalUrl: 'https://tg.meeseva.telangana.gov.in',
+        onlinePortalUrl: 'https://meeseva.telangana.gov.in',
         offlineOffice: 'MeeSeva Citizen Center / Tahsildar Office',
         statutoryFeeInr: 45,
         statutorySlaDays: 7,
@@ -63,7 +63,7 @@ export function getStateAwareCertificateInfo(
           'Step 1: Visit nearest Telangana MeeSeva Center with Food Security Rice Card and Aadhaar.',
           'Step 2: Submit application under Service Code REV-02 and pay statutory MeeSeva user charge of ₹45.',
           'Step 3: Village Revenue Officer (VRO) and Revenue Inspector (RI) complete field inquiry within 4 days.',
-          'Step 4: Tahsildar digitally approves certificate. Download barcoded copy from tg.meeseva.telangana.gov.in.'
+          'Step 4: Tahsildar digitally approves certificate. Download barcoded copy from meeseva.telangana.gov.in.'
         ],
         samplePreviewDescription: 'Official barcoded Telangana MeeSeva Certificate bearing Government of Telangana Emblem, Application No., and Tahsildar Digital Signature.',
         icon: '💰',
@@ -276,7 +276,7 @@ export function getStateAwareCertificateInfo(
         issuingAuthority: 'Tahsildar / Mandal Revenue Officer (MRO)',
         department: 'Scheduled Castes / BC Welfare Department, Government of Telangana',
         onlinePortalName: 'Telangana MeeSeva Portal',
-        onlinePortalUrl: 'https://tg.meeseva.telangana.gov.in',
+        onlinePortalUrl: 'https://meeseva.telangana.gov.in',
         offlineOffice: 'MeeSeva Center / Tahsildar Office',
         statutoryFeeInr: 45,
         statutorySlaDays: 15,
@@ -438,7 +438,7 @@ export function getStateAwareCertificateInfo(
         issuingAuthority: 'Joint Collector / District Civil Supplies Officer',
         department: 'Consumer Affairs, Food & Civil Supplies Dept, Govt of Andhra Pradesh',
         onlinePortalName: 'AP Civil Supplies EPDS Portal',
-        onlinePortalUrl: 'https://epds2.ap.gov.in',
+        onlinePortalUrl: 'https://onlineap.meeseva.gov.in',
         offlineOffice: 'Grama / Ward Sachivalayam (Digital Assistant / VRO Counter)',
         statutoryFeeInr: 0,
         statutorySlaDays: 10,
@@ -452,7 +452,7 @@ export function getStateAwareCertificateInfo(
           'Step 1: Approach the Welfare & Education Assistant at your local Grama/Ward Sachivalayam.',
           'Step 2: Verify family members in the Navasakam household database (100% FREE).',
           'Step 3: Complete biometric e-KYC for all earning and dependent members.',
-          'Step 4: Download official Rice Card from epds2.ap.gov.in or Sachivalayam portal.'
+          'Step 4: Download official Rice Card from onlineap.meeseva.gov.in or Sachivalayam portal.'
         ],
         samplePreviewDescription: 'AP Navasakam White Rice Card with Household ID, family photograph, and QR-verification code.',
         icon: '🌾',
@@ -470,7 +470,7 @@ export function getStateAwareCertificateInfo(
         issuingAuthority: 'Tahsildar / Food Shirastedar',
         department: 'Food, Civil Supplies & Consumer Affairs Dept, Govt of Karnataka',
         onlinePortalName: 'Karnataka Ahara Portal',
-        onlinePortalUrl: 'https://ahara.kar.nic.in',
+        onlinePortalUrl: 'https://ahara.karnataka.gov.in',
         offlineOffice: 'Grama One / Bangalore One / Taluk Food Office',
         statutoryFeeInr: 50,
         statutorySlaDays: 15,
@@ -481,7 +481,7 @@ export function getStateAwareCertificateInfo(
           'Income Proof of Family Head'
         ],
         stepByStepRoadmap: [
-          'Step 1: Access Karnataka Ahara portal (ahara.kar.nic.in) or visit Grama One.',
+          'Step 1: Access Karnataka Ahara portal (ahara.karnataka.gov.in) or visit Grama One.',
           'Step 2: Submit family details with OTP authentication. Pay ₹50.',
           'Step 3: Food Inspector validates address and gas cylinder count.',
           'Step 4: Download approved e-Ration card.'
@@ -584,14 +584,14 @@ export function getStateAwareCertificateInfo(
         issuingAuthority: 'Food and Supplies Officer (FSO) / Circle Office',
         department: 'Department of Food Supplies and Consumer Affairs, GNCTD',
         onlinePortalName: 'Delhi NFS Portal',
-        onlinePortalUrl: 'https://nfs.delhi.gov.in',
+        onlinePortalUrl: 'https://edistrict.delhigovt.nic.in',
         offlineOffice: 'Circle FSO Office / Delhi e-District Citizen Counter',
         statutoryFeeInr: 0,
         statutorySlaDays: 15,
         cyberCafeExtortionRate: '₹150 - ₹300 (Statutorily FREE)',
         precursorDocuments: ['Aadhaar Cards of all members', 'Electricity Bill in Delhi', 'Bank Passbook of Family Head'],
         stepByStepRoadmap: [
-          'Step 1: Apply online on nfs.delhi.gov.in with Aadhaar details (FREE).',
+          'Step 1: Apply online on edistrict.delhigovt.nic.in with Aadhaar details (FREE).',
           'Step 2: Circle FSO verifies residence and electricity meter load.',
           'Step 3: Download digital e-Ration card directly.'
         ],
@@ -639,7 +639,7 @@ export function getStateAwareCertificateInfo(
         issuingAuthority: 'Tahsildar / Mandal Revenue Officer',
         department: 'Revenue Department, Government of Telangana',
         onlinePortalName: 'Telangana MeeSeva Portal',
-        onlinePortalUrl: 'https://tg.meeseva.telangana.gov.in',
+        onlinePortalUrl: 'https://meeseva.telangana.gov.in',
         offlineOffice: 'MeeSeva Center / Tahsildar Office',
         statutoryFeeInr: 45,
         statutorySlaDays: 7,

@@ -33,7 +33,7 @@ export const EXTORTION_RATE_CARD: ExtortionRateItem[] = [
     statutoryOfficialFee: '₹60 (e-Sevai / MeeSeva)',
     statutorySlaDays: '8 Working Days',
     cyberCafeExtortionRate: '₹200 - ₹400',
-    officialPortal: 'https://edistrict.gov.in',
+    officialPortal: 'https://services.india.gov.in',
     legalNote: 'Issuing officer is mandated under Right to Public Services Act to deliver within SLA or face statutory penalty.'
   },
   {
