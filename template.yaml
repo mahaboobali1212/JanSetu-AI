@@ -80,6 +80,95 @@ Resources:
             Path: /audit-documents
             Method: post
 
+  TextractOcrFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: api/textract.handler
+      Description: Amazon Textract Key-Value and Table Extractor for Indian Citizen Documents
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - textract:AnalyzeDocument
+                - textract:DetectDocumentText
+              Resource: "*"
+      Events:
+        TextractApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref JanSetuApi
+            Path: /ocr-extract
+            Method: post
+
+  PollyVoiceFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: api/polly.handler
+      Description: Amazon Polly Neural Indian Vernacular Speech Synthesizer (Aditi & Kajal)
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - polly:SynthesizeSpeech
+              Resource: "*"
+      Events:
+        PollyApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref JanSetuApi
+            Path: /synthesize-speech
+            Method: post
+
+  # ============================================================================
+  # AWS STEP FUNCTIONS (STATUTORY RTI & GRIEVANCE 30-DAY SLA STATE MACHINE)
+  # ============================================================================
+  RtiEscalationStateMachine:
+    Type: AWS::Serverless::StateMachine
+    Properties:
+      Definition:
+        StartAt: PetitionSubmitted
+        States:
+          PetitionSubmitted:
+            Type: Pass
+            Result: "Statutory Filing Acknowledged"
+            Next: WaitForDay15Audit
+          WaitForDay15Audit:
+            Type: Wait
+            Seconds: 1296000 # 15 Days
+            Next: SendIntermediateNotice
+          SendIntermediateNotice:
+            Type: Task
+            Resource: "arn:aws:states:::sns:publish"
+            Parameters:
+              TopicArn: !Ref DeadlineAlertTopic
+              Message: "Statutory SLA Alert: 15 days remaining before Section 20 Officer Penalty triggers."
+            Next: WaitForDay30Expiry
+          WaitForDay30Expiry:
+            Type: Wait
+            Seconds: 1296000 # 15 Days (Total 30 Days)
+            Next: TriggerFirstAppealWithPenalty
+          TriggerFirstAppealWithPenalty:
+            Type: Pass
+            Result: "First Appeal Initiated with Rs 250/day Statutory Penalty Computation"
+            End: true
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - sns:Publish
+              Resource: !Ref DeadlineAlertTopic
+
+  # ============================================================================
+  # AMAZON SNS (CITIZEN DEADLINE & RTI SMS ALERT TOPIC)
+  # ============================================================================
+  DeadlineAlertTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: JanSetuCitizenAlerts
+      DisplayName: "JanSetu AI Citizen Deadline & RTI Alerts"
+
   # ============================================================================
   # DYNAMODB TABLES (SCALES TO ZERO)
   # ============================================================================
@@ -136,3 +225,6 @@ Outputs:
   SchemesTableName:
     Description: DynamoDB Table Name for Schemes
     Value: !Ref SchemesTable
+  DeadlineAlertTopicArn:
+    Description: SNS Topic for Citizen Deadline & RTI Alerts
+    Value: !Ref DeadlineAlertTopic

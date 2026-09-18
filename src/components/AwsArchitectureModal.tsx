@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { X, CheckCircle2, ShieldCheck, Terminal, Bot, Server, Database, Cloud } from "lucide-react";
+import { X, CheckCircle2, ShieldCheck, Terminal, Bot, Server, Database, Cloud, Sparkles } from "lucide-react";
 
 interface AwsArchitectureModalProps {
   isOpen: boolean;
@@ -55,17 +55,59 @@ export const AwsArchitectureModal: React.FC<AwsArchitectureModalProps> = ({ isOp
             </div>
           </div>
 
-          {/* Amazon Bedrock */}
+          {/* Amazon Bedrock & Knowledge Bases */}
           <div className="luxury-card rounded-xl border border-[#EDE6DD] bg-white p-4 shadow-xs">
             <div className="flex items-center gap-2 text-[#0B1B4F] font-bold text-sm font-serif">
               <Bot className="size-5 text-purple-600" />
-              Amazon Bedrock (Claude 3.5)
+              Amazon Bedrock (Claude 3.5 & RAG)
             </div>
             <p className="mt-2 text-xs text-slate-600 leading-relaxed">
-              Powers the vernacular voice/text assistant. Synthesizes dense government gazettes into empathetic, plain-language explanations in English and Hindi.
+              Multilingual conversational guidance with Amazon Bedrock Knowledge Bases over official Ministry and State scholarship gazettes.
             </p>
             <div className="mt-3 rounded-lg bg-[#0B1B4F] p-2.5 font-mono text-[10px] text-purple-200 border border-[#DFB738]/20">
               BedrockRuntimeClient.invokeModel()
+            </div>
+          </div>
+
+          {/* Amazon Textract */}
+          <div className="luxury-card rounded-xl border border-[#EDE6DD] bg-white p-4 shadow-xs">
+            <div className="flex items-center gap-2 text-[#0B1B4F] font-bold text-sm font-serif">
+              <Sparkles className="size-5 text-cyan-600" />
+              Amazon Textract Document AI
+            </div>
+            <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+              Extracts structured Key-Value pairs (Name, Income, Caste, Certificate No) from certificates to feed into the Clerical Soundex Audit.
+            </p>
+            <div className="mt-3 rounded-lg bg-[#0B1B4F] p-2.5 font-mono text-[10px] text-cyan-200 border border-[#DFB738]/20">
+              textract:AnalyzeDocument (FORMS &amp; TABLES)
+            </div>
+          </div>
+
+          {/* Amazon Polly */}
+          <div className="luxury-card rounded-xl border border-[#EDE6DD] bg-white p-4 shadow-xs">
+            <div className="flex items-center gap-2 text-[#0B1B4F] font-bold text-sm font-serif">
+              <Sparkles className="size-5 text-amber-600" />
+              Amazon Polly Neural Indian TTS
+            </div>
+            <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+              Lifelike neural speech synthesis in Indian accents (Aditi &amp; Kajal) to read out scheme eligibility, deadlines, and RTI petitions for rural citizens.
+            </p>
+            <div className="mt-3 rounded-lg bg-[#0B1B4F] p-2.5 font-mono text-[10px] text-amber-200 border border-[#DFB738]/20">
+              polly:SynthesizeSpeech (Neural Indian Voices)
+            </div>
+          </div>
+
+          {/* AWS Step Functions */}
+          <div className="luxury-card rounded-xl border border-[#EDE6DD] bg-white p-4 shadow-xs">
+            <div className="flex items-center gap-2 text-[#0B1B4F] font-bold text-sm font-serif">
+              <ShieldCheck className="size-5 text-rose-600" />
+              AWS Step Functions (RTI State Machine)
+            </div>
+            <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+              Orchestrates the 30-day statutory Right to Service SLA countdown: Day 15 intermediate notice &rarr; Day 30 Appellate escalation + ₹250/day penalty timer.
+            </p>
+            <div className="mt-3 rounded-lg bg-[#0B1B4F] p-2.5 font-mono text-[10px] text-rose-200 border border-[#DFB738]/20">
+              RtiEscalationStateMachine (30-Day SLA)
             </div>
           </div>
 
@@ -73,7 +115,7 @@ export const AwsArchitectureModal: React.FC<AwsArchitectureModalProps> = ({ isOp
           <div className="luxury-card rounded-xl border border-[#EDE6DD] bg-white p-4 shadow-xs">
             <div className="flex items-center gap-2 text-[#0B1B4F] font-bold text-sm font-serif">
               <Terminal className="size-5 text-amber-600" />
-              AWS SAM CLI & LocalStack
+              AWS SAM CLI &amp; LocalStack
             </div>
             <p className="mt-2 text-xs text-slate-600 leading-relaxed">
               Complete serverless declaration in <code className="font-mono text-amber-800 font-semibold">template.yaml</code>. Enables 100% free local execution of API Gateway, Lambda, and DynamoDB without cloud bills.
@@ -93,7 +135,7 @@ export const AwsArchitectureModal: React.FC<AwsArchitectureModalProps> = ({ isOp
               Serverless single-table storage for scheme metadata, CSC directory, and user application dossiers. Scales to zero with zero idle cost.
             </p>
             <div className="mt-3 rounded-lg bg-[#0B1B4F] p-2.5 font-mono text-[10px] text-slate-200 border border-[#EDE6DD]">
-              JanSetuSchemes & JanSetuDossiers
+              JanSetuSchemes &amp; JanSetuDossiers
             </div>
           </div>
 
@@ -118,7 +160,7 @@ export const AwsArchitectureModal: React.FC<AwsArchitectureModalProps> = ({ isOp
               AWS Amplify Hosting
             </div>
             <p className="mt-2 text-xs text-slate-600 leading-relaxed">
-              Next.js App Router deployed live via <code className="font-mono text-[#0B1B4F] font-semibold">amplify.yml</code>. Global CDN, SSL certificates, and zero-downtime updates.
+              Single-page application deployed live via <code className="font-mono text-[#0B1B4F] font-semibold">amplify.yml</code> with Global CDN, SSL certificates, and zero-downtime updates.
             </p>
             <div className="mt-3 rounded-lg bg-[#0B1B4F] p-2.5 font-mono text-[10px] text-slate-200 border border-[#EDE6DD]">
               Amplify Hosting (Ship It Track)

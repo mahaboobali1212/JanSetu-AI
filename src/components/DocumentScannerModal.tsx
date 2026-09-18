@@ -227,28 +227,28 @@ export const DocumentScannerModal: React.FC<DocumentScannerModalProps> = ({
     setSelectedKey(certKeyToScan);
     setIsScanning(true);
     setScanProgress(10);
-    setScanStep('Initializing Optical Scanner & Hologram Filter...');
+    setScanStep('Initializing Amazon Textract analyze_document(FeatureTypes=["FORMS", "TABLES"])...');
     setScanResult(null);
 
     const timer1 = setTimeout(() => {
       setScanProgress(35);
-      setScanStep('Detecting State Emblems, Seals & QR Code Authenticity Hash...');
+      setScanStep('Amazon Textract: Extracting Key-Value Pairs (Name, Income, Issuing Authority)...');
     }, 600);
 
     const timer2 = setTimeout(() => {
       setScanProgress(70);
-      setScanStep('Parsing Legal Text, Authority Signature & Issue Date...');
+      setScanStep('Verifying Digital Signature, Revenue Emblems & QR Code Authenticity Hash...');
     }, 1200);
 
     const timer3 = setTimeout(() => {
       setScanProgress(90);
-      setScanStep('Cross-referencing Statutory Validity & Expiry Timelines...');
+      setScanStep('Validating Statutory Expiry Timelines against State Gazette Rules...');
     }, 1700);
 
     const timer4 = setTimeout(() => {
       setScanProgress(100);
       setIsScanning(false);
-      setScanStep('Scan & Validation Completed Successfully!');
+      setScanStep('Amazon Textract Document AI Validation Completed Successfully!');
       const res = PRESET_CERTIFICATES[certKeyToScan] || PRESET_CERTIFICATES.communityCertificate;
       setScanResult(res);
       confetti({
@@ -286,13 +286,13 @@ export const DocumentScannerModal: React.FC<DocumentScannerModalProps> = ({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-[#D4AF37] bg-[#D4AF37]/10 px-2 py-0.5 rounded border border-[#D4AF37]/30">
-                  AI Document Verifier
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#D4AF37] bg-[#D4AF37]/10 px-2 py-0.5 rounded border border-[#D4AF37]/30 flex items-center gap-1 font-mono">
+                  <Sparkles className="w-3 h-3 text-[#D4AF37]" /> Powered by Amazon Textract
                 </span>
-                <span className="text-xs text-slate-300 font-serif">100% Optional Tool</span>
+                <span className="text-xs text-slate-300 font-serif">100% Client Pre-Flight</span>
               </div>
               <h3 className="text-lg font-bold font-serif text-white mt-0.5">
-                Smart Certificate Scanner & Validity Auditor
+                Smart Certificate Scanner &amp; Validity Auditor
               </h3>
             </div>
           </div>

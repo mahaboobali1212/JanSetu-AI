@@ -307,6 +307,45 @@ Signature of Applicant: ______________________`;
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </div>
+
+          {/* AWS Step Functions Statutory SLA State Machine */}
+          <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs space-y-3 font-sans">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-[#0B1B4F] font-serif">
+                <ShieldAlert className="w-4 h-4 text-rose-600" />
+                <span>AWS Step Functions SLA Pipeline</span>
+              </div>
+              <span className="text-[10px] font-mono bg-rose-50 text-rose-800 px-2 py-0.5 rounded border border-rose-200">
+                Serverless State Machine
+              </span>
+            </div>
+
+            <div className="space-y-2 text-xs">
+              <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-between">
+                <div>
+                  <div className="font-bold text-emerald-950">Day 0: Statutory Filing</div>
+                  <div className="text-[11px] text-emerald-800">Application lodged via {selectedCenter}</div>
+                </div>
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              </div>
+
+              <div className="p-2.5 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-between">
+                <div>
+                  <div className="font-bold text-amber-950">Day 15: Intermediate Audit Notice</div>
+                  <div className="text-[11px] text-amber-800">Auto-dispatches AWS SNS reminder to Tahsildar</div>
+                </div>
+                <Clock className="w-4 h-4 text-amber-600" />
+              </div>
+
+              <div className="p-2.5 rounded-lg bg-rose-50 border border-rose-200 flex items-center justify-between">
+                <div>
+                  <div className="font-bold text-rose-950">Day 30: Appellate Escalation</div>
+                  <div className="text-[11px] text-rose-800">Triggers Section 20 ₹250/day officer penalty timer</div>
+                </div>
+                <Scale className="w-4 h-4 text-rose-600" />
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Right Column: Generated Legal Petitions */}
