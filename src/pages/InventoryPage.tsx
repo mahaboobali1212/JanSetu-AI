@@ -21,7 +21,9 @@ import {
   ChevronRight,
   Filter,
   Check,
-  Info
+  Info,
+  MapPin,
+  HelpCircle
 } from 'lucide-react';
 
 interface InventoryPageProps {
@@ -33,110 +35,201 @@ interface InventoryPageProps {
   onViewRoadmap: (certKey: CertificateKey) => void;
 }
 
-// Certificate Specimen Visual Configuration (Aesthetic Document Mockup Attributes)
-const CERT_SPECIMEN_CONFIG: Record<CertificateKey, {
-  watermarkIcon: string;
-  themeColor: string;
-  borderAccent: string;
-  bgGradient: string;
-  categoryTag: string;
-  sampleNo: string;
+// Friendly, Known Names & Plain-Language Explanations for Everyday Citizens
+const FRIENDLY_CERT_DETAILS: Record<CertificateKey, {
+  friendlyName: string;
+  nativeTamil: string;
+  nativeHindi: string;
+  nativeTelugu: string;
+  nativeMalayalam: string;
+  whatItIs: string;
+  whyNeeded: string;
+  whereToGet: string;
+  slaDays: number;
+  officialFee: number;
+  icon: string;
+  badgeCode: string;
+  isHighPriority: boolean;
 }> = {
   incomeCertificate: {
-    watermarkIcon: '₹',
-    themeColor: 'from-amber-700 to-amber-900',
-    borderAccent: 'border-amber-300',
-    bgGradient: 'bg-gradient-to-br from-[#FBF8F1] via-[#F6EFE2] to-[#ECE1CE]',
-    categoryTag: 'REVENUE FORM 16 / REV-101',
-    sampleNo: 'REV/INC/2026/09214'
+    friendlyName: 'Annual Family Income Certificate',
+    nativeTamil: 'வருமானச் சான்றிதழ்',
+    nativeHindi: 'पारिवारिक आय प्रमाण पत्र',
+    nativeTelugu: 'కుటుంబ వార్షిక ఆదాయ ధ్రువీకరణ పత్రం',
+    nativeMalayalam: 'വരുമാന സർട്ടിഫിക്കറ്റ്',
+    whatItIs: 'An official government certificate issued by the Revenue Department confirming the total annual earnings of all family members combined.',
+    whyNeeded: 'Mandatory proof to qualify for scholarships with family income ceilings (< ₹2.5 Lakh or ₹8 Lakh/yr).',
+    whereToGet: 'State e-District / TNeGA e-Sevai / MeeSeva Portal or your local Taluk / Tehsil Revenue Office.',
+    slaDays: 8,
+    officialFee: 60,
+    icon: '💰',
+    badgeCode: 'REV-101',
+    isHighPriority: true
   },
   communityCertificate: {
-    watermarkIcon: '🏛️',
-    themeColor: 'from-indigo-700 to-purple-900',
-    borderAccent: 'border-indigo-300',
-    bgGradient: 'bg-gradient-to-br from-[#F8F9FD] via-[#EEF1FA] to-[#DFE5F5]',
-    categoryTag: 'PERMANENT SOCIAL STATUS / REV-103',
-    sampleNo: 'CASTE/GAZ/2026/41088'
+    friendlyName: 'Community / Caste Certificate',
+    nativeTamil: 'சாதிச் சான்றிதழ்',
+    nativeHindi: 'जाति / सामाजिक श्रेणी प्रमाण पत्र',
+    nativeTelugu: 'కులం / సామాజిక వర్గ ధ్రువీకరణ పత్రం',
+    nativeMalayalam: 'ജാതി സർട്ടിഫിക്കറ്റ്',
+    whatItIs: 'A permanent statutory document validating your social category (SC, ST, OBC, MBC, BC, or EWS).',
+    whyNeeded: 'Required to claim fee reimbursements, post-matric grants, and reserved scholarship quotas.',
+    whereToGet: 'e-Sevai / MeeSeva Center or Tahsildar / Zonal Revenue Officer (Lifetime Validity).',
+    slaDays: 15,
+    officialFee: 60,
+    icon: '🏛️',
+    badgeCode: 'REV-103',
+    isHighPriority: true
   },
   firstGraduateCertificate: {
-    watermarkIcon: '🎓',
-    themeColor: 'from-emerald-700 to-teal-900',
-    borderAccent: 'border-emerald-300',
-    bgGradient: 'bg-gradient-to-br from-[#F4FAF7] via-[#E8F5EF] to-[#D5EBE0]',
-    categoryTag: '100% TUITION WAIVER / REV-104',
-    sampleNo: 'FG/TNEGA/2026/78219'
+    friendlyName: 'First Graduate Certificate (No Degree in Family)',
+    nativeTamil: 'முதல் பட்டதாரி சான்றிதழ்',
+    nativeHindi: 'प्रथम स्नातक प्रमाण पत्र',
+    nativeTelugu: 'మొదటి పట్టభద్రుడి ధ్రువీకరణ పత్రం',
+    nativeMalayalam: 'കുടുംബത്തിലെ ആദ്യ ബിരുദധാരി സർട്ടിഫിക്കറ്റ്',
+    whatItIs: 'Certifies that you are the very first person in your entire family (parents and siblings) to enter higher education.',
+    whyNeeded: 'Waives 100% of college tuition fees for professional & degree programs under state welfare acts.',
+    whereToGet: 'TNeGA e-Sevai Center / e-District Portal with non-graduate affidavit on ₹20 stamp paper.',
+    slaDays: 15,
+    officialFee: 60,
+    icon: '🎓',
+    badgeCode: 'REV-104',
+    isHighPriority: true
   },
   nativityCertificate: {
-    watermarkIcon: '📍',
-    themeColor: 'from-blue-700 to-sky-900',
-    borderAccent: 'border-blue-300',
-    bgGradient: 'bg-gradient-to-br from-[#F5F9FD] via-[#EBF3FB] to-[#D6E7F7]',
-    categoryTag: 'DOMICILE RESIDENCE / REV-102',
-    sampleNo: 'NAT/DIST/2026/33104'
+    friendlyName: 'Nativity / Residence Certificate',
+    nativeTamil: 'இருப்பிடச் சான்றிதழ்',
+    nativeHindi: 'मूल निवास / अधिवास प्रमाण पत्र',
+    nativeTelugu: 'స్థానికత / నివాస ధ్రువీకరణ పత్రం',
+    nativeMalayalam: 'സ്ഥിരതാമസ സർട്ടിഫിക്കറ്റ്',
+    whatItIs: 'Proof of continuous residence within the state (minimum 5 years) established through school study or property records.',
+    whyNeeded: 'Mandatory for state government scholarship schemes and state quota college counseling.',
+    whereToGet: 'State e-District / MeeSeva / e-Sevai kiosk or Taluk Office.',
+    slaDays: 7,
+    officialFee: 60,
+    icon: '📍',
+    badgeCode: 'REV-102',
+    isHighPriority: false
   },
   govtSchool7_5Certificate: {
-    watermarkIcon: '🏫',
-    themeColor: 'from-rose-700 to-red-900',
-    borderAccent: 'border-rose-300',
-    bgGradient: 'bg-gradient-to-br from-[#FDF6F6] via-[#FBEEEE] to-[#F5D8D8]',
-    categoryTag: '7.5% PREFERENTIAL / ANNEXURE-III',
-    sampleNo: 'EMIS/SCH/2026/89402'
+    friendlyName: '7.5% Govt School Continuous Study Certificate',
+    nativeTamil: '7.5% அரசுப் பள்ளி படிப்பு சான்றிதழ்',
+    nativeHindi: '7.5% सरकारी स्कूल सतत अध्ययन प्रमाणपत्र',
+    nativeTelugu: '7.5% ప్రభుత్వ పాఠశాల నిరంతర విద్య ధ్రువీకరణ',
+    nativeMalayalam: '7.5% ഗവ. സ്കൂൾ പഠന സർട്ടിഫിക്കറ്റ്',
+    whatItIs: 'Annexure-III document proving 100% continuous education from Class 6 to 12 in Government schools.',
+    whyNeeded: 'Unlocks 7.5% preferential college seats & Pudhumai Penn / Moovalur monthly stipends.',
+    whereToGet: 'Issued FREE by your Government School Headmaster and counter-signed by BEO/CEO.',
+    slaDays: 3,
+    officialFee: 0,
+    icon: '🏫',
+    badgeCode: 'SCH-7.5',
+    isHighPriority: true
   },
   bankPassbookNPCI: {
-    watermarkIcon: '🏦',
-    themeColor: 'from-cyan-700 to-blue-900',
-    borderAccent: 'border-cyan-300',
-    bgGradient: 'bg-gradient-to-br from-[#F3FAFC] via-[#E5F5F9] to-[#D0EDF4]',
-    categoryTag: 'NPCI DBT MAPPER / ANNEXURE-I',
-    sampleNo: 'NPCI/DBT/2026/66520'
+    friendlyName: 'Aadhaar-Seeded Bank Passbook (NPCI DBT Account)',
+    nativeTamil: 'ஆதார் இணைக்கப்பட்ட வங்கி புத்தகம்',
+    nativeHindi: 'NPCI DBT मैप किया हुआ बैंक खाता',
+    nativeTelugu: 'NPCI DBT అనుసంధాన బ్యాంక్ ఖాతా',
+    nativeMalayalam: 'NPCI DBT ലിങ്ക് ചെയ്ത ബാങ്ക് അക്കൗണ്ട്',
+    whatItIs: 'A bank account specifically enabled on the NPCI Aadhaar Payment Bridge for direct government fund transfers.',
+    whyNeeded: 'Critical: Over 30% of scholarship grants fail at the treasury stage if NPCI DBT mapping is inactive.',
+    whereToGet: 'Your Bank Branch (Submit Annexure-I Mandate Form with Aadhaar copy - Statutorily FREE).',
+    slaDays: 2,
+    officialFee: 0,
+    icon: '🏦',
+    badgeCode: 'NPCI-DBT',
+    isHighPriority: true
   },
   aadhaarCard: {
-    watermarkIcon: '🪪',
-    themeColor: 'from-slate-700 to-slate-900',
-    borderAccent: 'border-slate-300',
-    bgGradient: 'bg-gradient-to-br from-[#F9F9FB] via-[#F1F1F5] to-[#E2E2EB]',
-    categoryTag: 'UIDAI DEMOGRAPHIC e-KYC',
-    sampleNo: 'XXXX-XXXX-4819'
+    friendlyName: 'Aadhaar Card (With Active Mobile OTP)',
+    nativeTamil: 'ஆதார் அட்டை (மொபைல் இணைப்பு)',
+    nativeHindi: 'आधार कार्ड (सक्रिय मोबाइल लिंक)',
+    nativeTelugu: 'ఆధార్ కార్డు (యాక్టివ్ మొబైల్ లింక్)',
+    nativeMalayalam: 'ആധാർ കാർഡ് (മൊബൈൽ ലിങ്ക് ചെയ്തത്)',
+    whatItIs: 'National 12-digit biometric identity card with your active mobile number linked for OTP logins.',
+    whyNeeded: 'Required for National Scholarship Portal (NSP) One-Time Registration (OTR) and e-KYC.',
+    whereToGet: 'myAadhaar UIDAI Portal or nearest Post Office / Aadhaar Seva Kendra (₹50 for updates).',
+    slaDays: 5,
+    officialFee: 50,
+    icon: '🪪',
+    badgeCode: 'UIDAI-01',
+    isHighPriority: false
   },
   marksheet10th12th: {
-    watermarkIcon: '📜',
-    themeColor: 'from-amber-600 to-yellow-900',
-    borderAccent: 'border-amber-400',
-    bgGradient: 'bg-gradient-to-br from-[#FCFBF7] via-[#F7F4EB] to-[#ECE5D4]',
-    categoryTag: 'BOARD MERIT RECORD / EDU-MARK',
-    sampleNo: 'HSC/REG/2026/51209'
+    friendlyName: '10th & 12th Standard Board Marksheet',
+    nativeTamil: '10 & 12-ஆம் வகுப்பு மதிப்பெண் சான்றிதழ்',
+    nativeHindi: '10वीं एवं 12वीं अंकतालिका',
+    nativeTelugu: '10వ & 12వ తరగతి మార్కుల జాబితా',
+    nativeMalayalam: '10, 12 ക്ലാസ് മാർക്ക് ഷീറ്റുകൾ',
+    whatItIs: 'Official examination certificate showing subject-wise marks, total percentage, and roll number.',
+    whyNeeded: 'Verifies merit cutoffs (e.g., ≥50%, ≥60%, ≥80%) required for central & state scholarships.',
+    whereToGet: 'DigiLocker Portal (Instant Verified Copy) or School of Last Study.',
+    slaDays: 1,
+    officialFee: 0,
+    icon: '📜',
+    badgeCode: 'EDU-MARK',
+    isHighPriority: false
   },
   rationCard: {
-    watermarkIcon: '🌾',
-    themeColor: 'from-lime-700 to-emerald-900',
-    borderAccent: 'border-lime-300',
-    bgGradient: 'bg-gradient-to-br from-[#F9FAF4] via-[#F1F6E8] to-[#E2EED0]',
-    categoryTag: 'CIVIL SUPPLIES / PDS-SMART',
-    sampleNo: 'NFSA/PDS/2026/19401'
+    friendlyName: 'Smart Family Ration Card / White Rice Card',
+    nativeTamil: 'ஸ்மார்ட் குடும்ப அட்டை (ரேஷன் கார்டு)',
+    nativeHindi: 'स्मार्ट राशन कार्ड / खाद्य सुरक्षा कार्ड',
+    nativeTelugu: 'స్మార్ట్ రేషన్ కార్డు / వైట్ రైస్ కార్డు',
+    nativeMalayalam: 'സ്മാർട്ട് റേഷൻ കാർഡ്',
+    whatItIs: 'Civil supplies card showing household head, all dependent family members, and BPL categorization.',
+    whyNeeded: 'Proves family relationships, sibling count, and BPL/AAY poverty classification.',
+    whereToGet: 'State Civil Supplies / PDS Portal or Taluk Supply Office (TSO).',
+    slaDays: 15,
+    officialFee: 20,
+    icon: '🌾',
+    badgeCode: 'PDS-SMART',
+    isHighPriority: false
   },
   disabilityCertificate: {
-    watermarkIcon: '♿',
-    themeColor: 'from-teal-700 to-cyan-900',
-    borderAccent: 'border-teal-300',
-    bgGradient: 'bg-gradient-to-br from-[#F4FAFA] via-[#E7F6F6] to-[#CFEEEE]',
-    categoryTag: 'SWAVLAMBAN UDID / 40%+ PwD',
-    sampleNo: 'UDID/DIS/2026/00472'
+    friendlyName: 'Disability Certificate / UDID Card (40%+ PwD)',
+    nativeTamil: 'மாற்றுத்திறனாளி அடையாள அட்டை (UDID)',
+    nativeHindi: 'दिव्यांगता प्रमाण पत्र / स्वावलंबन UDID',
+    nativeTelugu: 'దివ్యాంగుల ధ్రువీకరణ పత్రం (UDID)',
+    nativeMalayalam: 'ഭിന്നശേഷി സർട്ടിഫിക്കറ്റ് (UDID)',
+    whatItIs: 'Unique Disability Identity Card issued by the District Medical Board certifying 40%+ permanent disability.',
+    whyNeeded: 'Unlocks AICTE Saksham grant (₹50,000/yr), PwD fee waivers, and escort allowances.',
+    whereToGet: 'Swavlamban Card Portal (swavlambancard.gov.in) or District Headquarters Hospital.',
+    slaDays: 30,
+    officialFee: 0,
+    icon: '♿',
+    badgeCode: 'UDID-PWD',
+    isHighPriority: false
   },
   ewsCertificate: {
-    watermarkIcon: '🛡️',
-    themeColor: 'from-amber-800 to-stone-900',
-    borderAccent: 'border-amber-300',
-    bgGradient: 'bg-gradient-to-br from-[#FAF8F5] via-[#F4EFEA] to-[#E6DCDB]',
-    categoryTag: '103RD AMENDMENT / EWS-CENTRAL',
-    sampleNo: 'EWS/GEN/2026/83910'
+    friendlyName: 'EWS Certificate (Economically Weaker Section - General)',
+    nativeTamil: 'EWS பொருளாதாரத்தில் நலிவடைந்தோர் சான்றிதழ்',
+    nativeHindi: 'आर्थिक रूप से कमजोर वर्ग (EWS) प्रमाण पत्र',
+    nativeTelugu: 'EWS ఆర్థికంగా వెనుకబడిన వర్గాల పత్రం',
+    nativeMalayalam: 'EWS സർട്ടിഫിക്കറ്റ്',
+    whatItIs: 'Income and asset certificate for General category students with family gross income < ₹8 Lakh and land limits.',
+    whyNeeded: 'Grants access to 10% EWS reservation in central institutions and need-based fee remissions.',
+    whereToGet: 'State e-District / CSC Center or Tahsildar / SDO Office (Valid for 1 Financial Year).',
+    slaDays: 15,
+    officialFee: 60,
+    icon: '🛡️',
+    badgeCode: 'EWS-CENTRAL',
+    isHighPriority: false
   },
   bonafideCertificate: {
-    watermarkIcon: '🏛️',
-    themeColor: 'from-violet-700 to-indigo-900',
-    borderAccent: 'border-violet-300',
-    bgGradient: 'bg-gradient-to-br from-[#F9F7FC] via-[#F2EEF9] to-[#E3D9F3]',
-    categoryTag: 'INSTITUTE AISHE / INS-BON',
-    sampleNo: 'COL/BON/2026/99310'
+    friendlyName: 'Current College Bonafide Student Certificate',
+    nativeTamil: 'கல்லூரி மாணவர் உண்மைத்தன்மை சான்றிதழ்',
+    nativeHindi: 'कॉलेज वास्तविक छात्र प्रमाण पत्र (Bonafide)',
+    nativeTelugu: 'కళాశాల బోనఫైడ్ విద్యార్థి ధ్రువీకరణ పత్రం',
+    nativeMalayalam: 'കോളേജ് ബോണഫൈഡ് സർട്ടിഫിക്കറ്റ്',
+    whatItIs: 'Official certificate on college letterhead confirming you are currently enrolled in a full-time regular course.',
+    whyNeeded: 'Mandatory proof of college admission, AISHE institutional code, and current semester enrollment.',
+    whereToGet: 'Your College Academic / Scholarship Section or Principal / Dean Office (FREE).',
+    slaDays: 2,
+    officialFee: 0,
+    icon: '🏛️',
+    badgeCode: 'INS-BON',
+    isHighPriority: false
   }
 };
 
@@ -170,6 +263,14 @@ export const InventoryPage: React.FC<InventoryPageProps> = ({
     return true;
   });
 
+  const getNativeTitle = (info: typeof FRIENDLY_CERT_DETAILS[CertificateKey]) => {
+    if (currentLanguage === 'ta') return info.nativeTamil;
+    if (currentLanguage === 'hi') return info.nativeHindi;
+    if (currentLanguage === 'te') return info.nativeTelugu;
+    if (currentLanguage === 'ml') return info.nativeMalayalam;
+    return '';
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in space-y-8">
       {/* 1. Sovereign Editorial Header & Readiness Meter */}
@@ -178,15 +279,15 @@ export const InventoryPage: React.FC<InventoryPageProps> = ({
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FAF0E1] border border-[#DFC8A5] text-[#854D0E] text-xs font-bold uppercase tracking-widest mb-3 font-display">
               <FileCheck2 className="w-3.5 h-3.5 text-amber-700" />
-              <span>Step 2 of 3: Gazette Document & Prerequisite Audit</span>
+              <span>Step 2 of 3: Pre-Flight Certificate Audit & Roadmaps</span>
             </div>
 
             <h2 className="text-2xl sm:text-4xl font-black text-[#0B1B4F] tracking-tight font-serif leading-tight">
-              Sovereign Certificate <span className="font-cormorant italic font-normal text-amber-700">Inventory & Roadmaps.</span>
+              Certificate Audit &amp; <span className="font-cormorant italic font-normal text-amber-700">Pre-Flight Readiness.</span>
             </h2>
 
-            <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Verify documents in your possession to unlock eligible scholarships. For any missing certificates, access step-by-step resolution roadmaps with statutory government fees to avoid cyber café extortion.
+            <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl">
+              Tick the certificates you currently have in hand. For any document you don't have, click <strong>"How to Get (Roadmap)"</strong> to view the exact government portal, statutory fee (₹0 - ₹60), and 15-day SLA timeline.
             </p>
           </div>
 
@@ -196,10 +297,10 @@ export const InventoryPage: React.FC<InventoryPageProps> = ({
               <span className="text-xl font-black text-[#0B1B4F] font-serif">{readinessPercent}%</span>
             </div>
             <div>
-              <div className="text-[10px] uppercase font-bold text-amber-800 tracking-wider">Audit Readiness</div>
-              <div className="text-sm font-black text-[#0B1B4F]">{heldCount} of {certKeys.length} Verified</div>
+              <div className="text-[10px] uppercase font-bold text-amber-800 tracking-wider">Document Readiness</div>
+              <div className="text-sm font-black text-[#0B1B4F]">{heldCount} of {certKeys.length} In Possession</div>
               <div className="text-[11px] text-slate-500 font-medium">
-                {missingCount > 0 ? `${missingCount} Missing Roadmaps` : 'All Documents Cleared'}
+                {missingCount > 0 ? `${missingCount} Missing Prerequisite(s)` : 'All 12 Documents Verified'}
               </div>
             </div>
           </div>
@@ -209,7 +310,7 @@ export const InventoryPage: React.FC<InventoryPageProps> = ({
         <div className="mt-8 pt-6 border-t border-[#EDE6DD]">
           <div className="flex items-center justify-between text-xs font-bold text-slate-700 mb-2 font-display">
             <span>Official Document Readiness Gauge</span>
-            <span className="text-[#0B1B4F]">{readinessPercent}% Ready for Direct Portal Submission</span>
+            <span className="text-[#0B1B4F]">{readinessPercent}% Ready for Portal Submission</span>
           </div>
           <div className="w-full bg-[#FAF7F2] rounded-full h-3.5 p-0.5 border border-[#DFC8A5] overflow-hidden">
             <div
@@ -229,7 +330,7 @@ export const InventoryPage: React.FC<InventoryPageProps> = ({
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[#F2EDE4]">
           <div className="flex items-center gap-2">
             <Filter className="w-3.5 h-3.5 text-slate-400" />
-            <span className="text-xs font-bold text-slate-600 font-display">Filter View:</span>
+            <span className="text-xs font-bold text-slate-600 font-display">Filter List:</span>
             <div className="inline-flex rounded-xl p-1 bg-[#FAF7F2] border border-[#E7DDCE]">
               <button
                 onClick={() => setFilterMode('all')}
@@ -249,7 +350,7 @@ export const InventoryPage: React.FC<InventoryPageProps> = ({
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                In Possession ({heldCount})
+                ✓ I Have This ({heldCount})
               </button>
               <button
                 onClick={() => setFilterMode('missing')}
@@ -259,14 +360,14 @@ export const InventoryPage: React.FC<InventoryPageProps> = ({
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                Missing Roadmaps ({missingCount})
+                ⭕ Missing ({missingCount})
               </button>
             </div>
           </div>
 
           <div className="flex items-center gap-2 text-xs text-slate-500 font-medium">
             <Info className="w-3.5 h-3.5 text-amber-600" />
-            <span>Click any card or toggle button to mark possession status</span>
+            <span>Click any box or switch to toggle whether you have the document</span>
           </div>
         </div>
       </div>
@@ -275,173 +376,138 @@ export const InventoryPage: React.FC<InventoryPageProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {filteredKeys.map((key) => {
           const cert = MASTER_CERTIFICATES[key];
+          const info = FRIENDLY_CERT_DETAILS[key];
           const isHeld = !!inventory[key];
-          const title = cert.titleTranslations[currentLanguage] || cert.title;
-          const specimen = CERT_SPECIMEN_CONFIG[key] || {
-            watermarkIcon: '📜',
-            themeColor: 'from-amber-700 to-amber-900',
-            borderAccent: 'border-amber-300',
-            bgGradient: 'bg-gradient-to-br from-[#FBF8F1] via-[#F6EFE2] to-[#ECE1CE]',
-            categoryTag: cert.id,
-            sampleNo: `${cert.id}/2026/AUTO`
-          };
+          const nativeTitle = getNativeTitle(info);
 
           return (
             <div
               key={key}
               className={`rounded-3xl border transition-all duration-300 overflow-hidden flex flex-col justify-between ${
                 isHeld
-                  ? 'bg-white border-[#B2E1C9] ring-1 ring-[#B2E1C9] shadow-luxury'
+                  ? 'bg-white border-emerald-300 ring-2 ring-emerald-500/20 shadow-luxury'
                   : 'bg-white border-[#E7DDCE] hover:border-[#D5C2AA] shadow-sm hover:shadow-luxury'
               }`}
             >
-              {/* Top Split Layout: Specimen Left & Metadata Right */}
-              <div className="p-5 sm:p-6 flex flex-col sm:flex-row gap-5">
-                {/* Left Side: Aesthetic Certificate Document Specimen */}
-                <div className="sm:w-44 shrink-0 flex flex-col justify-between">
-                  <div className={`relative rounded-2xl p-4 border ${specimen.borderAccent} ${specimen.bgGradient} shadow-inner overflow-hidden min-h-[160px] flex flex-col justify-between`}>
-                    {/* Background Watermark Seal */}
-                    <div className="absolute -right-4 -bottom-4 text-6xl opacity-15 pointer-events-none select-none font-serif">
-                      {specimen.watermarkIcon}
+              {/* Card Header: Icon + Friendly Name + Interactive Selection Switch */}
+              <div className="p-5 sm:p-6 pb-4">
+                <div className="flex items-start justify-between gap-4 mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-[#FAF0E1] border border-[#DFC8A5] flex items-center justify-center text-2xl shadow-inner shrink-0">
+                      {info.icon}
                     </div>
-
-                    {/* Specimen Header */}
                     <div>
-                      <div className="flex items-center justify-between gap-1 mb-1">
-                        <span className="text-[9px] font-black uppercase tracking-wider text-slate-700 font-mono px-1.5 py-0.5 rounded bg-white/80 border border-slate-200">
-                          {cert.id}
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#0B1B4F] text-amber-300 font-mono">
+                          {info.badgeCode}
                         </span>
-                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        {info.isHighPriority && !isHeld && (
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-rose-100 text-rose-800 border border-rose-200">
+                            High Priority
+                          </span>
+                        )}
                       </div>
-                      <div className="text-[9px] font-bold text-slate-600 line-clamp-1">
-                        {specimen.categoryTag}
-                      </div>
-                    </div>
-
-                    {/* Specimen Body Motif */}
-                    <div className="my-2 py-1 text-center border-y border-dashed border-slate-300/80">
-                      <div className="text-2xl">{specimen.watermarkIcon}</div>
-                      <div className="text-[8px] font-mono font-bold text-slate-500 tracking-tighter mt-0.5">
-                        {specimen.sampleNo}
-                      </div>
-                    </div>
-
-                    {/* Specimen Status Stamp */}
-                    <div className="mt-1">
-                      {isHeld ? (
-                        <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-700 text-white text-[9px] font-bold uppercase tracking-wider shadow-2xs">
-                          <Check className="w-2.5 h-2.5 stroke-[3]" />
-                          <span>Registered</span>
-                        </div>
-                      ) : (
-                        <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-800 text-amber-50 text-[9px] font-bold uppercase tracking-wider shadow-2xs">
-                          <AlertTriangle className="w-2.5 h-2.5" />
-                          <span>Not Uploaded</span>
+                      <h3 className="text-base sm:text-lg font-bold text-[#0B1B4F] font-serif leading-snug">
+                        {info.friendlyName}
+                      </h3>
+                      {nativeTitle && (
+                        <div className="text-xs font-medium text-amber-900/80">
+                          {nativeTitle}
                         </div>
                       )}
                     </div>
                   </div>
 
-                  {/* SLA & Statutory Fee Badges under specimen */}
-                  <div className="mt-3 grid grid-cols-2 gap-1.5 text-center">
-                    <div className="p-1.5 rounded-xl bg-[#FAF7F2] border border-[#EDE4D8]">
-                      <div className="text-[9px] text-slate-500 uppercase font-bold">Govt SLA</div>
-                      <div className="text-xs font-black text-[#0B1B4F] flex items-center justify-center gap-0.5">
-                        <Clock className="w-3 h-3 text-amber-600" />
-                        <span>{cert.statutorySlaDays}d</span>
-                      </div>
+                  {/* Primary Selection Box (Instant Toggle Button) */}
+                  <button
+                    type="button"
+                    onClick={() => toggleCertificate(key)}
+                    className={`shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-xs ${
+                      isHeld
+                        ? 'bg-emerald-700 text-white ring-2 ring-emerald-500/40 shadow-emerald-700/20'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300'
+                    }`}
+                    title="Click to toggle document possession status"
+                  >
+                    <div className={`w-4 h-4 rounded-md flex items-center justify-center transition-colors ${
+                      isHeld ? 'bg-white text-emerald-800' : 'border-2 border-slate-400 bg-white'
+                    }`}>
+                      {isHeld && <Check className="w-3 h-3 stroke-[3]" />}
                     </div>
+                    <span>{isHeld ? 'I Have This' : 'I Need This'}</span>
+                  </button>
+                </div>
 
-                    <div className="p-1.5 rounded-xl bg-[#FAF7F2] border border-[#EDE4D8]">
-                      <div className="text-[9px] text-slate-500 uppercase font-bold">Official Fee</div>
-                      <div className="text-xs font-black text-emerald-700 flex items-center justify-center gap-0.5">
-                        <Coins className="w-3 h-3 text-emerald-600" />
-                        <span>₹{cert.statutoryFeeInr}</span>
-                      </div>
+                {/* Plain-Language Explanation: What it is & Why you need it */}
+                <div className="space-y-2 mt-4 text-xs">
+                  <div className="p-3 rounded-xl bg-[#FAF7F2] border border-[#EDE4D8]">
+                    <div className="font-bold text-[#0B1B4F] mb-0.5 font-display flex items-center gap-1.5">
+                      <Info className="w-3.5 h-3.5 text-amber-700" />
+                      <span>What is this &amp; Why it is needed:</span>
                     </div>
+                    <p className="text-slate-700 leading-relaxed">
+                      {info.whatItIs} <span className="font-semibold text-[#0B1B4F]">{info.whyNeeded}</span>
+                    </p>
+                  </div>
+
+                  {/* Where to get it & Official Cost */}
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 space-y-1">
+                    <div className="font-bold text-slate-900 flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-amber-600" />
+                      <span>Where to obtain:</span>
+                    </div>
+                    <p className="text-slate-600 text-[11px] leading-relaxed">
+                      {info.whereToGet}
+                    </p>
                   </div>
                 </div>
 
-                {/* Right Side: Certificate Typography, Department, & Details */}
-                <div className="flex-1 flex flex-col justify-between">
-                  <div>
-                    {/* Identification Badge & Trap Warning */}
-                    <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                      <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#0B1B4F] text-amber-300 font-mono">
-                        {cert.id} Official Standard
-                      </span>
-
-                      {cert.isHighRiskTrap && !isHeld && (
-                        <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-800 border border-rose-200 flex items-center gap-1">
-                          <ShieldAlert className="w-3 h-3 text-rose-600" />
-                          <span>High-Risk Prerequisite</span>
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Official Certificate Title */}
-                    <h3 className="text-base sm:text-lg font-bold text-[#0B1B4F] font-serif leading-snug mb-1">
-                      {title}
-                    </h3>
-
-                    {/* Issuing Authority */}
-                    <div className="text-xs text-slate-600 mb-3 flex items-start gap-1.5">
-                      <Building className="w-3.5 h-3.5 text-amber-700 shrink-0 mt-0.5" />
-                      <div>
-                        <span className="font-semibold text-slate-800">{cert.issuingAuthority}</span>
-                        <span className="block text-[11px] text-slate-500 font-normal">{cert.department}</span>
-                      </div>
-                    </div>
-
-                    {/* Application Channel */}
-                    <div className="text-[11px] text-slate-600 bg-[#FAF7F2] p-2.5 rounded-xl border border-[#EDE4D8] mb-3">
-                      <span className="font-bold text-[#0B1B4F] block mb-0.5 font-display">Official Channel:</span>
-                      <span className="text-slate-700">{cert.whereToApply.onlinePortalName} or {cert.whereToApply.offlineOffice}</span>
-                    </div>
-
-                    {/* Anti-Extortion Warning if applicable */}
-                    {cert.cyberCafeExtortionRate && (
-                      <div className="text-[11px] text-slate-500 flex items-center gap-1.5 mb-2">
-                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                        <span>Statutory Cap: <strong>₹{cert.statutoryFeeInr}</strong> (Avoid cyber café charges of {cert.cyberCafeExtortionRate})</span>
-                      </div>
-                    )}
+                {/* Official Statutory SLA & Fee Pills */}
+                <div className="mt-3.5 flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-slate-100 text-xs">
+                  <div className="flex items-center gap-3">
+                    <span className="flex items-center gap-1 font-semibold text-slate-600">
+                      <Clock className="w-3.5 h-3.5 text-amber-600" />
+                      <span>Govt SLA: <strong>{info.slaDays} Days</strong></span>
+                    </span>
+                    <span>•</span>
+                    <span className="flex items-center gap-1 font-semibold text-emerald-800">
+                      <Coins className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Official Fee: <strong>{info.officialFee === 0 ? '₹0 (FREE)' : `₹${info.officialFee}`}</strong></span>
+                    </span>
                   </div>
+
+                  <span className="text-[10px] text-slate-400 font-mono">
+                    Authority: {cert.issuingAuthority}
+                  </span>
                 </div>
               </div>
 
-              {/* Bottom Card Footer: Roadmap Action & Toggle Switch */}
-              <div className="px-5 py-3.5 bg-[#FAF7F2]/80 border-t border-[#EDE4D8] flex flex-wrap items-center justify-between gap-3">
-                <button
-                  type="button"
-                  onClick={() => onViewRoadmap(key)}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0B1B4F] hover:text-amber-700 transition-colors cursor-pointer group"
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-amber-600 group-hover:scale-110 transition-transform" />
-                  <span className="underline underline-offset-2">View How to Obtain (SLA Roadmap)</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-amber-700 group-hover:translate-x-0.5 transition-transform" />
-                </button>
+              {/* Bottom Card Footer: Roadmap Button & Status Summary */}
+              <div className={`px-5 py-3 border-t flex flex-wrap items-center justify-between gap-3 ${
+                isHeld ? 'bg-emerald-50/50 border-emerald-200' : 'bg-[#FAF7F2] border-[#EDE4D8]'
+              }`}>
+                <div className="flex items-center gap-2">
+                  {isHeld ? (
+                    <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                      <span>Document in Hand (Ready for Direct Submission)</span>
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-900">
+                      <AlertTriangle className="w-4 h-4 text-amber-600" />
+                      <span>Missing Prerequisite</span>
+                    </span>
+                  )}
+                </div>
 
                 <button
                   type="button"
-                  onClick={() => toggleCertificate(key)}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 shadow-xs cursor-pointer ${
-                    isHeld
-                      ? 'bg-emerald-700 hover:bg-emerald-800 text-white ring-2 ring-emerald-600/30'
-                      : 'bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 hover:border-slate-400'
-                  }`}
+                  onClick={() => onViewRoadmap(key)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-slate-50 border border-[#DFC8A5] text-[#0B1B4F] text-xs font-bold shadow-2xs transition-all cursor-pointer group"
                 >
-                  {isHeld ? (
-                    <>
-                      <CheckCircle2 className="w-4 h-4 text-white" />
-                      <span>{t.inventory_held || 'In Possession (Verified)'}</span>
-                    </>
-                  ) : (
-                    <>
-                      <div className="w-3.5 h-3.5 rounded-full border-2 border-slate-400" />
-                      <span>{t.inventory_lacking || 'Mark as In Hand'}</span>
-                    </>
-                  )}
+                  <Sparkles className="w-3.5 h-3.5 text-amber-600 group-hover:scale-110 transition-transform" />
+                  <span>How to Get (SLA Roadmap)</span>
+                  <ChevronRight className="w-3.5 h-3.5 text-amber-700 group-hover:translate-x-0.5 transition-transform" />
                 </button>
               </div>
             </div>
@@ -453,10 +519,10 @@ export const InventoryPage: React.FC<InventoryPageProps> = ({
       <div className="luxury-card rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-luxury">
         <div>
           <h4 className="text-sm font-bold text-[#0B1B4F] font-serif mb-1">
-            Ready to Evaluate National Entitlements?
+            Ready to Evaluate Eligible Scholarships?
           </h4>
           <p className="text-xs text-slate-500 max-w-xl">
-            Our deterministic policy engine will evaluate your {heldCount} verified certificates and profile against all 50+ central & state welfare policies with zero AI hallucination.
+            Our deterministic policy engine will evaluate your {heldCount} in-hand certificates and profile against all 50+ central & state welfare policies with zero AI hallucination.
           </p>
         </div>
 
