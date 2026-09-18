@@ -4,6 +4,7 @@ import { CertificateInventory, CertificateKey, DEFAULT_INVENTORY } from './types
 import { SchemeDefinition, EvaluationResult } from './types/scheme';
 import { Language } from './types/language';
 import { EligibilityEngine } from './engine/eligibilityEngine';
+import { ClericalAuditEngine } from './engine/clericalAudit';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { LoginPage } from './pages/LoginPage';
@@ -13,6 +14,9 @@ import { CertificateRoadmapPage } from './pages/CertificateRoadmapPage';
 import { SchemeCockpitPage } from './pages/SchemeCockpitPage';
 import { PreFlightAuditPage } from './pages/PreFlightAuditPage';
 import { AntiExtortionPage } from './pages/AntiExtortionPage';
+import { AiCopilotDrawer } from './components/AiCopilotDrawer';
+import { PortalNavigatorModal } from './components/PortalNavigatorModal';
+import { ApplicationDossierModal } from './components/ApplicationDossierModal';
 import confetti from 'canvas-confetti';
 
 export function App() {
@@ -41,6 +45,11 @@ export function App() {
   const [selectedRoadmapCert, setSelectedRoadmapCert] = useState<CertificateKey>('firstGraduateCertificate');
   const [selectedCockpitScheme, setSelectedCockpitScheme] = useState<SchemeDefinition | null>(null);
 
+  // 6. Modal / Drawer States
+  const [isCopilotOpen, setIsCopilotOpen] = useState<boolean>(false);
+  const [isDossierOpen, setIsDossierOpen] = useState<boolean>(false);
+  const [portalGuideScheme, setPortalGuideScheme] = useState<SchemeDefinition | null>(null);
+
   // Sync to local storage
   useEffect(() => {
     localStorage.setItem('jansetu_lang', currentLanguage);
@@ -56,6 +65,13 @@ export function App() {
 
   // Run Deterministic Eligibility Calculation
   const results: EvaluationResult[] = EligibilityEngine.evaluateAllSchemes(profile, inventory);
+
+  // Clerical Audit
+  const auditReport = ClericalAuditEngine.runAudit({
+    aadhaarName: profile.fullName,
+    marksheetName: profile.fullName,
+    bankPassbookName: profile.fullName
+  });
 
   // Document Readiness Calculation
   const certKeys = Object.keys(inventory) as CertificateKey[];
@@ -95,7 +111,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 font-sans">
+    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-slate-900 font-sans">
       {/* Sovereign Header */}
       <Header
         currentLanguage={currentLanguage}
@@ -103,6 +119,8 @@ export function App() {
         currentPage={currentPage}
         onNavigate={handleNavigate}
         readinessPercentage={readinessPercentage}
+        onOpenCopilot={() => setIsCopilotOpen(true)}
+        onOpenDossier={() => setIsDossierOpen(true)}
       />
 
       {/* Main Dedicated Page Viewport */}
@@ -137,6 +155,8 @@ export function App() {
             onOpenCockpit={handleOpenCockpit}
             onViewRoadmap={handleOpenRoadmap}
             onNavigate={handleNavigate}
+            onOpenPortalGuide={(scheme) => setPortalGuideScheme(scheme)}
+            onOpenDossier={() => setIsDossierOpen(true)}
           />
         )}
 
@@ -156,6 +176,7 @@ export function App() {
             currentLanguage={currentLanguage}
             onBack={() => handleNavigate('dashboard')}
             onViewRoadmap={handleOpenRoadmap}
+            onOpenPortalGuide={(scheme) => setPortalGuideScheme(scheme)}
           />
         )}
 
@@ -164,6 +185,7 @@ export function App() {
             profile={profile}
             currentLanguage={currentLanguage}
             onBack={() => handleNavigate('dashboard')}
+            onOpenDossier={() => setIsDossierOpen(true)}
           />
         )}
 
@@ -174,6 +196,35 @@ export function App() {
           />
         )}
       </main>
+
+      {/* Modals & Drawers */}
+      <AiCopilotDrawer
+        isOpen={isCopilotOpen}
+        onClose={() => setIsCopilotOpen(false)}
+        profile={profile}
+        inventory={inventory}
+        evaluationResults={results}
+        auditReport={auditReport}
+        currentLanguage={currentLanguage}
+        onNavigateTo={(page) => {
+          setIsCopilotOpen(false);
+          handleNavigate(page);
+        }}
+      />
+
+      <PortalNavigatorModal
+        scheme={portalGuideScheme}
+        isOpen={!!portalGuideScheme}
+        onClose={() => setPortalGuideScheme(null)}
+      />
+
+      <ApplicationDossierModal
+        isOpen={isDossierOpen}
+        onClose={() => setIsDossierOpen(false)}
+        profile={profile}
+        inventory={inventory}
+        evaluationResults={results}
+      />
 
       {/* Official Footer */}
       <Footer onNavigate={handleNavigate} />

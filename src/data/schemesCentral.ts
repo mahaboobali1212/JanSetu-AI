@@ -71,7 +71,21 @@ export const CENTRAL_SCHEMES: SchemeDefinition[] = [
         description: 'Funds credited directly to Aadhaar-seeded bank account.',
         estimatedDays: '3 - 5 Days'
       }
-    ]
+    ],
+    navigationGuide: {
+      applicationMode: 'citizen_otr_portal',
+      otrRegistrationUrl: 'https://scholarships.gov.in/otr/',
+      applicantLoginUrl: 'https://scholarships.gov.in/student/login',
+      searchKeyword: 'Department of Higher Education - Central Sector Scheme PM-USP',
+      portalMenuHierarchy: ['NSP Home', 'Apply for Scholarships', 'Department of Higher Education', 'PM-USP Central Sector'],
+      requiredUploadSpecs: [
+        { documentName: 'Class 12 Marksheet', allowedFormats: 'PDF, JPEG', maxFileSize: '< 200 KB' },
+        { documentName: 'Income Certificate (REV-101)', allowedFormats: 'PDF', maxFileSize: '< 200 KB' },
+        { documentName: 'College Bonafide Certificate', allowedFormats: 'PDF', maxFileSize: '< 200 KB' },
+        { documentName: 'Bank Passbook Frontpage', allowedFormats: 'PDF, JPEG', maxFileSize: '< 150 KB' }
+      ],
+      postSubmissionAction: 'Print the completed NSP application form, attach copies of Income Certificate and Bonafide, and submit to your College Institute Nodal Officer (INO) within 7 days.'
+    }
   },
 
   {
@@ -137,7 +151,20 @@ export const CENTRAL_SCHEMES: SchemeDefinition[] = [
         description: 'Direct credit of ₹50,000 to student’s individual bank account.',
         estimatedDays: '7 Days'
       }
-    ]
+    ],
+    navigationGuide: {
+      applicationMode: 'citizen_otr_portal',
+      otrRegistrationUrl: 'https://scholarships.gov.in/otr/',
+      applicantLoginUrl: 'https://scholarships.gov.in/student/login',
+      searchKeyword: 'AICTE - PRAGATI SCHOLARSHIP SCHEME FOR GIRL STUDENTS',
+      portalMenuHierarchy: ['NSP Home', 'All India Council for Technical Education (AICTE)', 'Pragati Scholarship (Degree/Diploma)'],
+      requiredUploadSpecs: [
+        { documentName: 'AICTE Admission Allotment Letter', allowedFormats: 'PDF', maxFileSize: '< 200 KB' },
+        { documentName: 'Family Income Certificate (< ₹8L)', allowedFormats: 'PDF', maxFileSize: '< 200 KB' },
+        { documentName: 'Two-Girl-Child Affidavit', allowedFormats: 'PDF', maxFileSize: '< 200 KB' }
+      ],
+      postSubmissionAction: 'Verify that your College Principal / Registrar approves your application on the AICTE Portal under Institute Login.'
+    }
   },
 
   {
@@ -203,7 +230,20 @@ export const CENTRAL_SCHEMES: SchemeDefinition[] = [
         description: 'Maintenance allowance deposited into bank account.',
         estimatedDays: '7 Days'
       }
-    ]
+    ],
+    navigationGuide: {
+      applicationMode: 'citizen_otr_portal',
+      otrRegistrationUrl: 'https://scholarships.gov.in/otr/',
+      applicantLoginUrl: 'https://scholarships.gov.in/student/login',
+      searchKeyword: 'Ministry of Social Justice and Empowerment - Post Matric SC',
+      portalMenuHierarchy: ['NSP Home', 'Ministry of Social Justice & Empowerment', 'Post Matric Scholarship for SC'],
+      requiredUploadSpecs: [
+        { documentName: 'SC Caste Certificate', allowedFormats: 'PDF', maxFileSize: '< 200 KB' },
+        { documentName: 'Income Certificate (< ₹2.5L)', allowedFormats: 'PDF', maxFileSize: '< 200 KB' },
+        { documentName: 'Institutional Fee Receipt', allowedFormats: 'PDF, JPEG', maxFileSize: '< 200 KB' }
+      ],
+      postSubmissionAction: 'Submit physical documents to District Social Welfare / Adi Dravidar Welfare Officer through college.'
+    }
   },
 
   {
@@ -259,7 +299,19 @@ export const CENTRAL_SCHEMES: SchemeDefinition[] = [
         description: 'Annual installment transferred through direct treasury gateway.',
         estimatedDays: '15 Days'
       }
-    ]
+    ],
+    navigationGuide: {
+      applicationMode: 'citizen_otr_portal',
+      otrRegistrationUrl: 'https://online-inspire.gov.in',
+      applicantLoginUrl: 'https://online-inspire.gov.in',
+      searchKeyword: 'DST INSPIRE SHE (Scholarship for Higher Education)',
+      portalMenuHierarchy: ['INSPIRE Home', 'New User Registration', 'Scholarship for Higher Education (SHE)'],
+      requiredUploadSpecs: [
+        { documentName: 'Class 12 Advisory Note / Rank Certificate', allowedFormats: 'PDF', maxFileSize: '< 300 KB' },
+        { documentName: 'College Endorsement Form (Signed by Principal)', allowedFormats: 'PDF', maxFileSize: '< 300 KB' }
+      ],
+      postSubmissionAction: 'Ensure SBI single-account details with active NPCI mapping are submitted on the INSPIRE web portal.'
+    }
   },
 
   {
@@ -318,6 +370,18 @@ export const CENTRAL_SCHEMES: SchemeDefinition[] = [
         description: 'Direct payment to student account.',
         estimatedDays: '10 Days'
       }
-    ]
+    ],
+    navigationGuide: {
+      applicationMode: 'citizen_otr_portal',
+      otrRegistrationUrl: 'https://scholarships.gov.in/otr/',
+      applicantLoginUrl: 'https://scholarships.gov.in/student/login',
+      searchKeyword: 'PM YASASVI Top Class Education for OBC EBC DNT',
+      portalMenuHierarchy: ['NSP Home', 'Ministry of Social Justice & Empowerment', 'PM-YASASVI Scheme'],
+      requiredUploadSpecs: [
+        { documentName: 'OBC/EBC Caste Certificate', allowedFormats: 'PDF', maxFileSize: '< 200 KB' },
+        { documentName: 'Annual Income Certificate', allowedFormats: 'PDF', maxFileSize: '< 200 KB' }
+      ],
+      postSubmissionAction: 'Submit printed copy to College Nodal Officer.'
+    }
   }
 ];

@@ -10,7 +10,10 @@ import {
   FileCheck2, 
   Award, 
   PhoneCall, 
-  UserCheck
+  UserCheck,
+  Bot,
+  Printer,
+  Sparkles
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -19,6 +22,8 @@ interface HeaderProps {
   currentPage: string;
   onNavigate: (page: string) => void;
   readinessPercentage: number;
+  onOpenCopilot?: () => void;
+  onOpenDossier?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -26,7 +31,9 @@ export const Header: React.FC<HeaderProps> = ({
   onLanguageChange,
   currentPage,
   onNavigate,
-  readinessPercentage
+  readinessPercentage,
+  onOpenCopilot,
+  onOpenDossier
 }) => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const t = TRANSLATIONS[currentLanguage] || TRANSLATIONS.en;
@@ -164,28 +171,55 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* 4. Regal Navy Navigation Ribbon */}
       <div className="bg-[#0B1B4F] border-t border-[#081338]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto no-scrollbar py-1 gap-1">
-          {navItems.map((item, index) => {
-            const isActive = currentPage === item.id;
-            const Icon = item.icon;
-            return (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between overflow-x-auto no-scrollbar py-1 gap-2">
+          <div className="flex items-center gap-1">
+            {navItems.map((item, index) => {
+              const isActive = currentPage === item.id;
+              const Icon = item.icon;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => onNavigate(item.id)}
+                  className={`flex items-center gap-2 px-3.5 py-2 text-xs font-bold whitespace-nowrap transition-all rounded-lg ${
+                    isActive
+                      ? 'bg-[#152864] text-[#F5E29F] shadow-sm ring-1 ring-[#DFB738]/40'
+                      : 'text-slate-300 hover:text-white hover:bg-[#152864]/50'
+                  }`}
+                >
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#F5E29F]' : 'text-slate-400'}`} />
+                  <span className="font-sans tracking-wide">{item.label}</span>
+                  {index < navItems.length - 1 && (
+                    <span className="text-slate-600 ml-2 font-normal hidden md:inline">|</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            {onOpenDossier && (
               <button
-                key={item.id}
-                onClick={() => onNavigate(item.id)}
-                className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold whitespace-nowrap transition-all rounded-lg ${
-                  isActive
-                    ? 'bg-[#152864] text-[#F5E29F] shadow-sm ring-1 ring-[#DFB738]/40'
-                    : 'text-slate-300 hover:text-white hover:bg-[#152864]/50'
-                }`}
+                onClick={onOpenDossier}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-[#F5E29F] text-xs font-bold border border-amber-400/30 transition-all cursor-pointer"
+                title="1-Click Printable Application Dossier"
               >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#F5E29F]' : 'text-slate-400'}`} />
-                <span className="font-sans tracking-wide">{item.label}</span>
-                {index < navItems.length - 1 && (
-                  <span className="text-slate-600 ml-2 font-normal hidden md:inline">|</span>
-                )}
+                <Printer className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">1-Click Dossier</span>
               </button>
-            );
-          })}
+            )}
+
+            {onOpenCopilot && (
+              <button
+                onClick={onOpenCopilot}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-extrabold shadow-sm transition-all cursor-pointer animate-pulse"
+                title="Launch JanSetu AI Copilot"
+              >
+                <Bot className="w-3.5 h-3.5 text-slate-950" />
+                <span>AI Copilot</span>
+                <Sparkles className="w-3 h-3 text-slate-950" />
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </header>

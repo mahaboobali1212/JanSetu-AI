@@ -67,7 +67,19 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
         description: 'Monthly ₹1,000 credit until completion of undergraduate course.',
         estimatedDays: 'Monthly'
       }
-    ]
+    ],
+    navigationGuide: {
+      applicationMode: 'college_nodal_officer',
+      otrRegistrationUrl: 'https://www.pudhumaipenn.tn.gov.in',
+      applicantLoginUrl: 'https://www.pudhumaipenn.tn.gov.in',
+      searchKeyword: 'Moovalur Ramamirtham Ammaiyar Pudhumai Penn Scheme',
+      portalMenuHierarchy: ['Pudhumai Penn Home', 'Institution Login (By College)', 'Upload Student EMIS ID & Aadhaar'],
+      requiredUploadSpecs: [
+        { documentName: 'Class 6-12 Govt School Study Certificate (Annexure-III)', allowedFormats: 'PDF', maxFileSize: '< 200 KB' },
+        { documentName: 'Student Aadhaar & Bank Passbook Front Page', allowedFormats: 'PDF, JPEG', maxFileSize: '< 200 KB' }
+      ],
+      postSubmissionAction: 'Hand over your School TC & Annexure-III Certificate to your College Pudhumai Penn Nodal Staff. Students do NOT need to apply independently at cyber cafes.'
+    }
   },
 
   {
@@ -127,7 +139,19 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
         description: 'Allotment letter printed with Tuition Fee = ₹0 (Zero). DOTE directly reimburses the college.',
         estimatedDays: 'Instant at Allotment'
       }
-    ]
+    ],
+    navigationGuide: {
+      applicationMode: 'counseling_single_window',
+      otrRegistrationUrl: 'https://www.tnesevai.tn.gov.in',
+      applicantLoginUrl: 'https://www.tneaonline.org',
+      searchKeyword: 'REV-104 First Graduate Certificate TNeGA & TNEA Counseling',
+      portalMenuHierarchy: ['TNeGA e-Sevai', 'Revenue Department', 'REV-104 First Graduate Certificate'],
+      requiredUploadSpecs: [
+        { documentName: 'REV-104 First Graduate Certificate', allowedFormats: 'PDF', maxFileSize: '< 200 KB' },
+        { documentName: 'Parents Non-Graduate Joint Declaration Affidavit', allowedFormats: 'PDF', maxFileSize: '< 200 KB' }
+      ],
+      postSubmissionAction: 'Upload REV-104 during TNEA/Medical online counseling. College tuition fee becomes ZERO automatically.'
+    }
   },
 
   {
@@ -186,7 +210,18 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
         description: 'College cannot charge even ₹1 for tuition, books, or hostel.',
         estimatedDays: 'Instant'
       }
-    ]
+    ],
+    navigationGuide: {
+      applicationMode: 'counseling_single_window',
+      otrRegistrationUrl: 'https://www.tneaonline.org',
+      applicantLoginUrl: 'https://www.tneaonline.org',
+      searchKeyword: 'Tamil Nadu 7.5% Government School Preferential Quota Annexure-III',
+      portalMenuHierarchy: ['TNEA Home', 'Registration', 'Special Reservation - 7.5% Govt School Quota'],
+      requiredUploadSpecs: [
+        { documentName: 'Annexure-III Study Certificate (Signed by HM & BEO/CEO)', allowedFormats: 'PDF', maxFileSize: '< 300 KB' }
+      ],
+      postSubmissionAction: 'Ensure HM countersigns Annexure-III. Seat allotment letter carries 100% Free Hostel & Tuition endorsement.'
+    }
   },
 
   // TELANGANA SCHEMES
@@ -257,7 +292,20 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
         description: 'RTF transferred to College, MTF credited to student bank account.',
         estimatedDays: '15 Days'
       }
-    ]
+    ],
+    navigationGuide: {
+      applicationMode: 'citizen_otr_portal',
+      otrRegistrationUrl: 'https://telanganaepass.cgg.gov.in',
+      applicantLoginUrl: 'https://telanganaepass.cgg.gov.in/PostmatricFreshRegistrations.do',
+      searchKeyword: 'Telangana ePASS Post Matric Fresh Application (RTF & MTF)',
+      portalMenuHierarchy: ['ePASS Home', 'Postmatric Service', 'Fresh Registration', 'Enter SSC Hallticket & MeeSeva IDs'],
+      requiredUploadSpecs: [
+        { documentName: 'MeeSeva Caste Certificate ID', allowedFormats: 'Digital ID / PDF', maxFileSize: '< 150 KB' },
+        { documentName: 'MeeSeva Income Certificate ID', allowedFormats: 'Digital ID / PDF', maxFileSize: '< 150 KB' },
+        { documentName: 'Bank Passbook Front Page (NPCI Seeded)', allowedFormats: 'JPEG, PDF', maxFileSize: '< 100 KB' }
+      ],
+      postSubmissionAction: 'Print the ePASS application acknowledgment and submit with original Bonafide to College Scholarship Clerk.'
+    }
   },
 
   // ANDHRA PRADESH SCHEMES
@@ -279,8 +327,8 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
     benefitAmount: '100% Full Fee Reimbursement + ₹20,000/yr Vasathi Deevena',
     benefitAmountAnnualNumeric: 50000,
     benefitType: 'cash_dbt',
-    officialPortalUrl: 'https://jagananna.ap.gov.in',
-    portalName: 'Jagananna Smart Portal / JnanaBhumi',
+    officialPortalUrl: 'https://jnanabhumi.ap.gov.in',
+    portalName: 'JnanaBhumi & Navasakam Portal',
     applicationClosingDate: '2026-11-10',
     requiredCertificates: [
       'aadhaarCard',
@@ -320,7 +368,19 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
         description: 'Funds deposited in 4 quarterly tranches directly into mother\'s bank account.',
         estimatedDays: 'Quarterly'
       }
-    ]
+    ],
+    navigationGuide: {
+      applicationMode: 'citizen_otr_portal',
+      otrRegistrationUrl: 'https://jnanabhumi.ap.gov.in',
+      applicantLoginUrl: 'https://jnanabhumi.ap.gov.in/StudentLogin.edu',
+      searchKeyword: 'Jagananna Vidya Deevena & Vasathi Deevena (JVD)',
+      portalMenuHierarchy: ['JnanaBhumi Home', 'Student Service', 'Jagananna Vidya Deevena Registration'],
+      requiredUploadSpecs: [
+        { documentName: 'Mother Aadhaar & Bank Passbook', allowedFormats: 'PDF, JPEG', maxFileSize: '< 200 KB' },
+        { documentName: 'MeeSeva Integrated Caste & Income ID', allowedFormats: 'Digital ID', maxFileSize: '< 100 KB' }
+      ],
+      postSubmissionAction: 'Complete biometric e-KYC with your local Village/Ward Secretariat (Sachivalayam) Volunteer.'
+    }
   },
 
   // KERALA SCHEMES
@@ -384,7 +444,19 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
         description: 'Electronic payment order deposited to student bank account.',
         estimatedDays: '10 Days'
       }
-    ]
+    ],
+    navigationGuide: {
+      applicationMode: 'citizen_otr_portal',
+      otrRegistrationUrl: 'https://egrantz.kerala.gov.in',
+      applicantLoginUrl: 'https://egrantz.kerala.gov.in/Student/login',
+      searchKeyword: 'E-Grants 3.0 Post-Matric Scholarship Scheme',
+      portalMenuHierarchy: ['E-Grants Home', 'Student One-Time Registration', 'Apply for Scheme'],
+      requiredUploadSpecs: [
+        { documentName: 'e-District Caste & Income Certificates', allowedFormats: 'PDF', maxFileSize: '< 200 KB' },
+        { documentName: 'College Admission Fee Receipt', allowedFormats: 'PDF', maxFileSize: '< 200 KB' }
+      ],
+      postSubmissionAction: 'Take the online printout to Akshaya Centre or College SC/ST Development Cell.'
+    }
   },
 
   // KARNATAKA SCHEMES
@@ -447,7 +519,19 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
         description: 'Funds credited to Aadhaar-seeded bank account.',
         estimatedDays: '10 Days'
       }
-    ]
+    ],
+    navigationGuide: {
+      applicationMode: 'citizen_otr_portal',
+      otrRegistrationUrl: 'https://ssp.postmatric.karnataka.gov.in',
+      applicantLoginUrl: 'https://ssp.postmatric.karnataka.gov.in/student/login',
+      searchKeyword: 'Karnataka SSP Post Matric Scholarship & Vidyasiri',
+      portalMenuHierarchy: ['SSP Home', 'Student Account Login', 'Kutumba ID Verification', 'Scholarship Application'],
+      requiredUploadSpecs: [
+        { documentName: 'Kutumba Family ID', allowedFormats: 'Digital ID', maxFileSize: '< 50 KB' },
+        { documentName: 'RD Caste & Income Number', allowedFormats: 'Text / PDF', maxFileSize: '< 100 KB' }
+      ],
+      postSubmissionAction: 'Get your Study Certificate e-Attested by your College E-Attestation Officer.'
+    }
   },
 
   // UTTAR PRADESH SCHEMES
@@ -460,7 +544,7 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
       hi: 'उत्तर प्रदेश पोस्ट-मैट्रिक छात्रवृत्ति एवं शुल्क प्रतिपूर्ति योजना',
       te: 'ఉత్తరప్రదేశ్ పోస్ట్-మెట్రిక్ స్కాలర్‌షిప్ & ఫీజు రీయింబర్స్‌మెంట్',
       ta: 'உத்தரப் பிரதேசம் போஸ்ட்-மெட்ரிக் கல்வி உதவித்தொகை',
-      ml: 'ഉത്തർപ്രദേശ് പോസ്റ്റ്-മെട്രിക് സ്കോളർഷിപ്പ്'
+      ml: 'ഉത്തർപ്രദേശ് పోസ്റ്റ്-മെട്രിക് സ്കോളർഷിപ്പ്'
     },
     shortDescription: 'Complete fee reimbursement and monthly maintenance for General, OBC, SC, ST, and Minority students studying in UP.',
     authority: 'Social Welfare & Backward Classes Welfare Dept, Govt of Uttar Pradesh',
@@ -510,7 +594,19 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
         description: 'District sanction and automated electronic transfer.',
         estimatedDays: '15 Days'
       }
-    ]
+    ],
+    navigationGuide: {
+      applicationMode: 'citizen_otr_portal',
+      otrRegistrationUrl: 'https://scholarship.up.gov.in',
+      applicantLoginUrl: 'https://scholarship.up.gov.in/index.aspx',
+      searchKeyword: 'UP Scholarship Postmatric Other than Inter Fresh',
+      portalMenuHierarchy: ['UP Scholarship Home', 'Student Section', 'Registration', 'DigiLocker Verification'],
+      requiredUploadSpecs: [
+        { documentName: 'DigiLocker Verified Marksheet', allowedFormats: 'Digital e-KYC', maxFileSize: '< 200 KB' },
+        { documentName: 'Caste & Income Certificate ID', allowedFormats: 'e-District Digital ID', maxFileSize: '< 100 KB' }
+      ],
+      postSubmissionAction: 'Take the final locked printout with all self-attested document photocopies and submit to your college within 3 working days.'
+    }
   },
 
   // MAHARASHTRA SCHEMES
@@ -573,6 +669,19 @@ export const STATE_SCHEMES: SchemeDefinition[] = [
         description: 'Direct fee voucher to college and maintenance allowance to student.',
         estimatedDays: '15 Days'
       }
-    ]
+    ],
+    navigationGuide: {
+      applicationMode: 'citizen_otr_portal',
+      otrRegistrationUrl: 'https://mahadbt.maharashtra.gov.in',
+      applicantLoginUrl: 'https://mahadbt.maharashtra.gov.in/Login/Login',
+      searchKeyword: 'Directorate of Higher Education - Rajarshi Chhatrapati Shahu Maharaj Shikshan Shulkh Shishyavrutti Scheme',
+      portalMenuHierarchy: ['MahaDBT Home', 'Post Matric Scholarship', 'Directorate of Higher Education (DHE)', 'Select Scheme'],
+      requiredUploadSpecs: [
+        { documentName: 'CAP Allotment Letter', allowedFormats: 'PDF', maxFileSize: '< 250 KB' },
+        { documentName: 'Tahsil Income Certificate (< ₹8L)', allowedFormats: 'PDF', maxFileSize: '< 250 KB' },
+        { documentName: 'Domicile / Birth Certificate of Maharashtra', allowedFormats: 'PDF', maxFileSize: '< 250 KB' }
+      ],
+      postSubmissionAction: 'Check your application status on MahaDBT for College Desk 1 (Clerk) and Desk 2 (Principal) biometric sign-offs.'
+    }
   }
 ];

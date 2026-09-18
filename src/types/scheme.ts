@@ -26,6 +26,27 @@ export interface SchemeWorkflowStage {
   warningAlert?: string;
 }
 
+export type ApplicationMode = 
+  | 'citizen_otr_portal'      // Citizen applies online via Aadhaar OTR (e.g. NSP, MahaDBT, SSP)
+  | 'college_nodal_officer'   // Applied via College EMIS / Scholarship Desk (e.g. Pudhumai Penn)
+  | 'counseling_single_window'; // Uploaded during Admission Counseling (e.g. TN 7.5%, First Graduate)
+
+export interface UploadSpec {
+  documentName: string;
+  allowedFormats: string;
+  maxFileSize: string;
+}
+
+export interface PortalNavigationGuide {
+  applicationMode: ApplicationMode;
+  otrRegistrationUrl?: string;
+  applicantLoginUrl?: string;
+  searchKeyword: string;
+  portalMenuHierarchy: string[];
+  requiredUploadSpecs: UploadSpec[];
+  postSubmissionAction: string;
+}
+
 export interface SchemeDefinition {
   id: string;
   code: string;
@@ -45,6 +66,7 @@ export interface SchemeDefinition {
   criteria: SchemeCriteria;
   legalGazetteClause: string;
   workflowStages: SchemeWorkflowStage[];
+  navigationGuide?: PortalNavigationGuide;
 }
 
 export type EvaluationStatus = 'READY_TO_APPLY' | 'CONDITIONALLY_ELIGIBLE' | 'INELIGIBLE';
