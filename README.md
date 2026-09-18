@@ -1,13 +1,13 @@
 # JanSetu AI (जनसेतु • జనసేతు • ஜனசேது • ജനസേതു)
 
 <p align="center">
-  <strong>National Civic Access Flight Deck & Deterministic Pre-Flight Audit System for Indian Central & State Scholarships</strong>
+  <strong>AI-Powered Government Application Pre-Flight Platform & Sovereign Civic Access Flight Deck</strong>
   <br />
-  <em>Democratizing Government Entitlements • Eliminating Cyber Café Extortion • Zero-Hallucination AWS Cedar Policy Audits</em>
+  <em>Zero-Hallucination AWS Cedar Policy Audits • Cross-Document Textract Consistency • 1-Click Statutory Rejection Prevention</em>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/AWS_First_Commit-Architecture_Compliant-FF9900?style=for-the-badge&logo=amazon-aws&logoColor=white" alt="AWS First Commit" />
+  <img src="https://img.shields.io/badge/Pre--Flight_Platform-AI_Powered-10B981?style=for-the-badge&logo=shieldcheck&logoColor=white" alt="Pre-Flight Platform" />
   <img src="https://img.shields.io/badge/AWS_Cedar-Deterministic_Policy_Engine-152864?style=for-the-badge" alt="AWS Cedar" />
   <img src="https://img.shields.io/badge/Amazon_Bedrock-Claude_3.5_Sonnet_RAG-7B2CBF?style=for-the-badge" alt="Amazon Bedrock" />
   <img src="https://img.shields.io/badge/Amazon_Textract-Document_AI_Extraction-00A8E8?style=for-the-badge" alt="Amazon Textract" />
@@ -20,13 +20,13 @@
 
 ## 📖 Table of Contents
 1. [Overview & Civic Problem Statement](#-overview--civic-problem-statement)
-2. [Full AWS Technical Architecture](#-full-aws-technical-architecture)
-3. [The 6 Dedicated Citizen Workflow Stages](#-the-6-dedicated-citizen-workflow-stages)
-4. [Key Functionalities & Differentiators](#-key-functionalities--differentiators)
+2. [The Core Pre-Flight Platform Workflow](#-the-core-pre-flight-platform-workflow)
+3. [Full AWS Technical Architecture](#-full-aws-technical-architecture)
+4. [Key Platform Features & Innovations](#-key-platform-features--innovations)
 5. [AWS Cedar Deterministic Rules vs LLM Hallucination](#-aws-cedar-deterministic-rules-vs-llm-hallucination)
 6. [Supported Central & State Schemes (All 28 States & UTs)](#-supported-central--state-schemes)
 7. [Installation & Local Execution Guide (Vite + LocalStack)](#-installation--local-execution-guide)
-8. [Project Directory Structure](#-project-directory-structure)
+8. [3-Minute Hackathon Demo Script](#-3-minute-hackathon-demo-script)
 9. [Privacy & Security Guarantee](#-privacy--security-guarantee)
 10. [Legal Citations & Gazette References](#-legal-citations--gazette-references)
 
@@ -34,14 +34,43 @@
 
 ## 🎯 Overview & Civic Problem Statement
 
-Every year, millions of eligible Indian students miss out on scholarships worth over **₹10,000+ Crores** or fall victim to commercial cyber café extortion (paying ₹500–₹2,000 for free government services) due to:
-1. **Clerical Name Mismatches**: Rejections caused by simple format differences (e.g., `R. Suresh` vs. `Suresh Radhakrishnan`) between Aadhaar, 10th/12th Marksheets, and Bank Passbooks.
-2. **Mandatory Aadhaar-NPCI DBT Disconnects**: Funds failing to credit because the bank account is not mapped to the NPCI Aadhaar payment bridge (Annexure-I).
-3. **Complex State Certificate Hierarchies**: Students not knowing issuing authorities, precursor requirements, statutory SLAs, or legal maximum fees.
-4. **LLM Hallucinations in Public Governance**: Generative AI models inventing non-existent income ceilings or fake rules.
-5. **Administrative Delays**: Lack of awareness regarding state **Right to Services (RTS) Acts** and statutory **Section 20 RTI penalty provisions (₹250/day)** against non-compliant officials.
+Over **30% of Indian scholarship and government benefit applications fail silently** at the scrutiny and treasury disbursement stages due to preventable clerical mismatches, missing prerequisite certificates, or inactive NPCI DBT bank bridge mapping. Furthermore, citizens waste ₹500–₹2,000 at predatory cyber cafés for services that are legally free under government service charters.
 
-**JanSetu AI** solves this by uniting **AWS open-source tools (AWS Cedar, AWS SAM, LocalStack)** and **AWS Cloud services (Amazon Bedrock, Amazon Textract, Amazon Polly, AWS Step Functions, Amazon DynamoDB, Amazon S3, AWS Amplify)** with a pre-flight civic flight deck tailored to all 28 Indian States and Union Territories.
+**JanSetu AI** is an end-to-end **AI-Powered Government Application Pre-Flight Platform** that acts as an intelligent pre-flight check before a citizen submits their application to any government portal (NSP, SSP, MahaDBT, e-Kalyan, TNeGA, MeeSeva).
+
+```
+User Profile ➔ Select Scheme ➔ Upload Documents ➔ Analyze ➔ Eligibility Check ➔ Document Consistency Check ➔ Readiness Score (82%) ➔ Problems/Risks ➔ Fix Action Plan ➔ Ready to Apply
+```
+
+---
+
+## 🛫 The Core Pre-Flight Platform Workflow
+
+JanSetu AI guides citizens through an 8-stage verification pipeline to ensure 100% acceptance before portal submission:
+
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│ 1. Profile      │ ──> │ 2. Select       │ ──> │ 3. Upload       │ ──> │ 4. OCR          │
+│    Setup        │     │    Scheme       │     │    Documents    │     │    Analysis     │
+└─────────────────┘     └─────────────────┘     └─────────────────┘     └─────────────────┘
+                                                                                 │
+                                                                                 v
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│ 8. Ready to     │ <── │ 7. Fix Action   │ <── │ 6. Readiness    │ <── │ 5. Cross-Doc    │
+│    Apply (100%) │     │    Plan         │     │    Score (82%)  │     │    Consistency  │
+└─────────────────┘     └─────────────────┘     └─────────────────┘     └─────────────────┘
+```
+
+1. **User Profile**: Demographic details, academic level, schooling type, annual family income, category, and masked banking credentials.
+2. **Select Scheme**: Choose from Central schemes (e.g., Post-Matric, PM-YASASVI) or 28 State schemes (e.g., Pudhumai Penn, JVD, SSP).
+3. **Upload Documents**: Upload certificates (PDF/PNG/JPG) or manage inventory in the Unified Document Vault.
+4. **OCR & Key-Value Extraction**: Amazon Textract extracts Names, DOB, Guardian Name, Income Numeric, Certificate Number, Issue & Expiry Dates with confidence metrics.
+5. **Deterministic Eligibility Check**: Evaluated with **AWS Cedar** policy engine for caste, income ceiling, and domicile (Zero Hallucination).
+6. **Cross-Document Consistency Check**: Multi-field matrix compares exact spellings, initials, DOB, and addresses across Aadhaar, 10th/12th Marks Board, and Bank Passbook.
+7. **Application Readiness Score (e.g. 82%)**: 5-part sub-score breakdown with Tri-State Verdict (`READY`, `NOT READY`, `NEEDS HUMAN REVIEW`).
+8. **Identified Risks & "Why Am I Not Ready?" Explainer**: Root-cause diagnostic powered by Amazon Bedrock plain-language synthesis grounded in official Gazettes.
+9. **"Fix My Application" Action Plan**: 1-click step-by-step remedies with pre-filled RBI Annexure-I NPCI Bank Seeding Mandates and Notary Self-Declaration Affidavits.
+10. **Application Dependency Graph**: Visual statutory path (`Aadhaar ➔ Bank Account ➔ NPCI DBT ➔ Certificate ➔ Portal OTR ➔ Treasury Disbursement`).
 
 ---
 
@@ -49,16 +78,16 @@ Every year, millions of eligible Indian students miss out on scholarships worth 
 
 ```
                                   +-------------------------------------------------------------+
-                                  |                    CITIZEN USER INTERFACE                   |
-                                  |   (React 18 + Vite SPA hosted globally on AWS Amplify)     |
-                                  |   - Multilingual Voice (Hindi, Telugu, Tamil, Malayalam)    |
-                                  |   - Smart Document Scanner with Client-Side Pre-Flight OCR  |
+                                  |                    CITIZEN FLIGHT DECK                      |
+                                  |   (React 18 + TypeScript + Vite SPA on AWS Amplify CDN)     |
+                                  |   - 5 Indian Languages (Hindi, Telugu, Tamil, Malayalam, EN)|
+                                  |   - Interactive Pre-Flight Dependency Graph & Vault         |
                                   +------------------------------+------------------------------+
                                                                  |
                                                                  v
                                   +-------------------------------------------------------------+
                                   |                     AMAZON API GATEWAY                      |
-                                  |                (REST API with CORS & HTTPS)                 |
+                                  |                (REST API with HTTPS & CORS)                 |
                                   +-------+----------------------+----------------------+-------+
                                           |                      |                      |
                     +---------------------+                      |                      +---------------------+
@@ -66,9 +95,9 @@ Every year, millions of eligible Indian students miss out on scholarships worth 
                     v                                            v                                            v
 +---------------------------------------+  +---------------------------------------+  +---------------------------------------+
 |        AWS CEDAR POLICY ENGINE        |  |            AMAZON BEDROCK             |  |        AMAZON TEXTRACT & POLLY        |
-| (Deterministic AST Scheme Evaluation) |  |   (Claude 3.5 Sonnet + Knowledge Base)|  | (Document Key-Value AI & Indian TTS)  |
+| (Deterministic AST Scheme Evaluation) |  |   (Claude 3.5 Sonnet + Grounded RAG)  |  | (Document Key-Value AI & Indian TTS)  |
 | - Zero-Hallucination Policy Rules     |  | - Multilingual Conversational Copilot |  | - Structured Name & Income Extraction |
-| - Formal verification of Income/Caste |  | - Grounded in Official Govt Gazettes  |  | - Neural Indian Speech (Aditi/Kajal)  |
+| - Strict Income Ceiling & Domicile    |  | - Grounded in Official Govt Gazettes  |  | - Neural Indian Speech (Aditi/Kajal)  |
 +-------------------+-------------------+  +-------------------+-------------------+  +-------------------+-------------------+
                     |                                          |                                          |
                     +---------------------+                    |                    +---------------------+
@@ -76,9 +105,9 @@ Every year, millions of eligible Indian students miss out on scholarships worth 
                                           v                    v                    v
                                   +-------------------------------------------------------------+
                                   |           AWS SERVERLESS CORE (AWS LAMBDA & SAM)            |
-                                  |  - EvaluateFunction   - BedrockChatFunction                 |
-                                  |  - AuditFunction      - TextractOcrFunction                 |
-                                  |  - PollyVoiceFunction - RtiEscalationStateMachine           |
+                                  |  - PreFlightEngineFunction  - BedrockExplainerFunction      |
+                                  |  - ClericalAuditFunction    - TextractOcrFunction           |
+                                  |  - MandateGeneratorFunction - RtiEscalationStateMachine     |
                                   +------------------------------+------------------------------+
                                                                  |
                                                                  v
@@ -87,16 +116,160 @@ Every year, millions of eligible Indian students miss out on scholarships worth 
                                   +------------------------------+------------------------------+
                                   |  AMAZON DYNAMODB             |  AMAZON S3                   |
                                   |  - JanSetuSchemes Table      |  - Official Gazette Archive  |
-                                  |  - JanSetuDossiers Table     |  - NPCI Mandate Annexure I   |
-                                  |  (Single-Table Pay-Per-Req)  |  (AES-256 Server Encryption) |
+                                  |  - JanSetuPreFlightReports   |  - NPCI Mandate Templates    |
+                                  |  (Pay-Per-Request Billing)   |  (AES-256 Server Encryption) |
                                   +------------------------------+------------------------------+
                                   |  AWS STEP FUNCTIONS          |  AMAZON SNS / SES            |
-                                  |  - 30-Day RTI State Machine  |  - Citizen Deadline Alerts   |
-                                  |  - Rs 250/day Penalty Timer  |  - Push & SMS Notifications  |
+                                  |  - 30-Day RTI State Machine  |  - Deadline Alert Reminders  |
+                                  |  - Rs 250/day Penalty Timer  |  - WhatsApp & SMS Webhooks   |
                                   +-------------------------------------------------------------+
 ```
 
 ---
+
+## 💎 Key Platform Features & Innovations
+
+### 1. Application Readiness Score (5-Part Sub-Score Breakdown)
+- **Overall Score (e.g. 82%)**: Calculated mathematically from 5 weighted pillars:
+  - **Scheme Eligibility (30%)**: Deterministic criteria match under AWS Cedar.
+  - **Mandatory Documents (25%)**: Percentage of scheme-mandated certificates verified in Vault.
+  - **Identity Consistency (20%)**: Multi-field matching score across Aadhaar, Board, and Bank.
+  - **Prerequisites (15%)**: Active NPCI DBT bank seeding and portal OTR verification.
+  - **Policy Confidence (10%)**: Degree of official Gazette Order verification.
+- **Tri-State Verdict**:
+  - `READY ✓` (Green): Zero critical blockers.
+  - `NOT READY ✗` (Rose): Critical blocker present (e.g., unseeded NPCI bank account).
+  - `NEEDS HUMAN REVIEW ?` (Amber): Minor name/initial variance requiring supporting affidavit.
+
+### 2. Multi-Field Cross-Document Consistency Matrix
+- Extracts and compares:
+  - **Applicant Name** (e.g., `Priya Sundaram` vs `Priya S` vs `Priya Sundar`)
+  - **Date of Birth** (e.g., `15/08/2005` across Aadhaar and Board Marksheet)
+  - **Parent / Guardian Name** (e.g., Father's name on Community vs Income Certificate)
+  - **Residential Address & District**
+  - **Certificate Number & Issuing Authority**
+  - **Issue Date & Expiry Timeline**
+
+### 3. Application Dependency Graph
+- Interactive visual node graph representing the statutory dependency tree:
+  `Aadhaar (UIDAI) ➔ Active Bank Account ➔ NPCI DBT Seeding ➔ State Certificates ➔ Portal OTR ➔ College Scrutiny ➔ State Treasury Disbursement`.
+- Interactive blocker inspection with direct 1-click remediation trigger.
+
+### 4. "Why Am I Not Ready?" Diagnostic Explainer
+- 4-part root-cause breakdown combining AWS Cedar rules with Amazon Bedrock plain-language explanation.
+- Verified Government Gazette citations with G.O. numbers and direct government portal links.
+- Official disclaimer if policy sources cannot be independently verified.
+
+### 5. "Fix My Application" 1-Click Action Plan
+- Provides 4-box problem diagnostics: *What is Wrong*, *Why It Matters*, *Action to Take*, and *Next Check Step*.
+- Direct 1-click generation of printable **RBI / NPCI Annexure-I Bank Application Form (PDF)**.
+- Direct 1-click generation of **JanSetu Pre-Flight Remediation Plan (PDF)**.
+- Real-time resolution progress tracking with interactive status updates and confetti feedback.
+
+### 6. Unified Document Vault Dashboard
+- Live certificate status badges: `Valid ✓`, `Warning ⚠`, `Missing ✗`, `Needs Review ?`.
+- Extracted Amazon Textract metadata (Ref No, Issuing Authority, Expiry, OCR Confidence %).
+- Filter by status and live search.
+- Masked sensitive citizen identifiers (`XXXX-XXXX-4829`).
+
+---
+
+## ⚖️ AWS Cedar Deterministic Rules vs LLM Hallucination
+
+| Dimension | Standard Generative AI (Chatbot) | JanSetu AI with AWS Cedar + Bedrock |
+| :--- | :--- | :--- |
+| **Eligibility Decision** | Probabilistic token prediction (frequently invents fake income ceilings) | **100% Deterministic Cedar AST Policy Engine** |
+| **Source Grounding** | Generic training data memory | **Official State Gazettes & Government Orders (G.O.)** |
+| **Document Verification** | None | **Amazon Textract Key-Value Extraction & Expiry Checks** |
+| **Banking Seeding** | Mentions generic "link account" | **Pre-filled RBI Annexure-I NPCI DBT Mandate PDF** |
+| **Clerical Auditing** | Ignores initial/spelling variations | **Multi-field Cross-Document Levenshtein Variance Matrix** |
+| **Citizen Recourse** | None | **Statutory 30-Day RTI Form-A & Section 20 Penalty Generator** |
+
+---
+
+## 🇮🇳 Supported Central & State Schemes
+
+JanSetu AI covers schemes across **all 28 Indian States and Union Territories**, including:
+
+- **Central Schemes**: PM Post-Matric SC/ST/OBC, PM-YASASVI, Central Sector Scholarship (CSSS), Pragati & Saksham (AICTE), Ishan Uday (NER).
+- **Tamil Nadu**: Pudhumai Penn, 7.5% Govt School Tuition Waiver, REV-104 First Graduate Certificate.
+- **Telangana & Andhra Pradesh**: Jagananna Vidya Deevena (JVD), Vasathi Deevena, TS ePASS Fee Reimbursement, Telangana Ambedkar Overseas Vidya Nidhi.
+- **Karnataka**: State Scholarship Portal (SSP) Post-Matric, Vidyasiri, Raitha Vidya Nidhi.
+- **Maharashtra**: MahaDBT Rajarshi Chhatrapati Shahu Maharaj Shikshan Shulkh Shishyavrutti, Post-Matric SC/VJNT.
+- **Uttar Pradesh, Bihar, West Bengal, Kerala, Rajasthan, and more**.
+
+---
+
+## 💻 Installation & Local Execution Guide
+
+### Prerequisites
+- Node.js 18+ and npm
+- Python 3.10+ (for backend engine testing)
+- Optional: AWS CLI or LocalStack for local serverless emulation
+
+### 1. Clone & Install Dependencies
+```bash
+git clone https://github.com/mahaboobali1212/JanSetu-AI.git
+cd JanSetu-AI
+npm install
+```
+
+### 2. Start Development Server
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### 3. Build Production Bundle
+```bash
+npm run build
+```
+
+---
+
+## 🎬 3-Minute Hackathon Demo Script
+
+1. **Step 1: Citizen Onboarding (0:00 - 0:45)**
+   - Open JanSetu AI. Select a persona (e.g. *Priya Sundaram*, MBC Category, Tamil Nadu).
+   - Switch language to **Tamil** or **Hindi** to show 5-language multilingual audio reader.
+2. **Step 2: Pre-Flight Audit Launch (0:45 - 1:30)**
+   - Click **"Launch Pre-Flight Application Flight Deck"**.
+   - Show the **82% Application Readiness Score** and the 5 breakdown sub-bars.
+   - Show the **Tri-State Verdict** (`NEEDS HUMAN REVIEW`).
+3. **Step 3: Cross-Document Consistency Matrix (1:30 - 2:00)**
+   - Show how Textract OCR identified that the bank passbook has initials (`Priya S`) while Aadhaar has full name (`Priya Sundaram`).
+   - Click **"Why Am I Not Ready?"** to reveal the Amazon Bedrock plain-language explanation and official Gazette citation.
+4. **Step 4: 1-Click Action Remediation (2:00 - 2:45)**
+   - Click **"Fix My Application"**.
+   - Click **"Download RBI Annexure-I Bank Form (PDF)"** to download the pre-filled NPCI mandate.
+   - Click **"Download Action Plan (PDF)"** to generate the step-by-step statutory checklist.
+5. **Step 5: Dependency Graph & Document Vault (2:45 - 3:00)**
+   - Switch tabs to the interactive **Application Dependency Graph** and **Unified Document Vault**.
+   - Conclude with the **Zero-Hallucination AWS Cedar Architecture**.
+
+---
+
+## 🔒 Privacy & Security Guarantee
+
+- **Zero PII Exposure**: Aadhaar numbers are permanently masked to `XXXX-XXXX-1234`.
+- **Client-Side First**: OCR preview and initial consistency checks execute in browser memory.
+- **AWS Serverless Encryption**: All transit data is protected under TLS 1.3 with AES-256 server-side encryption on Amazon S3 and DynamoDB.
+- **Zero Hallucination Clause**: If official gazette rules cannot be verified from government portals, the engine marks the clause as "Needs Review" rather than inventing eligibility.
+
+---
+
+## ⚖️ Legal Citations & Gazette References
+
+- **Unique Identification Authority of India (UIDAI)**: The Aadhaar (Targeted Delivery of Financial and Other Subsidies, Benefits and Services) Act, 2016.
+- **National Payments Corporation of India (NPCI)**: APBS Circular No. 2021/DBT/048 on Aadhaar Payment Bridge System.
+- **Right to Information Act, 2005**: Section 4(1)(b) Proactive Disclosure & Section 20(1) Statutory Penalties.
+- **State Right to Services Acts**: Statutory SLA mandates across Tamil Nadu, Telangana, Karnataka, and Maharashtra.
+
+---
+
+<p align="center">
+  <strong>Built with ❤️ for 1.4 Billion Indian Citizens • JanSetu AI</strong>
+</p>
 
 ## 🗺️ The 6 Dedicated Citizen Workflow Stages
 

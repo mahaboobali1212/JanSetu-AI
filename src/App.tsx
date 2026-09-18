@@ -194,10 +194,13 @@ export function App() {
         {currentPage === 'audit' && (
           <PreFlightAuditPage
             profile={profile}
+            inventory={inventory}
+            onUpdateInventory={setInventory}
             currentLanguage={currentLanguage}
             onBack={() => handleNavigate('dashboard')}
             onNavigate={handleNavigate}
             onOpenDossier={() => setIsDossierOpen(true)}
+            onOpenCopilot={() => setIsCopilotOpen(true)}
           />
         )}
 

@@ -196,4 +196,116 @@ export class ActionPlanPdfGenerator {
     const filename = `JanSetu_Action_Plan_${profile.fullName.replace(/\s+/g, '_')}.pdf`;
     doc.save(filename);
   }
+
+  /**
+   * Generates a focused Pre-Flight Action Plan PDF for identified risks and remedies
+   */
+  public static generatePreFlightRemediationPlan(
+    profile: CitizenProfile,
+    actionItems: {
+      title: string;
+      description: string;
+      remedy: string;
+      slaDays: number;
+      isResolved: boolean;
+    }[]
+  ): void {
+    const doc = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
+    });
+
+    // Header Background (Regal Navy)
+    doc.setFillColor(11, 27, 79);
+    doc.rect(0, 0, 210, 26, 'F');
+
+    // Gold Accent Strip
+    doc.setFillColor(223, 183, 56);
+    doc.rect(0, 26, 210, 1.5, 'F');
+
+    // Header Text
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
+    doc.text('JanSetu AI - Pre-Flight Statutory Remediation Plan', 15, 12);
+
+    doc.setFontSize(8.5);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(245, 230, 180);
+    doc.text('Step-by-Step Statutory Action Plan to Achieve 100% Application Readiness', 15, 19);
+
+    const today = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+    doc.setTextColor(255, 255, 255);
+    doc.text(`Generated: ${today}`, 195, 19, { align: 'right' });
+
+    let y = 35;
+
+    // Profile Summary Card
+    doc.setFillColor(250, 247, 242);
+    doc.setDrawColor(220, 210, 195);
+    doc.rect(15, y, 180, 20, 'FD');
+
+    doc.setTextColor(11, 27, 79);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9.5);
+    doc.text(`Candidate: ${profile.fullName.toUpperCase()} (State: ${profile.stateOfDomicile})`, 20, y + 6);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(80, 80, 80);
+    doc.text(`Category: ${profile.category} | Course: ${profile.courseName || profile.courseLevel} | Aadhaar: XXXX-XXXX-${profile.aadhaarLast4}`, 20, y + 13);
+
+    y += 28;
+
+    // Action Items List
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10.5);
+    doc.setTextColor(11, 27, 79);
+    doc.text(`STATUTORY REMEDIATION CHECKLIST (${actionItems.length} ACTION ITEMS)`, 15, y);
+    y += 7;
+
+    actionItems.forEach((item, index) => {
+      doc.setFillColor(item.isResolved ? 240 : 255, item.isResolved ? 253 : 250, item.isResolved ? 244 : 240);
+      doc.setDrawColor(item.isResolved ? 134 : 220, item.isResolved ? 239 : 210, item.isResolved ? 172 : 195);
+      doc.rect(15, y, 180, 26, 'FD');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(item.isResolved ? 22 : 11, item.isResolved ? 101 : 27, item.isResolved ? 52 : 79);
+      const statusIcon = item.isResolved ? '[COMPLETED]' : '[ACTION REQUIRED]';
+      doc.text(`${index + 1}. ${statusIcon} ${this.sanitizeText(item.title)}`, 20, y + 6);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7.5);
+      doc.setTextColor(60, 60, 60);
+      doc.text(`Problem: ${this.sanitizeText(item.description)}`, 20, y + 12);
+
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(11, 27, 79);
+      doc.text(`Remedy: ${this.sanitizeText(item.remedy)}`, 20, y + 18);
+
+      doc.setFont('helvetica', 'italic');
+      doc.setFontSize(7);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Estimated Turnaround SLA: ${item.slaDays} Working Days`, 20, y + 23);
+
+      y += 30;
+      if (y > 260) {
+        doc.addPage();
+        y = 20;
+      }
+    });
+
+    // Footer
+    doc.setDrawColor(220, 210, 195);
+    doc.line(15, 280, 195, 280);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.setTextColor(120, 120, 120);
+    doc.text('JanSetu AI Pre-Flight Flight Deck | Official Statutory Rejection Prevention Engine', 105, 285, { align: 'center' });
+
+    doc.save(`JanSetu_PreFlight_FixPlan_${profile.fullName.replace(/\s+/g, '_')}.pdf`);
+  }
 }
+

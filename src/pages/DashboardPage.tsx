@@ -214,6 +214,38 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         </div>
       </div>
 
+      {/* Pre-Flight Audit Callout Banner */}
+      <div className="bg-gradient-to-r from-[#0B1B4F] via-[#152864] to-[#0B1B4F] rounded-2xl p-5 sm:p-6 text-white shadow-luxury border-2 border-[#D4AF37]/40 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-[#D4AF37]/20 border border-[#D4AF37]/40 flex items-center justify-center text-[#F5E29F] shrink-0">
+            <ShieldCheck className="w-6 h-6 animate-pulse" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-bold uppercase tracking-widest bg-[#D4AF37] text-[#0B1B4F] px-2.5 py-0.5 rounded font-mono">
+                AI Application Pre-Flight
+              </span>
+              <span className="text-xs text-slate-300 font-serif">Zero-Hallucination Rejection Prevention</span>
+            </div>
+            <h3 className="text-lg font-bold font-serif text-white mt-0.5">
+              Launch AI Application Pre-Flight Readiness Flight Deck
+            </h3>
+            <p className="text-xs text-slate-300 max-w-2xl mt-0.5">
+              Run cross-document OCR consistency checks, 5-part readiness scoring, NPCI DBT validation, and 1-click action remediation before submitting to any government portal.
+            </p>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => onNavigate('audit')}
+          className="shrink-0 px-6 py-3 rounded-xl bg-[#D4AF37] hover:bg-[#E5C158] text-[#0B1B4F] font-black text-xs shadow-md transition-all flex items-center gap-2 cursor-pointer font-serif"
+        >
+          <span>Open Pre-Flight Flight Deck</span>
+          <ChevronRight className="w-4 h-4" />
+        </button>
+      </div>
+
       {/* 2. Filter Tiers */}
       <div className="flex flex-wrap items-center gap-2">
         <button
